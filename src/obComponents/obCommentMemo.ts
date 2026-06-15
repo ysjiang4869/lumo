@@ -2,6 +2,7 @@ import appStore from '../stores/appStore';
 import { CommentOnMemos, CommentsInOriginalNotes } from '../memos';
 import { moment } from 'obsidian';
 import { getAPI } from 'obsidian-dataview';
+import { buildMemoBlockText } from './obMemoContent';
 
 interface MContent {
   content: string;
@@ -52,7 +53,12 @@ export async function commentMemo(
 
   const indent = '    ';
   const newContent = formatTime + ' ' + removeEnter.trim();
-  const newLineContent = indent + '- ' + formatTime + ' ' + removeEnter.trim();
+  // Comment bullet is indented; its multi-line continuation is indented one level deeper.
+  const newLineContent = buildMemoBlockText(
+    indent + '- ' + formatTime + ' ',
+    removeEnter.trim(),
+    indent + '\t',
+  );
 
   if (file) {
     let underComments;

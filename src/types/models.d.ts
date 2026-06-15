@@ -17,6 +17,7 @@ declare namespace Model {
     linkId?: string;
     hasId?: string;
     path?: string;
+    archived?: boolean;
   }
 
   interface Query extends BaseModel {
