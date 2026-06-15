@@ -31178,8 +31178,8 @@ const lineContainsTime = (line) => {
   }
   if (DefaultMemoComposition != "" && /{TIME}/g.test(DefaultMemoComposition) && /{CONTENT}/g.test(DefaultMemoComposition)) {
     regexMatch = "^" + indent + "(-|\\*)\\s(\\[(.{1})\\]\\s)?" + DefaultMemoComposition.replace(/{TIME}/g, "(\\<time\\>)?\\d{1,2}:\\d{2}(\\<\\/time\\>)?").replace(
-      /{CONTENT}/g,
-      "(.*)$"
+      / ?{CONTENT}/g,
+      " ?(.*)$"
     );
   } else {
     regexMatch = "^" + indent + "(-|\\*)\\s(\\[(.{1})\\]\\s)?(\\<time\\>)?\\d{1,2}\\:\\d{2}(.*)$";
@@ -31199,8 +31199,8 @@ const extractTextFromTodoLine = (line) => {
   let regexMatch;
   if (DefaultMemoComposition != "" && /{TIME}/g.test(DefaultMemoComposition) && /{CONTENT}/g.test(DefaultMemoComposition)) {
     regexMatch = "^\\s*[\\-\\*]\\s(\\[(.{1})\\]\\s?)?" + DefaultMemoComposition.replace(/{TIME}/g, "(\\<time\\>)?((\\d{1,2})\\:(\\d{2}))?(\\<\\/time\\>)?").replace(
-      /{CONTENT}/g,
-      "(.*)$"
+      / ?{CONTENT}/g,
+      " ?(.*)$"
     );
   } else {
     regexMatch = "^\\s*[\\-\\*]\\s(\\[(.{1})\\]\\s?)?(\\<time\\>)?((\\d{1,2})\\:(\\d{2}))?(\\<\\/time\\>)?\\s?(.*)$";
@@ -31213,8 +31213,8 @@ const extractHourFromBulletLine = (line) => {
   let regexHourMatch;
   if (DefaultMemoComposition != "" && /{TIME}/g.test(DefaultMemoComposition) && /{CONTENT}/g.test(DefaultMemoComposition)) {
     regexHourMatch = "^\\s*[\\-\\*]\\s(\\[(.{1})\\]\\s?)?" + DefaultMemoComposition.replace(/{TIME}/g, "(\\<time\\>)?(\\d{1,2})\\:(\\d{2})(\\<\\/time\\>)?").replace(
-      /{CONTENT}/g,
-      "(.*)$"
+      / ?{CONTENT}/g,
+      " ?(.*)$"
     );
   } else {
     regexHourMatch = "^\\s*[\\-\\*]\\s(\\[(.{1})\\]\\s?)?(\\<time\\>)?(\\d{1,2})\\:(\\d{2})(.*)$";
@@ -31227,8 +31227,8 @@ const extractMinFromBulletLine = (line) => {
   let regexHourMatch;
   if (DefaultMemoComposition != "" && /{TIME}/g.test(DefaultMemoComposition) && /{CONTENT}/g.test(DefaultMemoComposition)) {
     regexHourMatch = "^\\s*[\\-\\*]\\s(\\[(.{1})\\]\\s?)?" + DefaultMemoComposition.replace(/{TIME}/g, "(\\<time\\>)?(\\d{1,2})\\:(\\d{2})(\\<\\/time\\>)?").replace(
-      /{CONTENT}/g,
-      "(.*)$"
+      / ?{CONTENT}/g,
+      " ?(.*)$"
     );
   } else {
     regexHourMatch = "^\\s*[\\-\\*]\\s(\\[(.{1})\\]\\s?)?(\\<time\\>)?(\\d{1,2})\\:(\\d{2})(.*)$";

@@ -433,8 +433,8 @@ const lineContainsTime = (line: string) => {
       indent +
       '(-|\\*)\\s(\\[(.{1})\\]\\s)?' +
       DefaultMemoComposition.replace(/{TIME}/g, '(\\<time\\>)?\\d{1,2}:\\d{2}(\\<\\/time\\>)?').replace(
-        /{CONTENT}/g,
-        '(.*)$',
+        / ?{CONTENT}/g,
+        ' ?(.*)$',
       );
   } else {
     //eslint-disable-next-line
@@ -467,8 +467,8 @@ const extractTextFromTodoLine = (line: string) => {
     regexMatch =
       '^\\s*[\\-\\*]\\s(\\[(.{1})\\]\\s?)?' +
       DefaultMemoComposition.replace(/{TIME}/g, '(\\<time\\>)?((\\d{1,2})\\:(\\d{2}))?(\\<\\/time\\>)?').replace(
-        /{CONTENT}/g,
-        '(.*)$',
+        / ?{CONTENT}/g,
+        ' ?(.*)$',
       );
   } else {
     //eslint-disable-next-line
@@ -491,8 +491,8 @@ const extractHourFromBulletLine = (line: string) => {
     regexHourMatch =
       '^\\s*[\\-\\*]\\s(\\[(.{1})\\]\\s?)?' +
       DefaultMemoComposition.replace(/{TIME}/g, '(\\<time\\>)?(\\d{1,2})\\:(\\d{2})(\\<\\/time\\>)?').replace(
-        /{CONTENT}/g,
-        '(.*)$',
+        / ?{CONTENT}/g,
+        ' ?(.*)$',
       );
   } else {
     //eslint-disable-next-line
@@ -514,8 +514,8 @@ const extractMinFromBulletLine = (line: string) => {
     regexHourMatch =
       '^\\s*[\\-\\*]\\s(\\[(.{1})\\]\\s?)?' +
       DefaultMemoComposition.replace(/{TIME}/g, '(\\<time\\>)?(\\d{1,2})\\:(\\d{2})(\\<\\/time\\>)?').replace(
-        /{CONTENT}/g,
-        '(.*)$',
+        / ?{CONTENT}/g,
+        ' ?(.*)$',
       );
   } else {
     //eslint-disable-next-line
