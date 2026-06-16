@@ -7,7 +7,7 @@ import { findMemoBlockEnd, splitBulletLine, buildMemoBlockText } from './obMemoC
 
 export async function changeMemo(
   memoid: string,
-  originalContent: string,
+  _originalContent: string,
   content: string,
   memoType?: string,
   path?: string,

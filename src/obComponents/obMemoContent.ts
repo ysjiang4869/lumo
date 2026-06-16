@@ -58,9 +58,6 @@ const dedent = (line: string): string => {
   return line;
 };
 
-// A continuation line belongs to the memo when it is blank or starts with indentation.
-const isContinuationLine = (line: string): boolean => /^\s*$/.test(line) || /^[\t ]/.test(line);
-
 // Given the bullet line index, return the index of the last on-disk line that belongs to
 // this memo (trailing blank lines are excluded).
 export const findMemoBlockEnd = (fileLines: string[], startIdx: number): number => {
@@ -94,10 +91,7 @@ export const buildContentFromBlock = (firstContent: string, continuationLines: s
 };
 
 // Read a memo starting at `startIdx`, returning its full `<br>` content and the end index.
-export const readMemoBlock = (
-  fileLines: string[],
-  startIdx: number,
-): { content: string; endIdx: number } => {
+export const readMemoBlock = (fileLines: string[], startIdx: number): { content: string; endIdx: number } => {
   const { firstContent } = splitBulletLine(fileLines[startIdx]);
   const endIdx = findMemoBlockEnd(fileLines, startIdx);
   const continuationLines = fileLines.slice(startIdx + 1, endIdx + 1);
@@ -119,11 +113,7 @@ export const serializeContent = (
 
 // Build the full on-disk text block (bullet line + continuation lines) for a memo, given
 // the bullet prefix and the internal content.
-export const buildMemoBlockText = (
-  prefix: string,
-  content: string,
-  indent: string = CONTINUATION_INDENT,
-): string => {
+export const buildMemoBlockText = (prefix: string, content: string, indent: string = CONTINUATION_INDENT): string => {
   const { firstLine, continuation } = serializeContent(content, indent);
   return [prefix + firstLine, ...continuation].join('\n');
 };
@@ -135,9 +125,7 @@ export const DELETED_FIELD_REG = /\s*\[deleted::\s*([^\]]*)\]/;
 export const ARCHIVED_FIELD_REG = /\s*\[archived::\s*true\s*\]/i;
 
 // Strip the state markers out of a memo's content and report what was found.
-export const parseMemoMarkers = (
-  content: string,
-): { content: string; deletedRaw: string; archived: boolean } => {
+export const parseMemoMarkers = (content: string): { content: string; deletedRaw: string; archived: boolean } => {
   const deletedMatch = content.match(DELETED_FIELD_REG);
   const archived = ARCHIVED_FIELD_REG.test(content);
   const cleanContent = content

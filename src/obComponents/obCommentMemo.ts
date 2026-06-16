@@ -54,11 +54,7 @@ export async function commentMemo(
   const indent = '    ';
   const newContent = formatTime + ' ' + removeEnter.trim();
   // Comment bullet is indented; its multi-line continuation is indented one level deeper.
-  const newLineContent = buildMemoBlockText(
-    indent + '- ' + formatTime + ' ',
-    removeEnter.trim(),
-    indent + '\t',
-  );
+  const newLineContent = buildMemoBlockText(indent + '- ' + formatTime + ' ', removeEnter.trim(), indent + '\t');
 
   if (file) {
     let underComments;
