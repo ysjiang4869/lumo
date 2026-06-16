@@ -25,8 +25,8 @@ export default {
   year: null,
   month: null,
   'Basic Options': 'Options basique',
-  'User name in Memos': 'Username dans Mémos',
-  "Set your user name here. 'Memos 😏' By default": "Définissez votre username ici. Défaut : 'Memo 😏'",
+  'User name in Lumo': 'Username dans Mémos',
+  "Set your user name here. 'Lumo 😏' By default": "Définissez votre username ici. Défaut : 'Lumo 😏'",
   'Insert after heading': 'Insérer après le titre',
   'You should set the same heading below if you want to insert and process memos below the same heading.':
     'Vous devez définir le même titre en-dessous si vous voulez insérer et traiter des mémos sous le même titre.',
@@ -37,14 +37,14 @@ export default {
   'Save Memo button label': 'Titre du bouton de sauvegarde',
   "The text shown on the save Memo button in the UI. 'NOTEIT' by default.":
     "Le texte affiché sur le bouton de sauvegarde dans l'UI. Défaut : 'NOTEIT'",
-  'Focus on editor when open memos': "Focus sur l'éditeur lors de l'ouverture du mémo.",
-  'Focus on editor when open memos. Focus by default.':
+  'Focus on editor when open Lumo': "Focus sur l'éditeur lors de l'ouverture du mémo.",
+  'Focus on editor when open Lumo. Focus by default.':
     "Focus sur l'éditeur lors de l'ouverture du mémo. Focus par défaut.",
-  'Open daily memos with open memos': 'Ouvrir les mémos quotidiens quand mémo est ouvert.',
-  'Open daily memos with open memos. Open by default.': 'Ouvrir les mémos quotidiens quand mémo est ouvert.',
-  'Open Memos when obsidian opens': 'Ouvrir Mémo quand Obsidian est ouvert.',
-  'When enable this, Memos will open when Obsidian opens. False by default.':
-    "Quand activé, Memo sera ouvert quand Obsidian à l'ouverture d'Obsidian. Désactivé par défaut.",
+  'Open daily memos with open Lumo': 'Ouvrir les mémos quotidiens quand mémo est ouvert.',
+  'Open daily memos with open Lumo. Open by default.': 'Ouvrir les mémos quotidiens quand mémo est ouvert.',
+  'Open Lumo when obsidian opens': 'Ouvrir Mémo quand Obsidian est ouvert.',
+  'When enable this, Lumo will open when Obsidian opens. False by default.':
+    "Quand activé, Lumo sera ouvert quand Obsidian à l'ouverture d'Obsidian. Désactivé par défaut.",
   'Hide done tasks in Memo list': 'Masquer les tâches accomplies dans la liste des mémos.',
   'Hide all done tasks in Memo list. Show done tasks by default.':
     'Masquer les tâches accomplies dans les mémos. Affiche les tâches accomplies par défaut.',
@@ -76,7 +76,7 @@ export default {
   'Share Options': 'Options de partage',
   'Share Memos Image Footer Start': 'Début du pied de page — Partage de mémo de mémos',
   "Set anything you want here, use {MemosNum} to display Number of memos, {UsedDay} for days. '{MemosNum} Memos {UsedDay} Days' By default":
-    "Définissez ce que vous voulez ici, utilisez {MemosNum} pour afficher le nombre de mémos, {UsedDay} pour les jours. Par défaut : '{MemosNum} Memos {UsedDay} Days.",
+    "Définissez ce que vous voulez ici, utilisez {MemosNum} pour afficher le nombre de mémos, {UsedDay} pour les jours. Par défaut : '{MemosNum} Lumos {UsedDay} Days.",
   'Share Memos Image Footer End': 'Fin du pied de page — Partage de mémo',
   "Set anything you want here, use {UserName} as your username. '✍️ By {UserName}' By default":
     "Définissez ce que vous voulez ici. Utilisez {UserName} comme username. Par défaut : '✍️ By {UserName}'",
@@ -91,7 +91,7 @@ export default {
   "Set the filename for recycle bin. 'delete' By default": "Définition du nom de la poubelle. Défaut : 'Delete'",
   "Set the filename for query file. 'query' By default": "Définit le nom de fichier pour les requête. Défaut : 'Query'",
   'Use Tags In Vault': 'Utiliser des tags dans le Coffre',
-  'Use tags in vault rather than only in Memos. False by default.':
+  'Use tags in vault rather than only in Lumo. False by default.':
     'Utiliser des tags du coffre plutôt que ceux que seulement dans Mémo. Désactivé par défaut.',
   'Ready to convert image into background': 'Prêt pour convertir des image en arrière-plan.',
   List: 'Liste',

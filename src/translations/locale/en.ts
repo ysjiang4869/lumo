@@ -2,7 +2,7 @@
 
 export default {
   // setting.ts
-  welcome: 'Welcome to the Memos',
+  welcome: 'Welcome to the Lumos',
   ribbonIconTitle: 'Lumo',
   to: 'to',
   months: [
@@ -29,31 +29,31 @@ export default {
   "Set your user name here. 'Lumo 😏' By default": "Set your user name here. 'Lumo 😏' By default",
   'Insert after heading': 'Insert after heading',
   'You should set the same heading below if you want to insert and process memos below the same heading.':
-    'You should set the same heading below if you want to insert and process memos below the same heading.',
+    'You should set the same heading below if you want to insert and process lumos below the same heading.',
   'Allows admonitions to be created using ': 'Allows admonitions to be created using ',
-  'Process Memos below': 'Process Memos below',
+  'Process Memos below': 'Process Lumos below',
   'Only entries below this string/section in your notes will be processed. If it does not exist no notes will be processed for that file.':
     'Only entries below this string/section in your notes will be processed. If it does not exist no notes will be processed for that file.',
-  'Save Memo button label': 'Save Memo button label',
+  'Save Memo button label': 'Save Lumo button label',
   "The text shown on the save Memo button in the UI. 'NOTEIT' by default.":
-    "The text shown on the save Memo button in the UI. 'NOTEIT' by default.",
+    "The text shown on the save Lumo button in the UI. 'NOTEIT' by default.",
   'Focus on editor when open Lumo': 'Focus on editor when open Lumo',
   'Focus on editor when open Lumo. Focus by default.': 'Focus on editor when open Lumo. Focus by default.',
-  'Open daily memos with open Lumo': 'Open daily memos with open Lumo',
-  'Open daily memos with open Lumo. Open by default.': 'Open daily memos with open Lumo. Open by default.',
+  'Open daily memos with open Lumo': 'Open daily lumos with open Lumo',
+  'Open daily memos with open Lumo. Open by default.': 'Open daily lumos with open Lumo. Open by default.',
   'Open Lumo when obsidian opens': 'Open Lumo when obsidian opens',
   'When enable this, Lumo will open when Obsidian opens. False by default.':
     'When enable this, Lumo will open when Obsidian opens. False by default.',
-  'Hide done tasks in Memo list': 'Hide done tasks in Memo list',
+  'Hide done tasks in Memo list': 'Hide done tasks in Lumo list',
   'Hide all done tasks in Memo list. Show done tasks by default.':
-    'Hide all done tasks in Memo list. Show done tasks by default.',
+    'Hide all done tasks in Lumo list. Show done tasks by default.',
   'Advanced Options': 'Advanced Options',
   'UI language for date': 'UI language for date',
   "Translates the date UI language. Only 'en' and 'zh' are available.":
     "Translates the date UI language. Only 'en' and 'zh' are available.",
   'Default prefix': 'Default prefix',
   "Set the default prefix when create memo, 'List' by default.":
-    "Set the default prefix when create memo, 'List' by default.",
+    "Set the default prefix when create lumo, 'List' by default.",
   'Default insert date format': 'Default insert date format',
   "Set the default date format when insert date by @, 'Tasks' by default.":
     "Set the default date format when insert date by @, 'Tasks' by default.",
@@ -73,10 +73,10 @@ export default {
   'Add blank line when copy result with date. No blank line by default.':
     'Add blank line when copy result with date. No blank line by default.',
   'Share Options': 'Share Options',
-  'Share Memos Image Footer Start': 'Share Memos Image Footer Start',
+  'Share Memos Image Footer Start': 'Share Lumos Image Footer Start',
   "Set anything you want here, use {MemosNum} to display Number of memos, {UsedDay} for days. '{MemosNum} Memos {UsedDay} Days' By default":
-    "Set anything you want here, use {MemosNum} to display Number of memos, {UsedDay} for days. '{MemosNum} Memos {UsedDay} Days' By default",
-  'Share Memos Image Footer End': 'Share Memos Image Footer End',
+    "Set anything you want here, use {MemosNum} to display Number of lumos, {UsedDay} for days. '{MemosNum} Lumos {UsedDay} Days' By default",
+  'Share Memos Image Footer End': 'Share Lumos Image Footer End',
   "Set anything you want here, use {UserName} as your username. '✍️ By {UserName}' By default":
     "Set anything you want here, use {UserName} as your username. '✍️ By {UserName}' By default",
   'Save Shared Image To Folder For Mobile': 'Save Shared Image To Folder For Mobile',
@@ -143,13 +143,13 @@ export default {
   'EDIT QUERY': 'EDIT QUERY',
   MATCH: 'MATCH',
   TIMES: 'TIMES',
-  'Share Memo Image': 'Share Memo Image',
+  'Share Memo Image': 'Share Lumo Image',
   '↗Click the button to save': '↗Click the button to save',
   'Image is generating...': 'Image is generating...',
   'Image is loading...': 'Image is loading...',
   'Loading...': 'Loading...',
   '😟 Cannot load image, image link maybe broken': '😟 Cannot load image, image link maybe broken',
-  'Daily Memos': 'Daily Memos',
+  'Daily Memos': 'Daily Lumos',
   'CANCEL EDIT': 'CANCEL EDIT',
   'LINK TO THE': 'LINK TO THE',
   'Mobile Options': 'Mobile Options',
@@ -163,54 +163,54 @@ export default {
   'Set background image in light theme. Set something like "Daily/one.png"':
     'Set background image in light theme. Set something like "Daily/one.png"',
   'Set default memo composition, you should use {TIME} as "HH:mm" and {CONTENT} as content. "{TIME} {CONTENT}" by default':
-    'Set default memo composition, you should use {TIME} as "HH:mm" and {CONTENT} as content. "{TIME} {CONTENT}" by default',
-  'Default Memo Composition': 'Default Memo Composition',
+    'Set default lumo composition, you should use {TIME} as "HH:mm" and {CONTENT} as content. "{TIME} {CONTENT}" by default',
+  'Default Memo Composition': 'Default Lumo Composition',
   'Show Tasks Label': 'Show Tasks Label',
   'Show tasks label near the time text. False by default': 'Show tasks label near the time text. False by default',
-  'Please Open Memos First': 'Please Open Memos First',
+  'Please Open Memos First': 'Please Open Lumos First',
   DATE: 'DATE',
   OBSIDIAN_NLDATES_PLUGIN_NOT_ENABLED: 'OBSIDIAN_NLDATES_PLUGIN_NOT_ENABLED',
   BEFORE: 'BEFORE',
   AFTER: 'AFTER',
-  'Allow Comments On Memos': 'Allow Comments On Memos',
-  'You can comment on memos. False by default': 'You can comment on memos. False by default',
+  'Allow Comments On Memos': 'Allow Comments On Lumos',
+  'You can comment on memos. False by default': 'You can comment on lumos. False by default',
   Import: 'Import',
   'TITLE CANNOT BE NULL!': 'TITLE CANNOT BE NULL!',
   'FILTER CANNOT BE NULL!': 'FILTER CANNOT BE NULL!',
   'Comments In Original DailyNotes/Notes': 'Comments In Original DailyNotes/Notes',
   'You should install Dataview Plugin ver 0.5.9 or later to use this feature.':
     'You should install Dataview Plugin ver 0.5.9 or later to use this feature.',
-  'Open Memos Successfully': 'Open Memos Successfully',
+  'Open Memos Successfully': 'Open Lumos Successfully',
   'Fetch Error': '😭 Fetch Error',
   'Copied to clipboard Successfully': 'Copied to clipboard Successfully',
   'Check if you opened Daily Notes Plugin Or Periodic Notes Plugin':
     'Check if you opened Daily Notes Plugin Or Periodic Notes Plugin',
   'Please finish the last filter setting first': 'Please finish the last filter setting first',
-  'Close Memos Successfully': 'Close Memos Successfully',
-  'Insert as Memo': 'Insert as Memo',
-  'Insert file as memo content': 'Insert file as memo content',
+  'Close Memos Successfully': 'Close Lumos Successfully',
+  'Insert as Memo': 'Insert as Lumo',
+  'Insert file as memo content': 'Insert file as lumo content',
   'Image load failed': 'Image load failed',
   'Content cannot be empty': 'Content cannot be empty',
   'Unable to create new file.': 'Unable to create new file.',
-  'Failed to fetch deleted memos: ': 'Failed to fetch deleted memos: ',
+  'Failed to fetch deleted memos: ': 'Failed to fetch deleted lumos: ',
   'RESTORE SUCCEED': 'RESTORE SUCCEED',
-  'Save Memo button icon': 'Save Memo button icon',
-  'The icon shown on the save Memo button in the UI.': 'The icon shown on the save Memo button in the UI.',
-  'Fetch Memos From Particular Notes': 'Fetch Memos From Particular Notes',
+  'Save Memo button icon': 'Save Lumo button icon',
+  'The icon shown on the save Memo button in the UI.': 'The icon shown on the save Lumo button in the UI.',
+  'Fetch Memos From Particular Notes': 'Fetch Lumos From Particular Notes',
   'You can set any Dataview Query for memos to fetch it. All memos in those notes will show on list. "#memo" by default':
-    'You can set any Dataview Query for memos to fetch it. All memos in those notes will show on list. "#memo" by default',
-  'Allow Lumo to Fetch Memo from Notes': 'Allow Lumo to Fetch Memo from Notes',
+    'You can set any Dataview Query for lumos to fetch it. All lumos in those notes will show on list. "#memo" by default',
+  'Allow Lumo to Fetch Memo from Notes': 'Allow Lumo to Fetch Lumo from Notes',
   'Use Lumo to manage all memos in your notes, not only in daily notes. False by default':
-    'Use Lumo to manage all memos in your notes, not only in daily notes. False by default',
-  'Always Show Memo Comments': 'Always Show Memo Comments',
-  'Always show memo comments on memos. False by default': 'Always show memo comments on memos. False by default',
+    'Use Lumo to manage all lumos in your notes, not only in daily notes. False by default',
+  'Always Show Memo Comments': 'Always Show Lumo Comments',
+  'Always show memo comments on memos. False by default': 'Always show lumo comments on lumos. False by default',
   "You didn't set folder for daily notes in both periodic-notes and daily-notes plugins.":
     "You didn't set folder for daily notes in both periodic-notes and daily-notes plugins.",
   'Please check your daily note plugin OR periodic notes plugin settings':
     'Please check your daily note plugin OR periodic notes plugin settings',
   "Use Which Plugin's Default Configuration": "Use Which Plugin's Default Configuration",
   "Lumo uses the plugin's default configuration to fetch memos from daily, 'Daily' by default.":
-    "Lumo uses the plugin's default configuration to fetch memos from daily, 'Daily' by default.",
+    "Lumo uses the plugin's default configuration to fetch lumos from daily, 'Daily' by default.",
   Daily: 'Daily',
   'Always Show Leaf Sidebar on PC': 'Always Show Leaf Sidebar on PC',
   'Show left sidebar on PC even when the leaf width is less than 875px. False by default.':

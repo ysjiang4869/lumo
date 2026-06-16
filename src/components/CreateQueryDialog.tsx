@@ -134,7 +134,7 @@ const CreateQueryDialog: React.FC<Props> = (props: Props) => {
         <div></div>
         <div className="btns-container">
           <span className={`tip-text ${filters.length === 0 && 'hidden'}`}>
-            {t('MATCH')} Memo <strong>{shownMemoLength}</strong> {t('TIMES')}
+            {t('MATCH')} Lumo <strong>{shownMemoLength}</strong> {t('TIMES')}
           </span>
           <button className={`btn save-btn ${requestState.isLoading ? 'requesting' : ''}`} onClick={handleSaveBtnClick}>
             SAVE

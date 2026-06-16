@@ -173,7 +173,7 @@ const MemoCardDialog: React.FC<Props> = (props: Props) => {
       {linkMemos.length > 0 ? (
         <div className="linked-memos-wrapper">
           <p className="normal-text">
-            {t('LINKED')} {linkMemos.length} MEMO{' '}
+            {t('LINKED')} {linkMemos.length} LUMO{' '}
           </p>
           {linkMemos.map((m) => {
             const rawtext = parseHtmlToRawText(formatMemoContent(m.content)).replaceAll('\n', ' ');

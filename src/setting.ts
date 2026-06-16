@@ -51,7 +51,7 @@ export const DEFAULT_SETTINGS: MemosSettings = {
   Language: 'en',
   SaveMemoButtonLabel: 'NOTEIT',
   SaveMemoButtonIcon: '✍️',
-  ShareFooterStart: '{MemosNum} Memos {UsedDay} Day',
+  ShareFooterStart: '{MemosNum} Lumos {UsedDay} Day',
   ShareFooterEnd: '✍️ by {UserName}',
   DefaultPrefix: 'List',
   UseDailyOrPeriodic: 'Daily',
