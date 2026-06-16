@@ -1,6 +1,6 @@
 import { Notice, Platform, Plugin, TFile } from 'obsidian';
 import { FocusOnEditor, Memos, OpenDailyMemosWithMemos } from './memos';
-import { MEMOS_VIEW_TYPE } from './constants';
+import { LUMO_VIEW_TYPE } from './constants';
 import addIcons from './obComponents/customIcons';
 import { DEFAULT_SETTINGS, MemosSettings, MemosSettingTab } from './setting';
 import showDailyMemoDiaryDialog from './components/DailyMemoDiaryDialog';
@@ -11,10 +11,10 @@ export default class MemosPlugin extends Plugin {
   public settings: MemosSettings;
 
   async onload(): Promise<void> {
-    console.log('obsidian-memos loading...');
+    console.log('lumo loading...');
     await this.loadSettings();
 
-    this.registerView(MEMOS_VIEW_TYPE, (leaf) => new Memos(leaf, this));
+    this.registerView(LUMO_VIEW_TYPE, (leaf) => new Memos(leaf, this));
 
     this.app.workspace.onLayoutReady(this.onLayoutReady.bind(this));
     console.log(t('welcome'));
@@ -29,7 +29,7 @@ export default class MemosPlugin extends Plugin {
   }
 
   onunload() {
-    this.app.workspace.detachLeavesOfType(MEMOS_VIEW_TYPE);
+    this.app.workspace.detachLeavesOfType(LUMO_VIEW_TYPE);
     new Notice(t('Close Memos Successfully'));
   }
 
@@ -140,7 +140,7 @@ export default class MemosPlugin extends Plugin {
       this.openMemos();
     });
 
-    const leaves = this.app.workspace.getLeavesOfType(MEMOS_VIEW_TYPE);
+    const leaves = this.app.workspace.getLeavesOfType(LUMO_VIEW_TYPE);
     if (!(leaves.length > 0)) {
       return;
     }
@@ -156,7 +156,7 @@ export default class MemosPlugin extends Plugin {
   }
 
   openDailyMemo() {
-    const workspaceLeaves = this.app.workspace.getLeavesOfType(MEMOS_VIEW_TYPE);
+    const workspaceLeaves = this.app.workspace.getLeavesOfType(LUMO_VIEW_TYPE);
     if (!OpenDailyMemosWithMemos) {
       showDailyMemoDiaryDialog();
       return;
@@ -173,12 +173,12 @@ export default class MemosPlugin extends Plugin {
 
   async openMemos() {
     const workspace = this.app.workspace;
-    workspace.detachLeavesOfType(MEMOS_VIEW_TYPE);
+    workspace.detachLeavesOfType(LUMO_VIEW_TYPE);
     // const leaf = workspace.getLeaf(
     //   !Platform.isMobile && workspace.activeLeaf && workspace.activeLeaf.view instanceof FileView,
     // );
     const leaf = workspace.getLeaf(false);
-    await leaf.setViewState({ type: MEMOS_VIEW_TYPE });
+    await leaf.setViewState({ type: LUMO_VIEW_TYPE });
     workspace.revealLeaf(leaf);
 
     if (!FocusOnEditor) {
@@ -192,7 +192,7 @@ export default class MemosPlugin extends Plugin {
 
   searchIt() {
     const workspace = this.app.workspace;
-    const leaves = workspace.getLeavesOfType(MEMOS_VIEW_TYPE);
+    const leaves = workspace.getLeavesOfType(LUMO_VIEW_TYPE);
     if (!(leaves.length > 0)) {
       this.openMemos();
       return;
@@ -206,7 +206,7 @@ export default class MemosPlugin extends Plugin {
 
   focusOnEditor() {
     const workspace = this.app.workspace;
-    const leaves = workspace.getLeavesOfType(MEMOS_VIEW_TYPE);
+    const leaves = workspace.getLeavesOfType(LUMO_VIEW_TYPE);
     if (!(leaves.length > 0)) {
       this.openMemos();
       return;
@@ -220,7 +220,7 @@ export default class MemosPlugin extends Plugin {
 
   noteIt() {
     const workspace = this.app.workspace;
-    const leaves = workspace.getLeavesOfType(MEMOS_VIEW_TYPE);
+    const leaves = workspace.getLeavesOfType(LUMO_VIEW_TYPE);
     if (!(leaves.length > 0)) {
       new Notice(t('Please Open Memos First'));
       return;
@@ -234,7 +234,7 @@ export default class MemosPlugin extends Plugin {
 
   changeStatus() {
     const workspace = this.app.workspace;
-    const leaves = workspace.getLeavesOfType(MEMOS_VIEW_TYPE);
+    const leaves = workspace.getLeavesOfType(LUMO_VIEW_TYPE);
     if (!(leaves.length > 0)) {
       new Notice(t('Please Open Memos First'));
       return;
@@ -248,10 +248,10 @@ export default class MemosPlugin extends Plugin {
 
   async showInPopover() {
     const workspace = this.app.workspace;
-    workspace.detachLeavesOfType(MEMOS_VIEW_TYPE);
+    workspace.detachLeavesOfType(LUMO_VIEW_TYPE);
     const leaf = await window.app.plugins.getPlugin('obsidian-hover-editor')?.spawnPopover();
 
-    await leaf.setViewState({ type: MEMOS_VIEW_TYPE });
+    await leaf.setViewState({ type: LUMO_VIEW_TYPE });
     workspace.revealLeaf(leaf);
     leaf.view.containerEl.classList.add('mobile-view');
     if (!FocusOnEditor) {

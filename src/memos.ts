@@ -1,5 +1,5 @@
 import { debounce, HoverPopover, ItemView, Platform, TFile, WorkspaceLeaf } from 'obsidian';
-import { MEMOS_VIEW_TYPE } from './constants';
+import { LUMO_VIEW_TYPE } from './constants';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -27,7 +27,7 @@ export class Memos extends ItemView {
   }
 
   getViewType(): string {
-    return MEMOS_VIEW_TYPE;
+    return LUMO_VIEW_TYPE;
   }
 
   private onMemosSettingsUpdate(): void {
@@ -68,7 +68,7 @@ export class Memos extends ItemView {
   }
 
   async handleResize() {
-    const leaves = this.app.workspace.getLeavesOfType(MEMOS_VIEW_TYPE);
+    const leaves = this.app.workspace.getLeavesOfType(LUMO_VIEW_TYPE);
     if (leaves.length > 0) {
       const leaf = leaves[0];
       if (leaf.width > 875) {
@@ -98,7 +98,7 @@ export class Memos extends ItemView {
 
     this.registerEvent(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (<any>this.app.workspace).on('obsidian-memos:settings-updated', this.onMemosSettingsUpdate),
+      (<any>this.app.workspace).on('lumo:settings-updated', this.onMemosSettingsUpdate),
     );
 
     this.registerEvent(this.app.vault.on('create', this.onFileCreated));

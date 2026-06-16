@@ -14,7 +14,7 @@ import { TFile } from 'obsidian';
 import appStore from '../../stores/appStore';
 import { t } from '../../translations/helper';
 import useState from 'react-usestateref';
-import { MEMOS_VIEW_TYPE } from '../../constants';
+import { LUMO_VIEW_TYPE } from '../../constants';
 
 type ItemProps = {
   entity: {
@@ -86,7 +86,7 @@ const Editor = forwardRef((props: EditorProps, ref: React.ForwardedRef<EditorRef
   // const [showDatePicker, toggleShowDatePicker] = useToggle(false);
 
   useEffect(() => {
-    const leaves = app.workspace.getLeavesOfType(MEMOS_VIEW_TYPE);
+    const leaves = app.workspace.getLeavesOfType(LUMO_VIEW_TYPE);
     let memosHeight;
     let leafView;
 

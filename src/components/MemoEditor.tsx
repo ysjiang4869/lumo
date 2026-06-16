@@ -17,7 +17,7 @@ import DatePicker from './common/DatePicker';
 import { moment, Notice, Platform } from 'obsidian';
 import { DefaultEditorLocation, DefaultPrefix, FocusOnEditor, InsertDateFormat, UseButtonToShowEditor } from '../memos';
 import useToggle from '../hooks/useToggle';
-import { MEMOS_VIEW_TYPE } from '../constants';
+import { LUMO_VIEW_TYPE } from '../constants';
 import { t } from '../translations/helper';
 
 const getCursorPostion = (input: HTMLTextAreaElement) => {
@@ -109,7 +109,7 @@ const MemoEditor: React.FC<Props> = () => {
       return;
     }
 
-    const leaves = app.workspace.getLeavesOfType(MEMOS_VIEW_TYPE);
+    const leaves = app.workspace.getLeavesOfType(LUMO_VIEW_TYPE);
     let memosWidth;
     // let leafView;
 
@@ -144,7 +144,7 @@ const MemoEditor: React.FC<Props> = () => {
       Platform.isMobile === true &&
       window.innerWidth < 875
     ) {
-      const leaves = app.workspace.getLeavesOfType(MEMOS_VIEW_TYPE);
+      const leaves = app.workspace.getLeavesOfType(LUMO_VIEW_TYPE);
       let memosHeight;
       let leafView;
       if (leaves.length > 0) {
@@ -158,7 +158,7 @@ const MemoEditor: React.FC<Props> = () => {
 
       const divThis = document.createElement('img');
       const memoEditorDiv = leafView.querySelector(
-        "div[data-type='memos_view'] .view-content .memo-editor-wrapper",
+        "div[data-type='lumo_view'] .view-content .memo-editor-wrapper",
       ) as HTMLElement;
       divThis.src = `${showEditorSvg}`;
       if (isEditorShown) {
@@ -691,7 +691,7 @@ const MemoEditor: React.FC<Props> = () => {
       return;
     }
 
-    const leaves = app.workspace.getLeavesOfType(MEMOS_VIEW_TYPE);
+    const leaves = app.workspace.getLeavesOfType(LUMO_VIEW_TYPE);
     const leaf = leaves[0];
     const leafView = leaf.view.containerEl;
 

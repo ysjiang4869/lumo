@@ -53,28 +53,28 @@ settings:
 */
 
 .grass-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L1-bg {
   background-color: #9be9a8 !important;
 }
 .grass-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L2-bg {
   background-color: #40c463 !important;
 }
 .grass-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L3-bg {
   background-color: #30a14e !important;
 }
 .grass-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L4-bg {
@@ -82,28 +82,28 @@ settings:
 }
 
 .grass-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L1-bg {
   background-color: #9be9a8 !important;
 }
 .grass-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L2-bg {
   background-color: #40c463 !important;
 }
 .grass-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L3-bg {
   background-color: #30a14e !important;
 }
 .grass-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L4-bg {
@@ -113,28 +113,28 @@ settings:
 /*Frame*/
 
 .frame-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L1-bg {
   background-color: #f75205 !important;
 }
 .frame-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L2-bg {
   background-color: #e03a07 !important;
 }
 .frame-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L3-bg {
   background-color: #bf2104 !important;
 }
 .frame-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L4-bg {
@@ -142,28 +142,28 @@ settings:
 }
 
 .frame-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L1-bg {
   background-color: #f75205 !important;
 }
 .frame-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L2-bg {
   background-color: #e03a07 !important;
 }
 .frame-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L3-bg {
   background-color: #bf2104 !important;
 }
 .frame-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L4-bg {
@@ -173,28 +173,28 @@ settings:
 /*Olive*/
 
 .olive-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L1-bg {
   background-color: #9cc069 !important;
 }
 .olive-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L2-bg {
   background-color: #78a851 !important;
 }
 .olive-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L3-bg {
   background-color: #648b3f !important;
 }
 .olive-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L4-bg {
@@ -202,28 +202,28 @@ settings:
 }
 
 .olive-dark.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L1-bg {
   background-color: #9cc069 !important;
 }
 .olive-dark.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L2-bg {
   background-color: #78a851 !important;
 }
 .olive-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L3-bg {
   background-color: #648b3f !important;
 }
 .olive-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L4-bg {
@@ -233,28 +233,28 @@ settings:
 /*Ice*/
 
 .ice-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L1-bg {
   background-color: #82bbf0 !important;
 }
 .ice-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L2-bg {
   background-color: #5da2eb !important;
 }
 .ice-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L3-bg {
   background-color: #3889e6 !important;
 }
 .ice-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L4-bg {
@@ -262,28 +262,28 @@ settings:
 }
 
 .ice-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L1-bg {
   background-color: #82bbf0 !important;
 }
 .ice-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L2-bg {
   background-color: #5da2eb !important;
 }
 .ice-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L3-bg {
   background-color: #3889e6 !important;
 }
 .ice-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L4-bg {
@@ -293,28 +293,28 @@ settings:
 /* magenta */
 
 .magenta-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L1-bg {
   background-color: #fa9fb5 !important;
 }
 .magenta-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L2-bg {
   background-color: #ea4e9c !important;
 }
 .magenta-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L3-bg {
   background-color: #ae017e !important;
 }
 .magenta-light.theme-light
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L4-bg {
@@ -322,28 +322,28 @@ settings:
 }
 
 .magenta-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L1-bg {
   background-color: #fa9fb5 !important;
 }
 .magenta-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L2-bg {
   background-color: #ea4e9c !important;
 }
 .magenta-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L3-bg {
   background-color: #ae017e !important;
 }
 .magenta-dark.theme-dark
-  div[data-type='memos_view']
+  div[data-type='lumo_view']
   .usage-heat-map-wrapper
   > .usage-heat-map
   > .stat-container.stat-day-L4-bg {

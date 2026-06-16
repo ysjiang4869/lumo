@@ -292,7 +292,7 @@ const Memo: React.FC<Props> = (props: Props) => {
   const handleMarkMemoClick = () => {
     if (UseButtonToShowEditor && DefaultEditorLocation === 'Bottom') {
       const elem = document.querySelector(
-        "div[data-type='memos_view'] .view-content .memo-show-editor-button",
+        "div[data-type='lumo_view'] .view-content .memo-show-editor-button",
       ) as HTMLElement;
       if (typeof elem?.onclick == 'function') {
         elem.onclick.apply(elem);
@@ -305,7 +305,7 @@ const Memo: React.FC<Props> = (props: Props) => {
   const handleEditMemoClick = () => {
     if (UseButtonToShowEditor && DefaultEditorLocation === 'Bottom' && Platform.isMobile) {
       const elem = document.querySelector(
-        "div[data-type='memos_view'] .view-content .memo-show-editor-button",
+        "div[data-type='lumo_view'] .view-content .memo-show-editor-button",
       ) as HTMLElement;
       if (typeof elem.onclick == 'function') {
         elem.onclick.apply(elem);

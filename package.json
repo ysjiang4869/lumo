@@ -1,8 +1,8 @@
 {
-  "name": "obsidian-memos",
+  "name": "lumo",
   "version": "1.9.7",
   "description": "A Quick Capture Plugin For Obsidian Daily Notes",
-  "author": "boninall",
+  "author": "ysjiang4869",
   "main": "main.js",
   "scripts": {
     "lint": "eslint . --ext .ts",
