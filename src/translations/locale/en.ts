@@ -118,6 +118,8 @@ export default {
   MARK: 'MARK',
   SHARE: 'SHARE',
   SOURCE: 'SOURCE',
+  ARCHIVE: 'ARCHIVE',
+  'ARCHIVE SUCCEED': 'ARCHIVE SUCCEED',
   RESTORE: 'RESTORE',
   'DELETE AT': 'DELETE AT',
   'Noooop!': 'Noooop!',

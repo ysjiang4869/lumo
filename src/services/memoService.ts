@@ -148,6 +148,14 @@ class MemoService {
         id: id,
       },
     });
+    // Re-sync from disk so the soft-deleted memo leaves the list/stats and the recycle bin updates.
+    await this.fetchAllMemos();
+  }
+
+  public async archiveMemoById(id: string) {
+    await api.archiveMemo(id);
+    // Re-sync from disk: archived memos are filtered out of the list but kept in statistics.
+    await this.fetchAllMemos();
   }
 
   public async restoreMemoById(id: string) {

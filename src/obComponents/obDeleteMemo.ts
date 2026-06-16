@@ -1,213 +1,68 @@
-import { moment, normalizePath, Notice, TFile } from 'obsidian';
+import { moment } from 'obsidian';
+import { getDailyNote } from 'obsidian-daily-notes-interface';
 import appStore from '../stores/appStore';
-import { createDailyNote, getAllDailyNotes, getDailyNote } from 'obsidian-daily-notes-interface';
-import { insertAfterHandler } from './obCreateMemo';
-import { DeleteFileName, InsertAfter } from '../memos';
-import { getDailyNotePath } from '../helpers/utils';
+import dailyNotesService from '../services/dailyNotesService';
+import { getMemos } from './obGetMemos';
+import { getAllLinesFromFile, findMemoBlockEnd, DELETED_FIELD_REG } from './obMemoContent';
 
-export async function restoreDeletedMemo(deletedMemoid: string): Promise<any[]> {
-  const { vault, metadataCache } = appStore.getState().dailyNotesState.app;
-  if (/\d{14,}/.test(deletedMemoid)) {
-    const filePath = getDailyNotePath();
-    const absolutePath = filePath + '/' + DeleteFileName + '.md';
-    const deleteFile = metadataCache.getFirstLinkpathDest('', absolutePath);
+// Deletion is now a soft, in-place operation: a memo carries a `[deleted::<ts>]` marker in
+// its own daily note (the recycle bin is just the set of memos with that marker). Restore
+// removes the marker; permanent delete removes the whole block.
 
-    if (deleteFile instanceof TFile) {
-      let fileContents = await vault.read(deleteFile);
-      let fileLines = getAllLinesFromFile(fileContents);
-      if (fileLines.length === 0) {
-        return;
-      } else {
-        const lineNum = parseInt(deletedMemoid.slice(14));
-        const line = fileLines[lineNum - 1];
-        const newDeletefileContents = fileContents.replace(line, '');
-        await vault.modify(deleteFile, newDeletefileContents);
-        if (/^- (.+)$/.test(line)) {
-          const id = extractIDfromText(line);
-          const date = moment(id, 'YYYYMMDDHHmmss');
-          const timeHour = date.format('HH');
-          const timeMinute = date.format('mm');
-
-          const newEvent = `- ` + String(timeHour) + `:` + String(timeMinute) + ` ` + extractContentfromText(line);
-          const dailyNotes = await getAllDailyNotes();
-          const existingFile = getDailyNote(date, dailyNotes);
-          if (!existingFile) {
-            const file = await createDailyNote(date);
-            const fileContents = await vault.read(file);
-            const newFileContent = await insertAfterHandler(InsertAfter, newEvent, fileContents);
-            await vault.modify(file, newFileContent.content);
-            return [
-              {
-                deletedAt: '',
-              },
-            ];
-          } else {
-            const fileContents = await vault.read(existingFile);
-            const newFileContent = await insertAfterHandler(InsertAfter, newEvent, fileContents);
-            await vault.modify(existingFile, newFileContent.content);
-            return [
-              {
-                deletedAt: '',
-              },
-            ];
-          }
-        }
-        fileLines = null;
-        fileContents = null;
-      }
-    }
+// Resolve the daily note file and bullet-line index encoded in a memo id (date + line index).
+const locateMemo = (memoid: string): { file: any; idString: number } | null => {
+  const { dailyNotes } = dailyNotesService.getState();
+  const changeDate = moment(memoid.slice(0, 14), 'YYYYMMDDHHmmSS');
+  const file = getDailyNote(changeDate, dailyNotes);
+  const idString = parseInt(memoid.slice(14));
+  if (!file || isNaN(idString)) {
+    return null;
   }
-}
+  return { file, idString };
+};
 
-export async function deleteForever(deletedMemoid: string): Promise<void> {
-  const { vault, metadataCache } = appStore.getState().dailyNotesState.app;
-  if (/\d{14,}/.test(deletedMemoid)) {
-    const filePath = getDailyNotePath();
-    const absolutePath = filePath + '/' + DeleteFileName + '.md';
-    const deleteFile = metadataCache.getFirstLinkpathDest('', absolutePath);
-
-    if (deleteFile instanceof TFile) {
-      let fileContents = await vault.read(deleteFile);
-      let fileLines = getAllLinesFromFile(fileContents);
-      if (fileLines.length === 0) {
-        return;
-      } else {
-        const lineNum = parseInt(deletedMemoid.slice(14));
-        const line = fileLines[lineNum - 1];
-        if (/^- (.+)$/.test(line)) {
-          // const id = extractIDfromText(fileLines[i]);
-          const newFileContent = fileContents.replace(line, '');
-          await vault.modify(deleteFile, newFileContent);
-        }
-      }
-      fileLines = null;
-      fileContents = null;
-    }
-  }
-  // return deletedMemos;
-}
-
+// Recycle bin contents: every memo that currently carries a [deleted::ts] marker.
 export async function getDeletedMemos(): Promise<any[]> {
-  const { vault, metadataCache } = appStore.getState().dailyNotesState.app;
-
-  const filePath = getDailyNotePath();
-  const absolutePath = filePath + '/' + DeleteFileName + '.md';
-  const deletedMemos: any[] | PromiseLike<any[]> = [];
-  const deleteFile = metadataCache.getFirstLinkpathDest('', absolutePath);
-  if (deleteFile instanceof TFile) {
-    let fileContents = await vault.read(deleteFile);
-    let fileLines = getAllLinesFromFile(fileContents);
-    if (fileLines.length === 0) {
-      return deletedMemos;
-    } else {
-      for (let i = 0; i < fileLines.length; i++) {
-        const line = fileLines[i];
-        if (!/- /.test(line)) {
-          continue;
-        } else {
-          const id = extractIDfromText(line);
-          const timeString = id.slice(0, 13);
-          // const idString = parseInt(id.slice(14));
-          const createdDate = moment(timeString, 'YYYYMMDDHHmmss');
-          const deletedDateID = extractDeleteDatefromText(fileLines[i]);
-          const deletedDate = moment(deletedDateID.slice(0, 13), 'YYYYMMDDHHmmss');
-          const content = extractContentfromText(fileLines[i]);
-          deletedMemos.push({
-            id: deletedDateID,
-            content: content,
-            user_id: 1,
-            createdAt: createdDate.format('YYYY/MM/DD HH:mm:SS'),
-            updatedAt: createdDate.format('YYYY/MM/DD HH:mm:SS'),
-            deletedAt: deletedDate,
-          });
-        }
-      }
-    }
-
-    fileLines = null;
-    fileContents = null;
-  }
-  return deletedMemos;
+  const result = await getMemos();
+  return result?.deletedMemos ?? [];
 }
 
-export const sendMemoToDelete = async (memoContent: string): Promise<any> => {
-  const { metadataCache, vault } = appStore.getState().dailyNotesState.app;
-
-  const filePath = getDailyNotePath();
-  const absolutePath = filePath + '/' + DeleteFileName + '.md';
-
-  const deleteFile = metadataCache.getFirstLinkpathDest('', absolutePath);
-
-  if (deleteFile instanceof TFile) {
-    const fileContents = await vault.read(deleteFile);
-    const fileLines = getAllLinesFromFile(fileContents);
-    const date = moment();
-    const deleteDate = date.format('YYYY/MM/DD HH:mm:ss');
-    let lineNum;
-    if (fileLines.length === 1 && fileLines[0] === '') {
-      lineNum = 1;
-    } else {
-      lineNum = fileLines.length + 1;
-    }
-    const deleteDateID = date.format('YYYYMMDDHHmmss') + lineNum;
-
-    await createDeleteMemoInFile(deleteFile, fileContents, memoContent, deleteDateID);
-
-    return deleteDate;
-  } else {
-    const deleteFilePath = normalizePath(absolutePath);
-    const file = await createdeleteFile(deleteFilePath);
-    // const fileContents = await vault.read(deleteFile);
-    // const fileLines = getAllLinesFromFile(fileContents);
-    const date = moment();
-    const deleteDate = date.format('YYYY/MM/DD HH:mm:ss');
-    const lineNum = 1;
-    const deleteDateID = date.format('YYYYMMDDHHmmss') + lineNum;
-
-    await createDeleteMemoInFile(file, '', memoContent, deleteDateID);
-
-    return deleteDate;
+// Restore a memo by stripping its [deleted::ts] marker from the bullet line.
+export async function restoreDeletedMemo(memoid: string): Promise<any[]> {
+  if (!/\d{14,}/.test(memoid)) {
+    return;
   }
-};
-
-export const createDeleteMemoInFile = async (
-  file: TFile,
-  fileContent: string,
-  memoContent: string,
-  deleteDate: string,
-): Promise<any> => {
   const { vault } = appStore.getState().dailyNotesState.app;
-  let newContent;
-  if (fileContent === '') {
-    newContent = memoContent + ' deletedAt: ' + deleteDate;
-  } else {
-    newContent = fileContent + '\n' + memoContent + ' deletedAt: ' + deleteDate;
+  const located = locateMemo(memoid);
+  if (!located) {
+    return;
   }
+  const { file, idString } = located;
+  const fileLines = getAllLinesFromFile(await vault.read(file));
+  if (fileLines[idString] === undefined) {
+    return;
+  }
+  fileLines[idString] = fileLines[idString].replace(new RegExp(DELETED_FIELD_REG.source, 'g'), '');
+  await vault.modify(file, fileLines.join('\n'));
+  return [{ deletedAt: '' }];
+}
 
-  await vault.modify(file, newContent);
-
-  return true;
-};
-
-export const createdeleteFile = async (path: string): Promise<TFile> => {
+// Permanently remove a memo: delete its whole block (bullet line + continuation lines).
+export async function deleteForever(memoid: string): Promise<void> {
+  if (!/\d{14,}/.test(memoid)) {
+    return;
+  }
   const { vault } = appStore.getState().dailyNotesState.app;
-
-  try {
-    const createdFile = await vault.create(path, '');
-    return createdFile;
-  } catch (err) {
-    console.error(`Failed to create file: '${path}'`, err);
-    new Notice('Unable to create new file.');
+  const located = locateMemo(memoid);
+  if (!located) {
+    return;
   }
-};
-
-const getAllLinesFromFile = (cache: string) => cache.split(/\r?\n/);
-//eslint-disable-next-line
-const extractIDfromText = (line: string) => /^- (\d{14})(\d+)\s(.+)\s(deletedAt: )(.+)$/.exec(line)?.[1];
-//eslint-disable-next-line
-const extractContentfromText = (line: string) => /^- (\d+)\s(.+)\s(deletedAt: )(.+)$/.exec(line)?.[2];
-//eslint-disable-next-line
-const extractDeleteDatefromText = (line: string) => /^- (\d+)\s(.+)\s(deletedAt: )(.+)$/.exec(line)?.[4];
-// const extractMemoTaskTypeFromLine = (line: string) =>
-//   //eslint-disable-next-line
-//   /^\s*[\-\*]\s(\[(.{1})\])\s(.*)$/.exec(line)?.[2];
+  const { file, idString } = located;
+  const fileLines = getAllLinesFromFile(await vault.read(file));
+  if (fileLines[idString] === undefined) {
+    return;
+  }
+  const blockEnd = findMemoBlockEnd(fileLines, idString);
+  const newLines = [...fileLines.slice(0, idString), ...fileLines.slice(blockEnd + 1)];
+  await vault.modify(file, newLines.join('\n'));
+}

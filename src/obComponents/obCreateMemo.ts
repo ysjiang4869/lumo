@@ -4,6 +4,7 @@ import appStore from '../stores/appStore';
 import { DefaultMemoComposition, InsertAfter } from '../memos';
 import { dailyNotesService } from '../services';
 import utils from '../helpers/utils';
+import { serializeContent } from './obMemoContent';
 
 interface MContent {
   content: string;
@@ -35,7 +36,9 @@ export async function waitForInsert(MemoContent: string, isTASK: boolean, insert
   // const plugin = window.plugin;
   const { vault } =
     appStore.getState().dailyNotesState.app === undefined ? app : appStore.getState().dailyNotesState.app;
-  const removeEnter = MemoContent.replace(/\n/g, '<br>');
+  // Multi-line memos are stored as the first line on the bullet plus indented continuation lines.
+  const { firstLine, continuation } = serializeContent(MemoContent);
+  const removeEnter = firstLine;
   let date;
 
   if (insertDate !== undefined) {
@@ -61,6 +64,10 @@ export async function waitForInsert(MemoContent: string, isTASK: boolean, insert
     newEvent = `- [ ] ` + DefaultMemoComposition.replace(/{TIME}/g, timeText).replace(/{CONTENT}/g, removeEnter);
   } else if (!isTASK && DefaultMemoComposition != '') {
     newEvent = `- ` + DefaultMemoComposition.replace(/{TIME}/g, timeText).replace(/{CONTENT}/g, removeEnter);
+  }
+
+  if (continuation.length > 0) {
+    newEvent = newEvent + '\n' + continuation.join('\n');
   }
 
   const dailyNotes = await getAllDailyNotes();

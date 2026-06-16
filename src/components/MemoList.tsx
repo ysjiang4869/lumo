@@ -38,9 +38,12 @@ const MemoList: React.FC<Props> = () => {
     tagQuery || (duration && duration.from < duration.to) || memoContentType || textQuery || queryFilter,
   );
 
+  // Archived and (soft-)deleted memos never appear in the list or search results.
+  const listableMemos = memos.filter((memo) => !memo.archived && !memo.deletedAt);
+
   const shownMemos =
     showMemoFilter || queryFilter || HideDoneTasks
-      ? memos.filter((memo) => {
+      ? listableMemos.filter((memo) => {
           let shouldShow = true;
 
           if (memo.memoType !== undefined) {
@@ -124,7 +127,7 @@ const MemoList: React.FC<Props> = () => {
 
           return shouldShow;
         })
-      : memos.filter((memo) => {
+      : listableMemos.filter((memo) => {
           return !memo.content.contains('comment:');
         });
 

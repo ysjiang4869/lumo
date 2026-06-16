@@ -27,11 +27,11 @@
   "UseVaultTags": false,
   "DefaultLightBackgroundImage": "",
   "DefaultDarkBackgroundImage": "",
-  "DefaultMemoComposition": "\\[time::{TIME}\\] {CONTENT}",
+  "DefaultMemoComposition": "{TIME} {CONTENT}",
   "CommentOnMemos": false,
   "CommentsInOriginalNotes": false,
   "FetchMemosMark": "#memo",
   "FetchMemosFromNote": false,
   "ShowCommentOnMemos": false,
-  "ShowLeftSideBar": false
+  "ShowLeftSideBar": true
 }

@@ -14,12 +14,14 @@ import {
 import { getAPI } from 'obsidian-dataview';
 import { t } from '../translations/helper';
 import { getDailyNotePath } from '../helpers/utils';
+import { findMemoBlockEnd, buildContentFromBlock, parseMemoMarkers } from './obMemoContent';
 
 export class DailyNotesFolderMissingError extends Error {}
 
 interface allKindsofMemos {
   memos: Model.Memo[];
   commentMemos: Model.Memo[];
+  deletedMemos: Model.Memo[];
 }
 
 const getTaskType = (memoTaskType: string): string => {
@@ -79,6 +81,7 @@ export async function getMemosFromDailyNote(
   dailyNote: TFile | null,
   allMemos: any[],
   commentMemos: any[],
+  deletedMemos: any[],
 ): Promise<any[]> {
   if (!dailyNote) {
     return [];
@@ -151,7 +154,17 @@ export async function getMemosFromDailyNote(
       } else {
         memoType = 'JOURNAL';
       }
-      const rawText = extractTextFromTodoLine(line);
+      const firstContent = extractTextFromTodoLine(line);
+      // The memo id encodes the bullet line index, so capture it before skipping ahead.
+      const bulletLineIdx = i;
+      // Merge any indented continuation lines (multi-line memo) into a single <br>-joined content.
+      const blockEnd = findMemoBlockEnd(fileLines, bulletLineIdx);
+      const continuationLines = fileLines.slice(bulletLineIdx + 1, blockEnd + 1);
+      const rawTextWithMarkers = buildContentFromBlock(firstContent ?? '', continuationLines);
+      // Skip the continuation lines so they aren't reprocessed as separate entries.
+      i = blockEnd;
+      // Pull out [deleted::ts] / [archived::true] state markers and clean the content.
+      const { content: rawText, deletedRaw, archived } = parseMemoMarkers(rawTextWithMarkers);
       let originId = '';
       if (rawText !== '') {
         let hasId = Math.random().toString(36).slice(-6);
@@ -164,8 +177,8 @@ export async function getMemosFromDailyNote(
           hasId = rawText.slice(-6);
           originId = hasId;
         }
-        allMemos.push({
-          id: startDate.format('YYYYMMDDHHmmSS') + i,
+        const memoObj = {
+          id: startDate.format('YYYYMMDDHHmmSS') + bulletLineIdx,
           content: rawText,
           user_id: 1,
           createdAt: startDate.format('YYYY/MM/DD HH:mm:SS'),
@@ -174,7 +187,15 @@ export async function getMemosFromDailyNote(
           hasId: hasId,
           linkId: linkId,
           path: dailyNote.path,
-        });
+          deletedAt: deletedRaw ? moment(deletedRaw, 'YYYYMMDDHHmmss').format('YYYY/MM/DD HH:mm:SS') : '',
+          archived: archived,
+        };
+        // Soft-deleted memos go to the recycle bin; everything else (incl. archived) to the list.
+        if (deletedRaw) {
+          deletedMemos.push(memoObj);
+        } else {
+          allMemos.push(memoObj);
+        }
       }
       if (/comment:(.*)#\^\S{6}]]/g.test(rawText) && CommentOnMemos && CommentsInOriginalNotes !== true) {
         const commentId = extractCommentFromLine(rawText);
@@ -241,7 +262,7 @@ export async function getMemosFromDailyNote(
   fileContents = null;
 }
 
-export async function getMemosFromNote(allMemos: any[], commentMemos: any[]): Promise<void> {
+export async function getMemosFromNote(allMemos: any[], commentMemos: any[], deletedMemos: any[]): Promise<void> {
   const notes = getAPI().pages(FetchMemosMark);
   const dailyNotesPath = getDailyNotePath();
   let files = notes?.values;
@@ -263,7 +284,8 @@ export async function getMemosFromNote(allMemos: any[], commentMemos: any[]): Pr
     const list = files[i].file.lists?.filter((item) => item.parent === undefined);
     if (list.length === 0) continue;
     for (let j = 0; j < list.length; j++) {
-      const content = list.values[j].text;
+      const rawContent = (list.values[j].text as string).replace(/\n/g, '<br>');
+      const { content, deletedRaw, archived } = parseMemoMarkers(rawContent);
       const header = list.values[j].header.subpath;
       const path = list.values[j].path;
       const line = list.values[j].line;
@@ -296,7 +318,7 @@ export async function getMemosFromNote(allMemos: any[], commentMemos: any[]): Pr
 
         // createDate = date.format('YYYYMMDDHHmmSS');
       }
-      allMemos.push({
+      const noteMemoObj = {
         id: realCreateDate.format('YYYYMMDDHHmmSS') + line,
         content: content,
         user_id: 1,
@@ -306,7 +328,14 @@ export async function getMemosFromNote(allMemos: any[], commentMemos: any[]): Pr
         hasId: hasId,
         linkId: '',
         path: path,
-      });
+        deletedAt: deletedRaw ? moment(deletedRaw, 'YYYYMMDDHHmmss').format('YYYY/MM/DD HH:mm:SS') : '',
+        archived: archived,
+      };
+      if (deletedRaw) {
+        deletedMemos.push(noteMemoObj);
+      } else {
+        allMemos.push(noteMemoObj);
+      }
       // Get Comment Memos From Note
       if (list.values[j].children?.values.length > 0) {
         for (let k = 0; k < list[j].children.length; k++) {
@@ -353,6 +382,7 @@ export async function getMemosFromNote(allMemos: any[], commentMemos: any[]): Pr
 export async function getMemos(): Promise<allKindsofMemos> {
   const memos: any[] | PromiseLike<any[]> = [];
   const commentMemos: any[] | PromiseLike<any[]> = [];
+  const deletedMemos: any[] | PromiseLike<any[]> = [];
   const { vault } = appStore.getState().dailyNotesState.app;
   const folder = getDailyNotePath();
 
@@ -370,15 +400,15 @@ export async function getMemos(): Promise<allKindsofMemos> {
 
   for (const string in dailyNotes) {
     if (dailyNotes[string] instanceof TFile && dailyNotes[string].extension === 'md') {
-      await getMemosFromDailyNote(dailyNotes[string], memos, commentMemos);
+      await getMemosFromDailyNote(dailyNotes[string], memos, commentMemos, deletedMemos);
     }
   }
 
   if (FetchMemosFromNote) {
-    await getMemosFromNote(memos, commentMemos);
+    await getMemosFromNote(memos, commentMemos, deletedMemos);
   }
 
-  return { memos, commentMemos };
+  return { memos, commentMemos, deletedMemos };
 }
 
 const getAllLinesFromFile = (cache: string) => cache.split(/\r?\n/);
@@ -403,8 +433,8 @@ const lineContainsTime = (line: string) => {
       indent +
       '(-|\\*)\\s(\\[(.{1})\\]\\s)?' +
       DefaultMemoComposition.replace(/{TIME}/g, '(\\<time\\>)?\\d{1,2}:\\d{2}(\\<\\/time\\>)?').replace(
-        /{CONTENT}/g,
-        '(.*)$',
+        / ?{CONTENT}/g,
+        ' ?(.*)$',
       );
   } else {
     //eslint-disable-next-line
@@ -437,8 +467,8 @@ const extractTextFromTodoLine = (line: string) => {
     regexMatch =
       '^\\s*[\\-\\*]\\s(\\[(.{1})\\]\\s?)?' +
       DefaultMemoComposition.replace(/{TIME}/g, '(\\<time\\>)?((\\d{1,2})\\:(\\d{2}))?(\\<\\/time\\>)?').replace(
-        /{CONTENT}/g,
-        '(.*)$',
+        / ?{CONTENT}/g,
+        ' ?(.*)$',
       );
   } else {
     //eslint-disable-next-line
@@ -461,8 +491,8 @@ const extractHourFromBulletLine = (line: string) => {
     regexHourMatch =
       '^\\s*[\\-\\*]\\s(\\[(.{1})\\]\\s?)?' +
       DefaultMemoComposition.replace(/{TIME}/g, '(\\<time\\>)?(\\d{1,2})\\:(\\d{2})(\\<\\/time\\>)?').replace(
-        /{CONTENT}/g,
-        '(.*)$',
+        / ?{CONTENT}/g,
+        ' ?(.*)$',
       );
   } else {
     //eslint-disable-next-line
@@ -484,8 +514,8 @@ const extractMinFromBulletLine = (line: string) => {
     regexHourMatch =
       '^\\s*[\\-\\*]\\s(\\[(.{1})\\]\\s?)?' +
       DefaultMemoComposition.replace(/{TIME}/g, '(\\<time\\>)?(\\d{1,2})\\:(\\d{2})(\\<\\/time\\>)?').replace(
-        /{CONTENT}/g,
-        '(.*)$',
+        / ?{CONTENT}/g,
+        ' ?(.*)$',
       );
   } else {
     //eslint-disable-next-line

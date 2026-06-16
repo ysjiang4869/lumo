@@ -3,10 +3,11 @@ import { getDailyNote } from 'obsidian-daily-notes-interface';
 // import appStore from "../stores/appStore";
 import dailyNotesService from '../services/dailyNotesService';
 import appStore from '../stores/appStore';
+import { findMemoBlockEnd, splitBulletLine, buildMemoBlockText } from './obMemoContent';
 
 export async function changeMemo(
   memoid: string,
-  originalContent: string,
+  _originalContent: string,
   content: string,
   memoType?: string,
   path?: string,
@@ -31,9 +32,13 @@ export async function changeMemo(
   const fileContent = await vault.read(file);
   const fileLines = getAllLinesFromFile(fileContent);
   const removeEnter = content.replace(/\n/g, '<br>');
-  const originalLine = fileLines[idString];
-  const newLine = fileLines[idString].replace(originalContent, removeEnter);
-  const newFileContent = fileContent.replace(originalLine, newLine);
+  // The memo may span multiple lines (bullet line + indented continuation). Replace the
+  // whole block, preserving the bullet prefix ("- 15:21 ").
+  const blockEnd = findMemoBlockEnd(fileLines, idString);
+  const { prefix } = splitBulletLine(fileLines[idString]);
+  const newBlock = buildMemoBlockText(prefix, content);
+  const newFileLines = [...fileLines.slice(0, idString), newBlock, ...fileLines.slice(blockEnd + 1)];
+  const newFileContent = newFileLines.join('\n');
   await vault.modify(file, newFileContent);
   return {
     id: memoid,

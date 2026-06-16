@@ -97,6 +97,8 @@ export default {
   MARK: '引用',
   SHARE: '分享',
   SOURCE: '来源',
+  ARCHIVE: '归档',
+  'ARCHIVE SUCCEED': '成功归档 Memo',
   RESTORE: '恢复',
   'DELETE AT': '删除于',
   'Noooop!': '啥都没有！',
