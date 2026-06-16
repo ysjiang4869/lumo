@@ -3,7 +3,7 @@
 export default {
   // setting.ts
   welcome: 'Welcome to the Memos',
-  ribbonIconTitle: 'Memos',
+  ribbonIconTitle: 'Lumo',
   to: 'to',
   months: [
     'January',
@@ -25,8 +25,8 @@ export default {
   year: null,
   month: null,
   'Basic Options': 'Basic Options',
-  'User name in Memos': 'User name in Memos',
-  "Set your user name here. 'Memos 😏' By default": "Set your user name here. 'Memos 😏' By default",
+  'User name in Lumo': 'User name in Lumo',
+  "Set your user name here. 'Lumo 😏' By default": "Set your user name here. 'Lumo 😏' By default",
   'Insert after heading': 'Insert after heading',
   'You should set the same heading below if you want to insert and process memos below the same heading.':
     'You should set the same heading below if you want to insert and process memos below the same heading.',
@@ -37,13 +37,13 @@ export default {
   'Save Memo button label': 'Save Memo button label',
   "The text shown on the save Memo button in the UI. 'NOTEIT' by default.":
     "The text shown on the save Memo button in the UI. 'NOTEIT' by default.",
-  'Focus on editor when open memos': 'Focus on editor when open memos',
-  'Focus on editor when open memos. Focus by default.': 'Focus on editor when open memos. Focus by default.',
-  'Open daily memos with open memos': 'Open daily memos with open memos',
-  'Open daily memos with open memos. Open by default.': 'Open daily memos with open memos. Open by default.',
-  'Open Memos when obsidian opens': 'Open Memos when obsidian opens',
-  'When enable this, Memos will open when Obsidian opens. False by default.':
-    'When enable this, Memos will open when Obsidian opens. False by default.',
+  'Focus on editor when open Lumo': 'Focus on editor when open Lumo',
+  'Focus on editor when open Lumo. Focus by default.': 'Focus on editor when open Lumo. Focus by default.',
+  'Open daily memos with open Lumo': 'Open daily memos with open Lumo',
+  'Open daily memos with open Lumo. Open by default.': 'Open daily memos with open Lumo. Open by default.',
+  'Open Lumo when obsidian opens': 'Open Lumo when obsidian opens',
+  'When enable this, Lumo will open when Obsidian opens. False by default.':
+    'When enable this, Lumo will open when Obsidian opens. False by default.',
   'Hide done tasks in Memo list': 'Hide done tasks in Memo list',
   'Hide all done tasks in Memo list. Show done tasks by default.':
     'Hide all done tasks in Memo list. Show done tasks by default.',
@@ -90,8 +90,8 @@ export default {
   'File Name of Query File': 'File Name of Query File',
   "Set the filename for query file. 'query' By default": "Set the filename for query file. 'query' By default",
   'Use Tags In Vault': 'Use Tags In Vault',
-  'Use tags in vault rather than only in Memos. False by default.':
-    'Use tags in vault rather than only in Memos. False by default.',
+  'Use tags in vault rather than only in Lumo. False by default.':
+    'Use tags in vault rather than only in Lumo. False by default.',
   'Ready to convert image into background': 'Ready to convert image into background',
   List: 'List',
   Task: 'Task',
@@ -199,9 +199,9 @@ export default {
   'Fetch Memos From Particular Notes': 'Fetch Memos From Particular Notes',
   'You can set any Dataview Query for memos to fetch it. All memos in those notes will show on list. "#memo" by default':
     'You can set any Dataview Query for memos to fetch it. All memos in those notes will show on list. "#memo" by default',
-  'Allow Memos to Fetch Memo from Notes': 'Allow Memos to Fetch Memo from Notes',
-  'Use Memos to manage all memos in your notes, not only in daily notes. False by default':
-    'Use Memos to manage all memos in your notes, not only in daily notes. False by default',
+  'Allow Lumo to Fetch Memo from Notes': 'Allow Lumo to Fetch Memo from Notes',
+  'Use Lumo to manage all memos in your notes, not only in daily notes. False by default':
+    'Use Lumo to manage all memos in your notes, not only in daily notes. False by default',
   'Always Show Memo Comments': 'Always Show Memo Comments',
   'Always show memo comments on memos. False by default': 'Always show memo comments on memos. False by default',
   "You didn't set folder for daily notes in both periodic-notes and daily-notes plugins.":
@@ -209,8 +209,8 @@ export default {
   'Please check your daily note plugin OR periodic notes plugin settings':
     'Please check your daily note plugin OR periodic notes plugin settings',
   "Use Which Plugin's Default Configuration": "Use Which Plugin's Default Configuration",
-  "Memos use the plugin's default configuration to fetch memos from daily, 'Daily' by default.":
-    "Memos use the plugin's default configuration to fetch memos from daily, 'Daily' by default.",
+  "Lumo uses the plugin's default configuration to fetch memos from daily, 'Daily' by default.":
+    "Lumo uses the plugin's default configuration to fetch memos from daily, 'Daily' by default.",
   Daily: 'Daily',
   'Always Show Leaf Sidebar on PC': 'Always Show Leaf Sidebar on PC',
   'Show left sidebar on PC even when the leaf width is less than 875px. False by default.':

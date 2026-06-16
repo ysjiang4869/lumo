@@ -19,11 +19,11 @@ export class Memos extends ItemView {
 
   getDisplayText(): string {
     // TODO: Make this interactive: Either the active workspace or the local graph
-    return 'Memos';
+    return 'Lumo';
   }
 
   getIcon(): string {
-    return 'Memos';
+    return 'Lumo';
   }
 
   getViewType(): string {

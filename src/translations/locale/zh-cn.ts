@@ -1,7 +1,7 @@
 export default {
   // setting.ts
   welcome: '欢迎使用 Memos ',
-  ribbonIconTitle: 'Memos',
+  ribbonIconTitle: 'Lumo',
   months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
   monthsShort: [null, null, null, null, null, null, null, null, null, null, null, null],
   weekDays: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
@@ -10,8 +10,8 @@ export default {
   year: '年',
   month: '月',
   'Basic Options': '基础选项',
-  'User name in Memos': '在 Memos 中显示的用户名',
-  "Set your user name here. 'Memos 😏' By default": "在这里设置你喜欢的用户名。 默认为 'Memos 😏'",
+  'User name in Lumo': '在 Lumo 中显示的用户名',
+  "Set your user name here. 'Lumo 😏' By default": "在这里设置你喜欢的用户名。 默认为 'Lumo 😏'",
   'Insert after heading': '在指定标题后插入 Memo',
   'You should set the same heading below if you want to insert and process memos below the same heading.':
     '你如果想要插入标题的同时显示对应标题下的 Memo，你必须保证当前设置与下方的解析设置是一致的。当为空时插入到文末',
@@ -20,13 +20,13 @@ export default {
     '只有在设置的标题后的 Memo 才会被解析。当为空时解析全文的 Memo',
   'Save Memo button label': '保存按钮上的文本',
   "The text shown on the save Memo button in the UI. 'NOTEIT' by default.": "在保存按钮上展示的文本。默认为 'NOTEIT'",
-  'Focus on editor when open memos': '自动聚焦到 Memos 输入框',
-  'Focus on editor when open memos. Focus by default.': '当打开 Memos 的时候自动聚焦到 Memos 输入框。默认开启',
-  'Open daily memos with open memos': '打开每日 Memo 的时候打开 Memos 界面',
-  'Open daily memos with open memos. Open by default.': '打开每日 Memo 的时候打开 Memos 界面。默认开启',
-  'Open Memos when obsidian opens': '当开启 Obsidian 的时候自动打开 Memos',
-  'When enable this, Memos will open when Obsidian opens. False by default.':
-    '当开启该选项, Memos 会在 Obsidian 打开时自动打开。默认不开启。',
+  'Focus on editor when open Lumo': '自动聚焦到 Lumo 输入框',
+  'Focus on editor when open Lumo. Focus by default.': '当打开 Lumo 的时候自动聚焦到 Lumo 输入框。默认开启',
+  'Open daily memos with open Lumo': '打开每日 Memo 的时候打开 Lumo 界面',
+  'Open daily memos with open Lumo. Open by default.': '打开每日 Memo 的时候打开 Lumo 界面。默认开启',
+  'Open Lumo when obsidian opens': '当开启 Obsidian 的时候自动打开 Lumo',
+  'When enable this, Lumo will open when Obsidian opens. False by default.':
+    '当开启该选项, Lumo 会在 Obsidian 打开时自动打开。默认不开启。',
   'Hide done tasks in Memo list': '在 memo 列表中隐藏已完成 memo',
   'Hide all done tasks in Memo list. Show done tasks by default.': '在 memo 列表中隐藏已完成 memo。默认不开启',
   'Advanced Options': '进阶选项',
@@ -70,7 +70,7 @@ export default {
   'File Name of Query File': '检索文件的文件名',
   "Set the filename for query file. 'query' By default": "设置存放检索式的文件的文件名。默认为'query'",
   'Use Tags In Vault': '使用在库内的所有标签',
-  'Use tags in vault rather than only in Memos. False by default.': '使用在库内的而不是 Memos 内的标签。默认关闭',
+  'Use tags in vault rather than only in Lumo. False by default.': '使用在库内的而不是 Lumo 内的标签。默认关闭',
   "Don't support web image yet, please input image path in vault": '暂不支持网络图片，请使用本地图片',
   'Ready to convert image into background': '正在将图片转换为背景图',
   List: '列表',
@@ -177,9 +177,9 @@ export default {
   'Fetch Memos From Particular Notes': '从指定的文件中获取 Memos',
   'You can set any Dataview Query for memos to fetch it. All memos in those notes will show on list. "#memo" by default':
     '你可以给笔记设置指定检索式来让 Memos 可以索引到它。默认为 "#memo" ',
-  'Allow Memos to Fetch Memo from Notes': '允许 Memos 从笔记中获取 Memo',
-  'Use Memos to manage all memos in your notes, not only in daily notes. False by default':
-    '使用 Memos 来管理你笔记中的 Memos，不单只 DailyNotes 中的内容。默认为关闭',
+  'Allow Lumo to Fetch Memo from Notes': '允许 Lumo 从笔记中获取 Memo',
+  'Use Lumo to manage all memos in your notes, not only in daily notes. False by default':
+    '使用 Lumo 来管理你笔记中的 Memos，不单只 DailyNotes 中的内容。默认为关闭',
   'Always Show Memo Comments': '评论将总是可见',
   'Always show memo comments on memos. False by default': '当开启后评论总是会在 Memo 的下方展示。默认为关闭',
   "You didn't set folder for daily notes in both periodic-notes and daily-notes plugins.":
@@ -187,8 +187,8 @@ export default {
   'Please check your daily note plugin OR periodic notes plugin settings':
     '请检查你的日记插件和/或 Periodic Notes 插件的设置',
   "Use Which Plugin's Default Configuration": '使用哪个插件的默认日记配置',
-  "Memos use the plugin's default configuration to fetch memos from daily, 'Daily' by default.":
-    'Memos 采用指定插件的默认配置来获取 Memos。默认为日记插件。',
+  "Lumo uses the plugin's default configuration to fetch memos from daily, 'Daily' by default.":
+    'Lumo 采用指定插件的默认配置来获取 Memos。默认为日记插件。',
   Daily: '日记插件',
   'Always Show Leaf Sidebar on PC': '在 PC 上总是展示左侧栏',
   'Show left sidebar on PC even when the leaf width is less than 875px. False by default.':

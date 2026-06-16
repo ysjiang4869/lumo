@@ -135,7 +135,7 @@ export default class MemosPlugin extends Plugin {
       this.registerMobileEvent();
     }
 
-    this.addRibbonIcon('Memos', t('ribbonIconTitle'), () => {
+    this.addRibbonIcon('Lumo', t('ribbonIconTitle'), () => {
       new Notice(t('Open Memos Successfully'));
       this.openMemos();
     });

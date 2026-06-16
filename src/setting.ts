@@ -46,7 +46,7 @@ export interface MemosSettings {
 export const DEFAULT_SETTINGS: MemosSettings = {
   StartDate: 'Sunday',
   InsertAfter: '# Journal',
-  UserName: 'MEMO 😉',
+  UserName: 'LUMO 😉',
   ProcessEntriesBelow: '',
   Language: 'en',
   SaveMemoButtonLabel: 'NOTEIT',
@@ -125,8 +125,8 @@ export class MemosSettingTab extends PluginSettingTab {
     // });
 
     new Setting(containerEl)
-      .setName(t('User name in Memos'))
-      .setDesc(t("Set your user name here. 'Memos 😏' By default"))
+      .setName(t('User name in Lumo'))
+      .setDesc(t("Set your user name here. 'Lumo 😏' By default"))
       .addText((text) =>
         text
           .setPlaceholder(DEFAULT_SETTINGS.UserName)
@@ -196,8 +196,8 @@ export class MemosSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName(t('Focus on editor when open memos'))
-      .setDesc(t('Focus on editor when open memos. Focus by default.'))
+      .setName(t('Focus on editor when open Lumo'))
+      .setDesc(t('Focus on editor when open Lumo. Focus by default.'))
       .addToggle((toggle) =>
         toggle.setValue(this.plugin.settings.FocusOnEditor).onChange(async (value) => {
           this.plugin.settings.FocusOnEditor = value;
@@ -206,8 +206,8 @@ export class MemosSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName(t('Open daily memos with open memos'))
-      .setDesc(t('Open daily memos with open memos. Open by default.'))
+      .setName(t('Open daily memos with open Lumo'))
+      .setDesc(t('Open daily memos with open Lumo. Open by default.'))
       .addToggle((toggle) =>
         toggle.setValue(this.plugin.settings.OpenDailyMemosWithMemos).onChange(async (value) => {
           this.plugin.settings.OpenDailyMemosWithMemos = value;
@@ -216,8 +216,8 @@ export class MemosSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName(t('Open Memos when obsidian opens'))
-      .setDesc(t('When enable this, Memos will open when Obsidian opens. False by default.'))
+      .setName(t('Open Lumo when obsidian opens'))
+      .setDesc(t('When enable this, Lumo will open when Obsidian opens. False by default.'))
       .addToggle((toggle) =>
         toggle.setValue(this.plugin.settings.OpenMemosAutomatically).onChange(async (value) => {
           this.plugin.settings.OpenMemosAutomatically = value;
@@ -247,7 +247,7 @@ export class MemosSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName(t('Use Tags In Vault'))
-      .setDesc(t('Use tags in vault rather than only in Memos. False by default.'))
+      .setDesc(t('Use tags in vault rather than only in Lumo. False by default.'))
       .addToggle((toggle) =>
         toggle.setValue(this.plugin.settings.UseVaultTags).onChange(async (value) => {
           this.plugin.settings.UseVaultTags = value;
@@ -478,7 +478,7 @@ export class MemosSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName(t("Use Which Plugin's Default Configuration"))
-      .setDesc(t("Memos use the plugin's default configuration to fetch memos from daily, 'Daily' by default."))
+      .setDesc(t("Lumo uses the plugin's default configuration to fetch memos from daily, 'Daily' by default."))
       .addDropdown(async (d: DropdownComponent) => {
         dropdown = d;
         dropdown.addOption('Daily', t('Daily'));
@@ -537,8 +537,8 @@ export class MemosSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName(t('Allow Memos to Fetch Memo from Notes'))
-      .setDesc(t('Use Memos to manage all memos in your notes, not only in daily notes. False by default'))
+      .setName(t('Allow Lumo to Fetch Memo from Notes'))
+      .setDesc(t('Use Lumo to manage all memos in your notes, not only in daily notes. False by default'))
       .addToggle((toggle) =>
         toggle.setValue(this.plugin.settings.FetchMemosFromNote).onChange(async (value) => {
           this.plugin.settings.FetchMemosFromNote = value;
