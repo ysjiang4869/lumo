@@ -10,6 +10,8 @@ import Tag from '../icons/tag.svg?component';
 import ImageSvg from '../icons/image.svg?component';
 import JournalSvg from '../icons/journal.svg?component';
 import TaskSvg from '../icons/checkbox-active.svg?component';
+import PenLine from '../icons/pen-line.svg?component';
+import Mic from '../icons/mic.svg?component';
 import showEditorSvg from '../icons/show-editor.svg';
 import { usePopper } from 'react-popper';
 import useState from 'react-usestateref';
@@ -73,6 +75,8 @@ const MemoEditor: React.FC<Props> = () => {
 
   const [isListShown, toggleList] = useToggle(false);
   const [isEditorShown, toggleEditor] = useState(false);
+  // 输入模式：文字 / 语音（语音暂为 UI 占位）
+  const [inputMode, setInputMode] = useState<'text' | 'voice'>('text');
 
   const editorRef = useRef<EditorRefActions>(null);
   const prevGlobalStateRef = useRef(globalState);
@@ -758,7 +762,7 @@ const MemoEditor: React.FC<Props> = () => {
       className: 'memo-editor',
       inputerType: 'memo',
       initialContent: getEditorContentCache(),
-      placeholder: t('What do you think now...'),
+      placeholder: t('Write something, capture how you feel right now…'),
       showConfirmBtn: true,
       showCancelBtn: showEditStatus,
       showTools: true,
@@ -777,6 +781,24 @@ const MemoEditor: React.FC<Props> = () => {
         {...editorConfig}
         tools={
           <>
+            <div className="lumo-mode-pills">
+              <button
+                type="button"
+                className={`lumo-mode-pill ${inputMode === 'text' ? 'is-active' : ''}`}
+                onClick={() => setInputMode('text')}
+              >
+                <PenLine />
+                {t('Text')}
+              </button>
+              <button
+                type="button"
+                className={`lumo-mode-pill ${inputMode === 'voice' ? 'is-active' : ''}`}
+                onClick={() => setInputMode('voice')}
+              >
+                <Mic />
+                {t('Voice')}
+              </button>
+            </div>
             {/*<img className="action-btn add-tag" src={tag}  />*/}
             <Tag className="action-btn add-tag" onClick={handleTagTextBtnClick} />
             {/*<img className="action-btn file-upload" src={imageSvg} onClick={handleUploadFileBtnClick} />*/}

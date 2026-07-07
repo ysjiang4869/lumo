@@ -1,0 +1,554 @@
+@import './mixin.less';
+
+/* =========================================================================
+   Lumo · "Quiet Journal" 重设计 (2a)
+   暖色纸感 · 鹅毛笔绿 · Manrope / Outfit
+   通过 #page-wrapper id 提升选择器优先级，覆盖各组件的 .theme-light 规则。
+   ========================================================================= */
+
+div[data-type='lumo_view'] {
+  --lumo-paper: #f8f6f1;
+  --lumo-panel: #eae7e1;
+  --lumo-card: #ffffff;
+  --lumo-accent: #2f9e78;
+  --lumo-accent-soft: #f0f4f2;
+  --lumo-accent-tint: #e9f4ef;
+  --lumo-ink: #2b2823;
+  --lumo-ink-2: #3d3a33;
+  --lumo-muted: #7a756b;
+  --lumo-muted-2: #948f84;
+  --lumo-faint: #b3ada2;
+  --lumo-line: rgba(40, 30, 20, 0.07);
+  --lumo-line-2: rgba(40, 30, 20, 0.09);
+  --lumo-font: 'Manrope', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', var(--font-interface), system-ui, sans-serif;
+  --lumo-display: 'Outfit', 'PingFang SC', var(--font-interface), system-ui, sans-serif;
+}
+
+.theme-dark div[data-type='lumo_view'] {
+  --lumo-paper: #211f1b;
+  --lumo-panel: #262420;
+  --lumo-card: #2b2824;
+  --lumo-accent: #4bb98f;
+  --lumo-accent-soft: #2c332e;
+  --lumo-accent-tint: #26342d;
+  --lumo-ink: #ece7dd;
+  --lumo-ink-2: #d9d3c8;
+  --lumo-muted: #a49f93;
+  --lumo-muted-2: #8f8a7f;
+  --lumo-faint: #7a756b;
+  --lumo-line: rgba(255, 250, 240, 0.08);
+  --lumo-line-2: rgba(255, 250, 240, 0.12);
+}
+
+/* ---- 背景 / 容器 ---------------------------------------------------------- */
+div[data-type='lumo_view'] #root {
+  background-color: var(--lumo-paper);
+}
+div[data-type='lumo_view'] .view-content {
+  background-color: var(--lumo-paper);
+  font-family: var(--lumo-font);
+  color: var(--lumo-ink);
+}
+
+div[data-type='lumo_view'] #page-wrapper {
+  font-family: var(--lumo-font);
+  color: var(--lumo-ink);
+
+  > .content-wrapper {
+    gap: 14px;
+  }
+}
+
+/* ---- 侧栏（暖色信息栏） --------------------------------------------------- */
+.theme-light div[data-type='lumo_view'] #page-wrapper .memos-sidebar-wrapper,
+.theme-dark div[data-type='lumo_view'] #page-wrapper .memos-sidebar-wrapper {
+  padding: 20px 14px;
+  gap: 6px;
+}
+
+/* ---- 通用文字 ------------------------------------------------------------- */
+div[data-type='lumo_view'] #page-wrapper .tag-span,
+div[data-type='lumo_view'] #page-wrapper .memo-content-text .tag-span {
+  color: var(--lumo-accent);
+  background: var(--lumo-accent-tint);
+  border-radius: 99px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+
+/* ---- 侧栏用户区 ----------------------------------------------------------- */
+div[data-type='lumo_view'] #page-wrapper .user-banner-container {
+  padding-bottom: 10px;
+
+  .username-text {
+    font-family: var(--lumo-display);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--lumo-ink);
+  }
+  .status-text-container .amount-text {
+    color: var(--lumo-ink);
+    font-weight: 800;
+  }
+  .status-text-container .type-text {
+    color: var(--lumo-muted-2);
+  }
+}
+
+/* ---- 侧栏分区标题 --------------------------------------------------------- */
+div[data-type='lumo_view'] #page-wrapper .tags-wrapper > .title-text,
+div[data-type='lumo_view'] #page-wrapper .queries-wrapper > .title-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lumo-faint);
+}
+
+/* ---- 侧栏标签 / 检索式 → 暖色胶囊 ---------------------------------------- */
+div[data-type='lumo_view'] #page-wrapper .tags-wrapper .tag-item-container,
+div[data-type='lumo_view'] #page-wrapper .queries-wrapper .query-item-container {
+  border-radius: 10px;
+  padding: 4px 8px;
+
+  &:hover {
+    background: var(--lumo-accent-soft);
+  }
+  &.active {
+    background: var(--lumo-accent-tint);
+
+    .tag-text,
+    .query-text,
+    .icon-text {
+      color: var(--lumo-accent);
+    }
+  }
+}
+div[data-type='lumo_view'] #page-wrapper .tags-wrapper .tag-text {
+  color: var(--lumo-ink-2);
+}
+
+/* =========================================================================
+   叙述式问候 header
+   ========================================================================= */
+div[data-type='lumo_view'] #page-wrapper .lumo-greeting {
+  .flex(column, flex-start, stretch);
+  width: 100%;
+  height: auto;
+  flex-shrink: 0;
+  padding: 6px 2px 0;
+  margin-top: 6px;
+  gap: 10px;
+
+  > .lumo-greeting-row {
+    .flex(row, flex-start, baseline);
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .lumo-greeting-hello {
+    font-family: var(--lumo-display);
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--lumo-ink);
+    line-height: 1.2;
+  }
+
+  .lumo-greeting-date {
+    font-size: 13px;
+    color: var(--lumo-faint);
+  }
+
+  .lumo-greeting-stats {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--lumo-muted-2);
+    margin: 0;
+
+    b {
+      font-weight: 700;
+      color: #5a564d;
+    }
+    b.accent {
+      color: var(--lumo-accent);
+    }
+  }
+
+  .lumo-greeting-spacer {
+    flex: 1;
+  }
+
+  .lumo-insight-link {
+    .flex(row, center, center);
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--lumo-muted-2);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+
+    &:hover {
+      color: var(--lumo-accent);
+    }
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
+}
+
+/* 复用旧的 header 容器时隐藏原始标题样式冲突 */
+div[data-type='lumo_view'] #page-wrapper .memos-header-container {
+  margin-top: 8px;
+}
+
+/* =========================================================================
+   记录入口 · 悬浮 compose 卡片
+   ========================================================================= */
+.theme-light div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper,
+.theme-dark div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper {
+  background-color: var(--lumo-card);
+  border: 1px solid var(--lumo-line);
+  border-radius: 18px;
+  padding: 16px 18px 12px;
+  box-shadow: 0 2px 6px rgba(40, 30, 20, 0.05), 0 22px 48px -30px rgba(40, 30, 20, 0.5);
+
+  &.edit-ing {
+    border-color: var(--lumo-accent);
+  }
+
+  > .memo-editor,
+  .common-editor-inputer {
+    background-color: transparent;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--lumo-ink);
+  }
+
+  .common-editor-inputer::placeholder {
+    color: var(--lumo-faint);
+  }
+}
+
+/* 编辑器工具条 → 暖色 pill 风格 */
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .common-tools-wrapper {
+  border-top: 1px solid var(--lumo-line);
+  margin-top: 12px;
+  padding-top: 12px;
+  align-items: center;
+}
+
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .common-tools-container .action-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  color: var(--lumo-muted-2);
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    background: var(--lumo-accent-soft);
+    color: var(--lumo-accent);
+  }
+}
+
+/* 「文字 / 语音」输入模式 pill（UI-only） */
+div[data-type='lumo_view'] #page-wrapper .lumo-mode-pills {
+  .flex(row, flex-start, center);
+  gap: 6px;
+  margin-right: auto;
+
+  .lumo-mode-pill {
+    .flex(row, center, center);
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--lumo-muted);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+    &.is-active {
+      background: var(--lumo-accent-soft);
+      color: var(--lumo-accent);
+    }
+    &:hover:not(.is-active) {
+      color: var(--lumo-accent);
+    }
+  }
+}
+
+/* 确认按钮 → 「记下这一刻」 */
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .confirm-btn,
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .btn.confirm-btn {
+  .flex(row, center, center);
+  gap: 6px;
+  background: var(--lumo-accent);
+  color: #fff;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 700;
+  box-shadow: 0 10px 22px -12px rgba(47, 158, 120, 0.9);
+
+  &:hover {
+    background: var(--lumo-accent);
+    filter: brightness(1.04);
+  }
+}
+
+/* =========================================================================
+   过滤 · pill 导航 + 标签行
+   ========================================================================= */
+div[data-type='lumo_view'] #page-wrapper .filter-query-container {
+  background: var(--lumo-card);
+  border: 1px solid var(--lumo-line);
+  border-radius: 12px;
+  padding: 8px 12px;
+}
+div[data-type='lumo_view'] #page-wrapper .filter-query-container .filter-item-container {
+  border-radius: 99px;
+  background: var(--lumo-accent-tint);
+  color: var(--lumo-accent);
+  font-weight: 600;
+}
+
+/* =========================================================================
+   日记页式 memo 卡片
+   ========================================================================= */
+.theme-light div[data-type='lumo_view'] #page-wrapper .memo-wrapper,
+.theme-dark div[data-type='lumo_view'] #page-wrapper .memo-wrapper {
+  background-color: var(--lumo-card);
+  border: 1px solid var(--lumo-line);
+  border-radius: 18px;
+  padding: 18px 22px;
+  box-shadow: 0 1px 3px rgba(40, 30, 20, 0.04);
+  transition: box-shadow 0.18s, transform 0.18s, border-color 0.18s;
+
+  &:hover {
+    border-color: var(--lumo-line-2);
+    box-shadow: 0 2px 6px rgba(40, 30, 20, 0.06), 0 18px 40px -30px rgba(40, 30, 20, 0.4);
+  }
+
+  > .memo-top-wrapper {
+    margin-bottom: 10px;
+
+    > .memo-top-left-wrapper > .time-text {
+      font-family: var(--lumo-display);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: var(--lumo-ink);
+    }
+  }
+
+  .memo-content-text {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--lumo-ink-2);
+    text-wrap: pretty;
+  }
+}
+
+/* memo 卡片操作按钮 hover 用绿色 */
+div[data-type='lumo_view'] #page-wrapper .memo-wrapper .more-action-btns-container .btn:hover {
+  color: var(--lumo-accent);
+}
+div[data-type='lumo_view'] #page-wrapper .memolist-wrapper {
+  gap: 12px;
+}
+
+/* =========================================================================
+   记录洞察页（UI 占位 · 部分真实数据）
+   ========================================================================= */
+div[data-type='lumo_view'] #page-wrapper .lumo-insights {
+  .flex(column, flex-start, stretch);
+  width: 100%;
+  height: 100%;
+  gap: 26px;
+  padding: 14px 6px 40px;
+  overflow-y: auto;
+  .hide-scroll-bar();
+
+  .lumo-insights-back {
+    .flex(row, center, center);
+    align-self: flex-start;
+    gap: 5px;
+    background: none;
+    border: none;
+    padding: 4px 2px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--lumo-muted-2);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--lumo-accent);
+    }
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .lumo-insights-title {
+    font-family: var(--lumo-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--lumo-ink);
+  }
+
+  .lumo-insights-lead {
+    margin: 12px 0 0;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--lumo-muted);
+    text-wrap: pretty;
+
+    b {
+      font-weight: 700;
+      color: var(--lumo-ink);
+    }
+    b.accent {
+      color: var(--lumo-accent);
+    }
+  }
+
+  .lumo-insights-numbers {
+    .flex(row, flex-start, flex-start);
+    gap: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--lumo-line-2);
+
+    .lumo-insights-num {
+      .v {
+        font-family: var(--lumo-display);
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: var(--lumo-ink);
+      }
+      .l {
+        font-size: 12.5px;
+        color: var(--lumo-muted-2);
+        margin-top: 3px;
+      }
+    }
+  }
+
+  .lumo-insights-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--lumo-muted);
+  }
+  .lumo-insights-label-row {
+    .flex(row, space-between, baseline);
+    margin-bottom: 14px;
+
+    .lumo-insights-sub {
+      font-size: 12px;
+      color: var(--lumo-faint);
+    }
+  }
+
+  .lumo-insights-section {
+    .flex(column, flex-start, stretch);
+  }
+
+  .lumo-mood-list {
+    .flex(column, flex-start, stretch);
+    gap: 15px;
+    margin-top: 16px;
+
+    .lumo-mood-row {
+      .flex(row, flex-start, center);
+      gap: 13px;
+
+      .e {
+        font-size: 19px;
+        width: 24px;
+        text-align: center;
+      }
+      .l {
+        font-size: 13.5px;
+        font-weight: 600;
+        width: 44px;
+        color: var(--lumo-ink-2);
+      }
+      .bar {
+        flex: 1;
+        height: 8px;
+        border-radius: 99px;
+        background: #eceae3;
+        overflow: hidden;
+
+        .fill {
+          height: 100%;
+          border-radius: 99px;
+          background: var(--lumo-accent);
+        }
+      }
+      .c {
+        font-size: 12.5px;
+        color: var(--lumo-faint);
+        font-weight: 600;
+        width: 36px;
+        text-align: right;
+      }
+    }
+  }
+
+  .lumo-tag-cloud {
+    .flex(row, flex-start, center);
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 16px;
+
+    .lumo-tag-chip {
+      .flex(row, center, center);
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--lumo-ink-2);
+      background: var(--lumo-card);
+      border: 1px solid var(--lumo-line);
+      border-radius: 99px;
+      padding: 6px 13px;
+
+      .n {
+        font-size: 11.5px;
+        color: var(--lumo-faint);
+        font-weight: 600;
+      }
+    }
+  }
+
+  .lumo-heat-grid {
+    display: grid;
+    grid-template-columns: repeat(26, 1fr);
+    gap: 4px;
+
+    .lumo-heat-cell {
+      aspect-ratio: 1;
+      border-radius: 3px;
+    }
+  }
+}
+
+/* =========================================================================
+   移动端：悬浮「记一笔」入口沿用暖色
+   ========================================================================= */
+.theme-light div[data-type='lumo_view'].mobile-view img.memo-show-editor-button,
+.theme-dark div[data-type='lumo_view'].mobile-view img.memo-show-editor-button {
+  filter: none;
+  opacity: 0.95;
+}
