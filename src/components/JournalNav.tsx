@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useState } from 'react';
 import appContext from '../stores/appContext';
-import { locationService } from '../services';
+import { locationService, memoService } from '../services';
 import { t } from '../translations/helper';
 import Search from '../icons/search.svg?component';
 import Feather from '../icons/feather.svg?component';
@@ -24,6 +24,11 @@ const JournalNav: React.FC<Props> = () => {
   } = useContext(appContext);
 
   const totalCount = memos.length;
+
+  // 侧栏移除后 TagList 不再渲染，需在此处触发 tagsNum 更新
+  useEffect(() => {
+    memoService.updateTagsState();
+  }, [memos]);
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('all');

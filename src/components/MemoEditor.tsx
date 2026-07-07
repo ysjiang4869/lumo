@@ -88,6 +88,7 @@ const MemoEditor: React.FC<Props> = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [hasContent, setHasContent] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [pickerEmojis, setPickerEmojis, pickerEmojisRef] = useState<string[]>([]);
 
   const editorRef = useRef<EditorRefActions>(null);
   const prevGlobalStateRef = useRef(globalState);
@@ -438,7 +439,13 @@ const MemoEditor: React.FC<Props> = () => {
     if (globalState.editMemoId && globalState.editMemoId !== prevGlobalStateRef.current.editMemoId) {
       const editMemo = memoService.getMemoById(globalState.editMemoId);
       if (editMemo) {
-        editorRef.current?.setContent(editMemo.content.replace(/<br>/g, '\n').replace(/ \^\S{6}$/, '') ?? '');
+        const moods = Array.from(editMemo.content.matchAll(/\[mood::([^\]]+)\]/g)).map((m) => m[1]);
+        setPickerEmojis(moods);
+        const editContent = editMemo.content
+          .replace(/<br>/g, '\n')
+          .replace(/ \^\S{6}$/, '')
+          .replace(/\s*\[mood::[^\]]*\]/g, '');
+        editorRef.current?.setContent(editContent ?? '');
         editorRef.current?.focus();
       }
     }
@@ -520,6 +527,13 @@ const MemoEditor: React.FC<Props> = () => {
     const { editMemoId } = globalStateService.getState();
     content = content.replaceAll('&nbsp;', ' ');
 
+    // 追加 picker 表情元数据
+    const moods = pickerEmojisRef.current;
+    if (moods.length > 0) {
+      content = content + ' ' + moods.map((em) => `[mood::${em}]`).join(' ');
+    }
+    setPickerEmojis([]);
+
     setEditorContentCache('');
     try {
       if (editMemoId) {
@@ -553,6 +567,7 @@ const MemoEditor: React.FC<Props> = () => {
   const handleCancelBtnClick = useCallback(() => {
     globalStateService.setEditMemoId('');
     editorRef.current?.setContent('');
+    setPickerEmojis([]);
     setEditorContentCache('');
   }, []);
 
@@ -810,9 +825,13 @@ const MemoEditor: React.FC<Props> = () => {
   };
 
   const handleInsertEmoji = (emoji: string) => {
-    editorRef.current?.insertText(emoji);
+    setPickerEmojis([...pickerEmojisRef.current, emoji]);
     setShowEmojiPicker(false);
     editorRef.current?.focus();
+  };
+
+  const removePickerEmoji = (idx: number) => {
+    setPickerEmojis(pickerEmojisRef.current.filter((_, i) => i !== idx));
   };
 
   return (
@@ -856,6 +875,20 @@ const MemoEditor: React.FC<Props> = () => {
               >
                 <Smile />
               </button>
+              {pickerEmojis.length > 0 && (
+                <span className="lumo-mood-chips">
+                  {pickerEmojis.map((em, i) => (
+                    <span
+                      key={i}
+                      className="lumo-mood-chip"
+                      title="点击移除"
+                      onClick={() => removePickerEmoji(i)}
+                    >
+                      {em}
+                    </span>
+                  ))}
+                </span>
+              )}
               {showEmojiPicker && (
                 <div className="lumo-emoji-popup">
                   {EMOJIS.map((em) => (

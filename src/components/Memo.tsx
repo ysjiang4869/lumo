@@ -451,10 +451,8 @@ const Memo: React.FC<Props> = (props: Props) => {
     return { cardDateStr: `${y}.${mo}.${day}`, cardPeriod: `${wk} · ${hh}:${mm}` };
   }, [propsMemo.createdAt]);
 
-  const memoTags = useMemo(() => {
-    const raw = propsMemo.content;
-    const matches = raw.matchAll(/(?:^|\s)#([\p{Letter}\p{Emoji_Presentation}\p{Number}/_-]+)/gu);
-    return Array.from(new Set(Array.from(matches).map((m) => m[1])));
+  const moodEmojis = useMemo(() => {
+    return Array.from(propsMemo.content.matchAll(/\[mood::([^\]]+)\]/g)).map((m) => m[1]);
   }, [propsMemo.content]);
 
   const editorConfig = useMemo(
@@ -548,11 +546,11 @@ const Memo: React.FC<Props> = (props: Props) => {
           </div>
         </div>
       </div>
-      {memoTags.length > 0 && (
+      {moodEmojis.length > 0 && (
         <div className="memo-card-meta">
-          {memoTags.map((tag) => (
-            <span key={tag} className="memo-card-tag">
-              #{tag}
+          {moodEmojis.map((em, i) => (
+            <span key={i} className="memo-card-mood">
+              {em}
             </span>
           ))}
         </div>
@@ -632,6 +630,8 @@ const Memo: React.FC<Props> = (props: Props) => {
 };
 
 export function formatMemoContent(content: string, memoid?: string) {
+  // 过滤 picker 表情元数据（不在内容文本中渲染）
+  content = content.replace(/\s*\[mood::[^\]]*\]/g, '');
   content = encodeHtml(content);
   content = parseRawTextToHtml(content)
     .split('<br>')

@@ -389,14 +389,12 @@ div[data-type='lumo_view'] #page-wrapper .filter-query-container .filter-item-co
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     margin-bottom: 8px;
 
-    .memo-card-tag {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--lumo-accent);
-      line-height: 1.4;
+    .memo-card-mood {
+      font-size: 18px;
+      line-height: 1.3;
     }
   }
 
@@ -845,6 +843,25 @@ div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .common-tools-cont
 div[data-type='lumo_view'] #page-wrapper .lumo-emoji-wrapper {
   position: relative;
   display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-mood-chips {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-mood-chip {
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 1px 3px;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.5;
+  }
 }
 div[data-type='lumo_view'] #page-wrapper .lumo-emoji-popup {
   position: absolute;
