@@ -1074,6 +1074,81 @@ div[data-type='lumo_view'] #page-wrapper .lumo-tagfilter .lumo-tagfilter-chip.is
   color: var(--lumo-accent);
   background: var(--lumo-accent-tint);
 }
+/* =========================================================================
+   compose 卡片：焦点展开 + 工具条 + 表情面板
+   ========================================================================= */
+/* 去掉默认缩放手柄 */
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .common-editor-inputer {
+  resize: none;
+}
+/* 折叠态（未获焦点且无内容）：紧凑单行、隐藏工具条 */
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper:not(.expanded) {
+  padding-bottom: 16px;
+  cursor: text;
+}
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper:not(.expanded) .common-editor-inputer {
+  min-height: 24px !important;
+}
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper:not(.expanded) .common-tools-wrapper {
+  display: none;
+}
+/* 展开态：给到更从容的书写高度 */
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper.expanded .common-editor-inputer {
+  min-height: 52px !important;
+}
+/* 工具行容器 */
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .lumo-tools {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 3px;
+}
+/* 表情按钮为描边图标，重置从 .action-btn 继承来的 fill */
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .common-tools-container button.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .common-tools-container .action-btn.emoji-btn {
+  fill: none;
+}
+/* 表情选择面板 */
+div[data-type='lumo_view'] #page-wrapper .lumo-emoji-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-emoji-popup {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2px;
+  width: 296px;
+  padding: 8px;
+  background: var(--lumo-card);
+  border: 1px solid var(--lumo-line);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px -12px rgba(40, 30, 20, 0.45);
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-emoji-popup .lumo-emoji-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 33px;
+  height: 33px;
+  font-size: 18px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-emoji-popup .lumo-emoji-item:hover {
+  background: var(--lumo-accent-soft);
+}
 .mono-font-family {
   font-family: 'ubuntu-mono', SFMono-Regular, Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace;
 }

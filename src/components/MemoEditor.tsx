@@ -12,6 +12,13 @@ import JournalSvg from '../icons/journal.svg?component';
 import TaskSvg from '../icons/checkbox-active.svg?component';
 import PenLine from '../icons/pen-line.svg?component';
 import Mic from '../icons/mic.svg?component';
+import Smile from '../icons/smile.svg?component';
+
+const EMOJIS = [
+  '😀', '😊', '😌', '🤔', '😍', '🥳', '😢', '😴',
+  '😎', '🙏', '👍', '❤️', '🔥', '✨', '🎉', '☀️',
+  '🌧️', '🌙', '☕', '🍜', '🏃', '💡', '📌', '✅',
+];
 import showEditorSvg from '../icons/show-editor.svg';
 import { usePopper } from 'react-popper';
 import useState from 'react-usestateref';
@@ -77,6 +84,10 @@ const MemoEditor: React.FC<Props> = () => {
   const [isEditorShown, toggleEditor] = useState(false);
   // 输入模式：文字 / 语音（语音暂为 UI 占位）
   const [inputMode, setInputMode] = useState<'text' | 'voice'>('text');
+  // 焦点展开：未获焦点且无内容时保持紧凑，获焦点后展开
+  const [isFocused, setIsFocused] = useState(false);
+  const [hasContent, setHasContent] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const editorRef = useRef<EditorRefActions>(null);
   const prevGlobalStateRef = useRef(globalState);
@@ -552,6 +563,7 @@ const MemoEditor: React.FC<Props> = () => {
       content = '';
     }
     setEditorContentCache(content);
+    setHasContent(content !== '');
 
     if (!editorRef.current) {
       return;
@@ -773,14 +785,50 @@ const MemoEditor: React.FC<Props> = () => {
     [showEditStatus],
   );
 
+  const expanded = isFocused || hasContent || showEditStatus;
+
+  const handleEditorFocus = () => setIsFocused(true);
+
+  const handleEditorBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    // 焦点仍在卡片内（如点表情面板）不收起
+    if (e.currentTarget.contains(e.relatedTarget as Node)) {
+      return;
+    }
+    if (hasContent || showEditStatus) {
+      return;
+    }
+    setIsFocused(false);
+    setShowEmojiPicker(false);
+  };
+
+  // 点击工具（非输入元素）时保留文本框焦点，避免误收起
+  const keepEditorFocus = (e: React.MouseEvent) => {
+    const tag = (e.target as HTMLElement).tagName;
+    if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+      e.preventDefault();
+    }
+  };
+
+  const handleInsertEmoji = (emoji: string) => {
+    editorRef.current?.insertText(emoji);
+    setShowEmojiPicker(false);
+    editorRef.current?.focus();
+  };
+
   return (
-    <div className={`memo-editor-wrapper ${showEditStatus ? 'edit-ing' : ''} ${isEditorShown ? 'hidden' : ''}`}>
+    <div
+      className={`memo-editor-wrapper ${expanded ? 'expanded' : ''} ${showEditStatus ? 'edit-ing' : ''} ${
+        isEditorShown ? 'hidden' : ''
+      }`}
+      onFocus={handleEditorFocus}
+      onBlur={handleEditorBlur}
+    >
       <p className={`tip-text ${showEditStatus ? '' : 'hidden'}`}>Modifying...</p>
       <Editor
         ref={editorRef}
         {...editorConfig}
         tools={
-          <>
+          <div className="lumo-tools" onMouseDown={keepEditorFocus}>
             <div className="lumo-mode-pills">
               <button
                 type="button"
@@ -799,22 +847,38 @@ const MemoEditor: React.FC<Props> = () => {
                 {t('Voice')}
               </button>
             </div>
-            {/*<img className="action-btn add-tag" src={tag}  />*/}
+            <span className="lumo-emoji-wrapper">
+              <button
+                type="button"
+                className="action-btn emoji-btn"
+                aria-label="emoji"
+                onClick={() => setShowEmojiPicker((v) => !v)}
+              >
+                <Smile />
+              </button>
+              {showEmojiPicker && (
+                <div className="lumo-emoji-popup">
+                  {EMOJIS.map((em) => (
+                    <button
+                      type="button"
+                      key={em}
+                      className="lumo-emoji-item"
+                      onClick={() => handleInsertEmoji(em)}
+                    >
+                      {em}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </span>
             <Tag className="action-btn add-tag" onClick={handleTagTextBtnClick} />
-            {/*<img className="action-btn file-upload" src={imageSvg} onClick={handleUploadFileBtnClick} />*/}
             <ImageSvg className="action-btn file-upload" onClick={handleUploadFileBtnClick} />
-            {/*<img*/}
-            {/*  className="action-btn list-or-task"*/}
-            {/*  src={`${!isListShown ? journalSvg : taskSvg}`}*/}
-            {/*  onClick={handleChangeStatus}*/}
-            {/*/>*/}
             {!isListShown ? (
               <JournalSvg className="action-btn list-or-task" onClick={handleChangeStatus} />
             ) : (
               <TaskSvg className="action-btn list-or-task" onClick={handleChangeStatus} />
             )}
-            {/* <img className={`action-btn ${isListShown ? "" : "hidden"}`} src={taskSvg} onClick={handleChangeStatus} /> */}
-          </>
+          </div>
         }
       />
       <div ref={popperRef} className="date-picker">
