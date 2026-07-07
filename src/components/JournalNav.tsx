@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import appContext from '../stores/appContext';
 import { locationService, memoService } from '../services';
 import { t } from '../translations/helper';
