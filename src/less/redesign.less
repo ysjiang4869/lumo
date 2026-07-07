@@ -242,16 +242,27 @@ div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .common-tools-wrap
 }
 
 div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .common-tools-container .action-btn {
-  width: 34px;
-  height: 34px;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  padding: 7px;
+  margin: 0 1px;
   border-radius: 10px;
   color: var(--lumo-muted-2);
+  fill: currentColor; /* 覆盖 journal.svg 内联的蓝色 fill */
   transition: background 0.15s, color 0.15s;
 
   &:hover {
     background: var(--lumo-accent-soft);
     color: var(--lumo-accent);
   }
+}
+
+/* 确认按钮里的鹅毛笔图标 */
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .confirm-btn .confirm-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
 }
 
 /* 「文字 / 语音」输入模式 pill（UI-only） */
@@ -551,4 +562,202 @@ div[data-type='lumo_view'] #page-wrapper .lumo-insights {
 .theme-dark div[data-type='lumo_view'].mobile-view img.memo-show-editor-button {
   filter: none;
   opacity: 0.95;
+}
+
+/* =========================================================================
+   单列布局：移除左侧栏，内容居中（双 id 提升优先级覆盖 home.less）
+   ========================================================================= */
+div[data-type='lumo_view'] #root #page-wrapper {
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
+  transform: none;
+  margin-top: 0;
+}
+div[data-type='lumo_view'] #root #page-wrapper > .content-wrapper,
+div[data-type='lumo_view'] #root #page-wrapper > .content-wrapper-padding-fix {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 22px 0;
+  padding-left: 22px;
+  transform: none;
+}
+div[data-type='lumo_view'].mobile-view #root #page-wrapper > .content-wrapper {
+  max-width: 100%;
+  padding: 12px 14px 0;
+}
+/* 保险：即便侧栏被渲染也隐藏 */
+div[data-type='lumo_view'] #page-wrapper .memos-sidebar-wrapper {
+  display: none;
+}
+
+/* =========================================================================
+   header 右上角菜单（设置 / 回收站 —— 从旧侧栏迁移而来）
+   ========================================================================= */
+div[data-type='lumo_view'] #page-wrapper .lumo-menu-wrapper {
+  position: relative;
+  flex: none;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-menu-btn {
+  .flex(row, center, center);
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  padding: 7px;
+  border-radius: 10px;
+  background: var(--lumo-card);
+  border: 1px solid var(--lumo-line);
+  color: var(--lumo-muted-2);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--lumo-accent);
+  }
+  .icon-img {
+    width: 18px;
+    height: 18px;
+  }
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-menu-wrapper .menu-btns-popup {
+  left: auto;
+  right: 0;
+  margin-left: 0;
+  margin-top: 0;
+  top: calc(100% + 6px);
+  border-radius: 12px;
+  background: var(--lumo-card);
+  border: 1px solid var(--lumo-line);
+}
+
+/* =========================================================================
+   日记工具条：分段 pill · 搜索 · 记录洞察
+   ========================================================================= */
+div[data-type='lumo_view'] #page-wrapper .lumo-jnav {
+  .flex(row, flex-start, center);
+  width: 100%;
+  flex: none;
+  gap: 8px;
+  margin-top: 2px;
+
+  .lumo-jnav-pills {
+    .flex(row, flex-start, center);
+    gap: 3px;
+    background: var(--lumo-panel);
+    border-radius: 11px;
+    padding: 3px;
+  }
+  .lumo-jnav-pill {
+    padding: 6px 14px;
+    border-radius: 9px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--lumo-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    &.is-active {
+      background: var(--lumo-card);
+      color: var(--lumo-ink);
+      box-shadow: 0 1px 2px rgba(40, 30, 20, 0.06);
+    }
+    &:hover:not(.is-active) {
+      color: var(--lumo-accent);
+    }
+  }
+  .lumo-jnav-spacer {
+    flex: 1;
+  }
+  .lumo-jnav-search {
+    width: 168px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid var(--lumo-line);
+    background: var(--lumo-card);
+    color: var(--lumo-ink);
+    font-size: 12.5px;
+    outline: none;
+
+    &:focus {
+      border-color: var(--lumo-accent);
+    }
+  }
+  .lumo-jnav-icon {
+    .flex(row, center, center);
+    box-sizing: border-box;
+    width: 34px;
+    height: 34px;
+    padding: 8px;
+    border-radius: 10px;
+    background: var(--lumo-card);
+    border: 1px solid var(--lumo-line);
+    color: var(--lumo-muted);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--lumo-accent);
+    }
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+  }
+  .lumo-jnav-insight {
+    .flex(row, center, center);
+    gap: 6px;
+    padding: 6px 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--lumo-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--lumo-accent);
+    }
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
+}
+
+/* 内容上方 · 标签快速过滤行 */
+div[data-type='lumo_view'] #page-wrapper .lumo-tagfilter {
+  .flex(row, flex-start, center);
+  width: 100%;
+  flex: none;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  .hide-scroll-bar();
+
+  .lumo-tagfilter-chip {
+    .flex(row, center, center);
+    flex: none;
+    gap: 5px;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 99px;
+    color: var(--lumo-muted);
+    background: var(--lumo-panel);
+    cursor: pointer;
+
+    .n {
+      font-size: 11px;
+      opacity: 0.7;
+    }
+    &:hover {
+      color: var(--lumo-accent);
+    }
+    &.is-active {
+      color: var(--lumo-accent);
+      background: var(--lumo-accent-tint);
+    }
+  }
 }

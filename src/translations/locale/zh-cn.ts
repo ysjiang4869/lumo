@@ -221,4 +221,10 @@ export default {
   'Year in review': '年度回顾',
   'Your footprint over the past year': '过去一年的记录足迹',
   Back: '返回',
+  All: '全部',
+  Mood: '心情',
+  Images: '图片',
+  Tags: '标签',
+  Search: '搜索',
+  Menu: '菜单',
 };

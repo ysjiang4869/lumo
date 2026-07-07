@@ -170,32 +170,6 @@ export class MemosSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName(t('Save Memo button label'))
-      .setDesc(t("The text shown on the save Memo button in the UI. 'NOTEIT' by default."))
-      .addText((text) =>
-        text
-          .setPlaceholder(DEFAULT_SETTINGS.SaveMemoButtonLabel)
-          .setValue(this.plugin.settings.SaveMemoButtonLabel)
-          .onChange(async (value) => {
-            this.plugin.settings.SaveMemoButtonLabel = value;
-            this.applySettingsUpdate();
-          }),
-      );
-
-    new Setting(containerEl)
-      .setName(t('Save Memo button icon'))
-      .setDesc(t('The icon shown on the save Memo button in the UI.'))
-      .addText((text) =>
-        text
-          .setPlaceholder(DEFAULT_SETTINGS.SaveMemoButtonIcon)
-          .setValue(this.plugin.settings.SaveMemoButtonIcon)
-          .onChange(async (value) => {
-            this.plugin.settings.SaveMemoButtonIcon = value;
-            this.applySettingsUpdate();
-          }),
-      );
-
-    new Setting(containerEl)
       .setName(t('Focus on editor when open Lumo'))
       .setDesc(t('Focus on editor when open Lumo. Focus by default.'))
       .addToggle((toggle) =>

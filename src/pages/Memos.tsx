@@ -2,6 +2,7 @@ import MemoEditor from '../components/MemoEditor';
 import MemosHeader from '../components/MemosHeader';
 import MemoFilter from '../components/MemoFilter';
 import MemoList from '../components/MemoList';
+import JournalNav from '../components/JournalNav';
 import React from 'react';
 import { Platform } from 'obsidian';
 import { DefaultEditorLocation } from '../memos';
@@ -11,6 +12,7 @@ function Memos() {
     return (
       <>
         <MemosHeader />
+        <JournalNav />
         <MemoFilter />
         <MemoList />
         <MemoEditor />
@@ -21,6 +23,7 @@ function Memos() {
       <>
         <MemosHeader />
         <MemoEditor />
+        <JournalNav />
         <MemoFilter />
         <MemoList />
       </>

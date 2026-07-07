@@ -1,12 +1,10 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import appContext from '../stores/appContext';
-import SearchBar from './SearchBar';
-import { globalStateService, locationService, memoService } from '../services';
-import Only from './common/OnlyWhen';
+import { memoService } from '../services';
+import MenuBtnsPopup from './MenuBtnsPopup';
 import utils from '../helpers/utils';
 import '../less/memos-header.less';
-import MenuSvg from '../icons/menu.svg?component';
-import Feather from '../icons/feather.svg?component';
+import More from '../icons/more.svg?component';
 import { moment } from 'obsidian';
 import { UserName } from '../memos';
 import { t } from '../translations/helper';
@@ -24,12 +22,12 @@ const getGreeting = (): string => {
 
 const MemosHeader: React.FC<Props> = () => {
   const {
-    globalState: { isMobileView },
     memoState: { memos, tags },
     userState: { user },
   } = useContext(appContext);
 
   const username = user ? user.username : UserName;
+  const [shouldShowMenu, setShouldShowMenu] = useState(false);
 
   const { createdDays, total } = useMemo(() => {
     const listable = memos.filter((m) => !m.archived && !m.deletedAt);
@@ -50,37 +48,25 @@ const MemosHeader: React.FC<Props> = () => {
     });
   };
 
-  const handleShowSidebarBtnClick = () => {
-    globalStateService.setShowSiderbarInMobileView(true);
-  };
-
-  const handleInsightClick = () => {
-    locationService.pushHistory('/insights');
-  };
-
   return (
     <div className="section-header-container memos-header-container lumo-greeting">
       <div className="lumo-greeting-row">
-        <Only when={isMobileView}>
-          <button className="action-btn" onClick={handleShowSidebarBtnClick}>
-            <MenuSvg className="icon-img" />
-          </button>
-        </Only>
         <span className="lumo-greeting-hello" onClick={handleGreetingClick}>
           {getGreeting()}，{username}
         </span>
         <span className="lumo-greeting-date">{dateStr}</span>
         <span className="lumo-greeting-spacer" />
-        <button className="lumo-insight-link" onClick={handleInsightClick}>
-          <Feather />
-          {t('Insights')}
-        </button>
+        <div className="lumo-menu-wrapper">
+          <button className="lumo-menu-btn" aria-label={t('Menu')} onClick={() => setShouldShowMenu(true)}>
+            <More className="icon-img" />
+          </button>
+          <MenuBtnsPopup shownStatus={shouldShowMenu} setShownStatus={setShouldShowMenu} />
+        </div>
       </div>
       <p className="lumo-greeting-stats">
         {t('Recorded for')} <b className="accent">{createdDays}</b> {t('days in a row')} · {t('Captured')}{' '}
         <b>{total}</b> {t('notes total')} · <b>{tags.length}</b> {t('tags collected')}
       </p>
-      <SearchBar />
     </div>
   );
 };

@@ -243,4 +243,10 @@ export default {
   'Year in review': 'Year in review',
   'Your footprint over the past year': 'Your footprint over the past year',
   Back: 'Back',
+  All: 'All',
+  Mood: 'Mood',
+  Images: 'Images',
+  Tags: 'Tags',
+  Search: 'Search',
+  Menu: 'Menu',
 };
