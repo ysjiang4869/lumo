@@ -439,7 +439,17 @@ const Memo: React.FC<Props> = (props: Props) => {
 
   const showEditStatus = Boolean(globalState.commentMemoId);
 
-  const timeStr = utils.getTimeString(propsMemo.createdAt);
+  const { cardDateStr, cardPeriod } = useMemo(() => {
+    const d = new Date(utils.getTimeStampByDate(propsMemo.createdAt));
+    const y = d.getFullYear();
+    const mo = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const WEEKDAYS = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    const wk = WEEKDAYS[d.getDay()];
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mm = String(d.getMinutes()).padStart(2, '0');
+    return { cardDateStr: `${y}.${mo}.${day}`, cardPeriod: `${wk} · ${hh}:${mm}` };
+  }, [propsMemo.createdAt]);
 
   const memoTags = useMemo(() => {
     const raw = propsMemo.content;
@@ -478,18 +488,10 @@ const Memo: React.FC<Props> = (props: Props) => {
     >
       <div className="memo-top-wrapper">
         <div className="memo-top-left-wrapper">
-          <span className="time-text" onClick={handleShowMemoStoryDialog}>
-            {timeStr}
-          </span>
-          {memoTags.length > 0 && (
-            <div className="memo-card-tags">
-              {memoTags.map((tag) => (
-                <span key={tag} className="memo-card-tag">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          )}
+          <div className="memo-card-time" onClick={handleShowMemoStoryDialog}>
+            <span className="memo-card-date">{cardDateStr}</span>
+            <span className="memo-card-period">{cardPeriod}</span>
+          </div>
           <div
             className={`memo-type-img ${
               (propsMemo.memoType === 'TASK-TODO' || propsMemo.memoType === 'TASK-DONE') && ShowTaskLabel
@@ -546,6 +548,15 @@ const Memo: React.FC<Props> = (props: Props) => {
           </div>
         </div>
       </div>
+      {memoTags.length > 0 && (
+        <div className="memo-card-meta">
+          {memoTags.map((tag) => (
+            <span key={tag} className="memo-card-tag">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
       <div
         className="memo-content-text"
         onClick={(e) => handleMemoContentClick(e, propsMemo)}

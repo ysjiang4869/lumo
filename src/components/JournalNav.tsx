@@ -20,8 +20,10 @@ const JournalNav: React.FC<Props> = () => {
     locationState: {
       query: { tag: tagQuery, type: memoType },
     },
-    memoState: { tagsNum },
+    memoState: { tagsNum, memos },
   } = useContext(appContext);
+
+  const totalCount = memos.length;
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('all');
@@ -92,20 +94,25 @@ const JournalNav: React.FC<Props> = () => {
         </button>
       </div>
 
-      {topTags.length > 0 && (
-        <div className="lumo-tagfilter">
-          {topTags.map(([name, count]) => (
-            <span
-              key={name}
-              className={`lumo-tagfilter-chip ${tagQuery === name ? 'is-active' : ''}`}
-              onClick={() => handleTagClick(name)}
-            >
-              #{name}
-              <span className="n">{count}</span>
-            </span>
-          ))}
-        </div>
-      )}
+      <div className="lumo-tagfilter">
+        <span
+          className={`lumo-tagfilter-chip ${!tagQuery ? 'is-active' : ''}`}
+          onClick={() => locationService.setTagQuery('')}
+        >
+          # {t('All')}
+          <span className="n">{totalCount}</span>
+        </span>
+        {topTags.map(([name, count]) => (
+          <span
+            key={name}
+            className={`lumo-tagfilter-chip ${tagQuery === name ? 'is-active' : ''}`}
+            onClick={() => handleTagClick(name)}
+          >
+            # {name}
+            <span className="n">{count}</span>
+          </span>
+        ))}
+      </div>
     </>
   );
 };
