@@ -351,14 +351,39 @@ div[data-type='lumo_view'] #page-wrapper .filter-query-container .filter-item-co
   }
 
   > .memo-top-wrapper {
+    height: auto !important;
     margin-bottom: 10px;
+    align-items: flex-start !important;
 
-    > .memo-top-left-wrapper > .time-text {
-      font-family: var(--lumo-display);
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-      color: var(--lumo-ink);
+    > .memo-top-left-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+
+      > .time-text {
+        font-family: var(--lumo-display);
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        color: var(--lumo-ink);
+        line-height: 1.3;
+      }
+
+      .memo-card-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+
+        .memo-card-tag {
+          font-size: 11.5px;
+          font-weight: 600;
+          color: var(--lumo-accent);
+          background: var(--lumo-accent-tint);
+          border-radius: 99px;
+          padding: 2px 9px;
+          line-height: 1.6;
+        }
+      }
     }
   }
 
@@ -728,6 +753,7 @@ div[data-type='lumo_view'] #page-wrapper .lumo-jnav {
 
 /* 内容上方 · 标签快速过滤行 */
 div[data-type='lumo_view'] #page-wrapper .lumo-tagfilter {
+  margin-top: -4px;
   .flex(row, flex-start, center);
   width: 100%;
   flex: none;

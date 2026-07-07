@@ -439,6 +439,14 @@ const Memo: React.FC<Props> = (props: Props) => {
 
   const showEditStatus = Boolean(globalState.commentMemoId);
 
+  const timeStr = utils.getTimeString(propsMemo.createdAt);
+
+  const memoTags = useMemo(() => {
+    const raw = propsMemo.content;
+    const matches = raw.matchAll(/(?:^|\s)#([\p{Letter}\p{Emoji_Presentation}\p{Number}/_-]+)/gu);
+    return Array.from(new Set(Array.from(matches).map((m) => m[1])));
+  }, [propsMemo.content]);
+
   const editorConfig = useMemo(
     () => ({
       className: 'memo-editor',
@@ -471,8 +479,17 @@ const Memo: React.FC<Props> = (props: Props) => {
       <div className="memo-top-wrapper">
         <div className="memo-top-left-wrapper">
           <span className="time-text" onClick={handleShowMemoStoryDialog}>
-            {propsMemo.createdAt}
+            {timeStr}
           </span>
+          {memoTags.length > 0 && (
+            <div className="memo-card-tags">
+              {memoTags.map((tag) => (
+                <span key={tag} className="memo-card-tag">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
           <div
             className={`memo-type-img ${
               (propsMemo.memoType === 'TASK-TODO' || propsMemo.memoType === 'TASK-DONE') && ShowTaskLabel
