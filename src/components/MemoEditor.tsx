@@ -69,14 +69,17 @@ const getCursorPostion = (input: HTMLTextAreaElement) => {
   };
 };
 
-interface Props {}
+interface Props {
+  isBottomSheet?: boolean;
+  onAfterSave?: () => void;
+}
 
 let isList: boolean;
 let isEditor = false as boolean;
 let isEditorGo = false as boolean;
 let positionX: number;
 
-const MemoEditor: React.FC<Props> = () => {
+const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
   const { globalState } = useContext(appContext);
   const { app } = dailyNotesService.getState();
 
@@ -92,6 +95,8 @@ const MemoEditor: React.FC<Props> = () => {
 
   const editorRef = useRef<EditorRefActions>(null);
   const prevGlobalStateRef = useRef(globalState);
+  const onAfterSaveRef = useRef(onAfterSave);
+  onAfterSaveRef.current = onAfterSave;
 
   // const [selected, setSelected] = useState<Date>();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
@@ -121,7 +126,7 @@ const MemoEditor: React.FC<Props> = () => {
   }, []);
 
   useEffect(() => {
-    if (!editorRef.current) {
+    if (!editorRef.current || isBottomSheet) {
       return;
     }
 
@@ -150,7 +155,7 @@ const MemoEditor: React.FC<Props> = () => {
   }, []);
 
   useEffect(() => {
-    if (!editorRef.current) {
+    if (!editorRef.current || isBottomSheet) {
       return;
     }
 
@@ -559,9 +564,11 @@ const MemoEditor: React.FC<Props> = () => {
       }
     } catch (error: any) {
       new Notice(error.message);
+      return;
     }
 
     setEditorContentCache('');
+    onAfterSaveRef.current?.();
   }, []);
 
   const handleCancelBtnClick = useCallback(() => {
@@ -569,6 +576,7 @@ const MemoEditor: React.FC<Props> = () => {
     editorRef.current?.setContent('');
     setPickerEmojis([]);
     setEditorContentCache('');
+    onAfterSaveRef.current?.();
   }, []);
 
   const handleContentChange = useCallback((content: string) => {
@@ -800,7 +808,7 @@ const MemoEditor: React.FC<Props> = () => {
     [showEditStatus],
   );
 
-  const expanded = isFocused || hasContent || showEditStatus;
+  const expanded = isBottomSheet || isFocused || hasContent || showEditStatus;
 
   const handleEditorFocus = () => setIsFocused(true);
 
@@ -837,7 +845,7 @@ const MemoEditor: React.FC<Props> = () => {
   return (
     <div
       className={`memo-editor-wrapper ${expanded ? 'expanded' : ''} ${showEditStatus ? 'edit-ing' : ''} ${
-        isEditorShown ? 'hidden' : ''
+        isEditorShown && !isBottomSheet ? 'hidden' : ''
       }`}
       onFocus={handleEditorFocus}
       onBlur={handleEditorBlur}

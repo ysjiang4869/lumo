@@ -249,4 +249,5 @@ export default {
   Tags: 'Tags',
   Search: 'Search',
   Menu: 'Menu',
+  'Write it down': 'Write it down',
 };

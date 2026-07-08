@@ -41,9 +41,6 @@ div[data-type='lumo_view'] {
 }
 
 /* ---- 背景 / 容器 ---------------------------------------------------------- */
-div[data-type='lumo_view'] #root {
-  background-color: var(--lumo-paper);
-}
 div[data-type='lumo_view'] .view-content {
   background-color: var(--lumo-paper);
   font-family: var(--lumo-font);
@@ -592,34 +589,37 @@ div[data-type='lumo_view'] #page-wrapper .lumo-insights {
 }
 
 /* =========================================================================
-   移动端：悬浮「记一笔」入口沿用暖色
+   移动端：隐藏旧版悬浮按钮（已由 lumo-fab 替代）
    ========================================================================= */
-.theme-light div[data-type='lumo_view'].mobile-view img.memo-show-editor-button,
-.theme-dark div[data-type='lumo_view'].mobile-view img.memo-show-editor-button {
-  filter: none;
-  opacity: 0.95;
+div[data-type='lumo_view'].mobile-view img.memo-show-editor-button,
+.is-mobile div[data-type='lumo_view'] img.memo-show-editor-button {
+  display: none !important;
 }
 
 /* =========================================================================
-   单列布局：移除左侧栏，内容居中（双 id 提升优先级覆盖 home.less）
+   单列布局：移除左侧栏，内容居中
+   注意：DOM 里没有 #root（React 直接挂在 .view-content 上），选择器必须走
+   .view-content。transform 必须重置为 none 且 !important：home.less 给
+   #page-wrapper / .content-wrapper 设了 translateX（即使是 0 也会创建
+   containing block，劫持 FAB / 底部弹层的 position: fixed）。
    ========================================================================= */
-div[data-type='lumo_view'] #root #page-wrapper {
+div[data-type='lumo_view'] .view-content section#page-wrapper {
   width: 100%;
   max-width: 100%;
   justify-content: center;
-  transform: none;
+  transform: none !important;
   margin-top: 0;
 }
-div[data-type='lumo_view'] #root #page-wrapper > .content-wrapper,
-div[data-type='lumo_view'] #root #page-wrapper > .content-wrapper-padding-fix {
+div[data-type='lumo_view'] .view-content section#page-wrapper > .content-wrapper,
+div[data-type='lumo_view'] .view-content section#page-wrapper > .content-wrapper-padding-fix {
   width: 100%;
   max-width: 720px;
   margin: 0 auto;
   padding: 24px 22px 0;
   padding-left: 22px;
-  transform: none;
+  transform: none !important;
 }
-div[data-type='lumo_view'].mobile-view #root #page-wrapper > .content-wrapper {
+div[data-type='lumo_view'].mobile-view .view-content section#page-wrapper > .content-wrapper {
   max-width: 100%;
   padding: 12px 14px 0;
 }
@@ -892,4 +892,216 @@ div[data-type='lumo_view'] #page-wrapper .lumo-emoji-popup {
       background: var(--lumo-accent-soft);
     }
   }
+}
+
+/* =========================================================================
+   移动端适配 · Mobile-specific styles
+   ========================================================================= */
+
+/* ---- 移动端容器 ---------------------------------------------------------- */
+.is-mobile div[data-type='lumo_view'] .view-content section#page-wrapper > .content-wrapper {
+  max-width: 100%;
+  padding: 6px 16px 0;
+  gap: 10px;
+}
+
+/* ---- 移动端问候 header --------------------------------------------------- */
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-greeting {
+  padding: 4px 0 0;
+  margin-top: 2px;
+  gap: 7px;
+
+  .lumo-greeting-hello {
+    font-size: 21px;
+  }
+  .lumo-greeting-date {
+    font-size: 12px;
+  }
+  .lumo-greeting-stats {
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+}
+
+/* ---- 移动端日记工具条 ----------------------------------------------------- */
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-jnav {
+  gap: 6px;
+  margin-top: 0;
+
+  .lumo-jnav-pills {
+    padding: 2px;
+  }
+  .lumo-jnav-pill {
+    padding: 5px 11px;
+    font-size: 12px;
+  }
+  .lumo-jnav-search {
+    width: 100px;
+    height: 30px;
+    font-size: 12px;
+  }
+  .lumo-jnav-icon {
+    width: 30px;
+    height: 30px;
+    padding: 7px;
+  }
+  .lumo-jnav-insight {
+    font-size: 12px;
+    padding: 4px;
+    gap: 4px;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+/* ---- 移动端标签过滤行 ----------------------------------------------------- */
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-tagfilter {
+  gap: 6px;
+
+  .lumo-tagfilter-chip {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+}
+
+/* ---- 移动端 memo 卡片 ---------------------------------------------------- */
+.is-mobile div[data-type='lumo_view'] #page-wrapper .memo-wrapper {
+  border-radius: 16px;
+  padding: 16px 17px;
+
+  > .memo-top-wrapper > .memo-top-left-wrapper .memo-card-time {
+    gap: 6px;
+
+    .memo-card-date {
+      font-size: 16px;
+    }
+    .memo-card-period {
+      font-size: 12px;
+    }
+  }
+
+  .memo-card-meta .memo-card-mood {
+    font-size: 16px;
+  }
+
+  .memo-content-text {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+}
+
+.is-mobile div[data-type='lumo_view'] #page-wrapper .memolist-wrapper {
+  gap: 10px;
+  padding-bottom: 100px;
+}
+
+/* ---- 移动端 memo-editor 在底部弹层内的样式覆盖 ----------------------------- */
+.is-mobile div[data-type='lumo_view'] .lumo-sheet-panel .memo-editor-wrapper {
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+div[data-type='lumo_view'] .lumo-sheet-panel .memo-editor-wrapper .confirm-btn {
+  background-color: var(--lumo-accent) !important;
+  color: #fff !important;
+}
+
+/* =========================================================================
+   悬浮记录按钮 (FAB) · "记一笔"
+   ========================================================================= */
+div[data-type='lumo_view'] button.lumo-fab {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 70px;
+  .flex(row, center, center);
+  gap: 8px;
+  padding: 13px 24px;
+  border: none;
+  border-radius: 99px;
+  background-color: var(--lumo-accent);
+  color: #fff;
+  font-family: var(--lumo-font);
+  font-size: 14.5px;
+  font-weight: 700;
+  box-shadow: 0 18px 34px -12px rgba(47, 158, 120, 0.95);
+  cursor: pointer;
+  z-index: 20;
+  -webkit-tap-highlight-color: transparent;
+
+  svg {
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+  }
+
+  &:active {
+    transform: translateX(-50%) scale(0.96);
+  }
+}
+
+/* =========================================================================
+   底部弹层 (Bottom Sheet) · 输入展开态
+   ========================================================================= */
+div[data-type='lumo_view'] .lumo-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+
+  &.is-open {
+    pointer-events: auto;
+
+    .lumo-sheet-backdrop {
+      opacity: 1;
+    }
+    .lumo-sheet-panel {
+      transform: translateY(0);
+    }
+  }
+}
+
+div[data-type='lumo_view'] .lumo-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 28, 22, 0.42);
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.theme-dark div[data-type='lumo_view'] .lumo-sheet-backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+div[data-type='lumo_view'] .lumo-sheet-panel {
+  position: relative;
+  background: var(--lumo-paper);
+  border-radius: 26px 26px 0 0;
+  padding: 9px 18px calc(env(safe-area-inset-bottom, 8px) + 12px);
+  box-shadow: 0 -14px 44px -18px rgba(0, 0, 0, 0.45);
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  max-height: 75vh;
+  overflow-y: auto;
+  .hide-scroll-bar();
+}
+
+div[data-type='lumo_view'] .lumo-sheet-handle {
+  width: 38px;
+  height: 4px;
+  border-radius: 99px;
+  background: var(--lumo-faint);
+  margin: 0 auto 14px;
+  opacity: 0.45;
 }

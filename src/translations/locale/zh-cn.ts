@@ -227,4 +227,5 @@ export default {
   Tags: '标签',
   Search: '搜索',
   Menu: '菜单',
+  'Write it down': '记一笔',
 };
