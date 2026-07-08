@@ -262,38 +262,6 @@ div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .confirm-btn .conf
   margin-right: 2px;
 }
 
-/* 「文字 / 语音」输入模式 pill（UI-only） */
-div[data-type='lumo_view'] #page-wrapper .lumo-mode-pills {
-  .flex(row, flex-start, center);
-  gap: 6px;
-  margin-right: auto;
-
-  .lumo-mode-pill {
-    .flex(row, center, center);
-    gap: 6px;
-    padding: 7px 12px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--lumo-muted);
-    cursor: pointer;
-    border: none;
-    background: transparent;
-
-    svg {
-      width: 16px;
-      height: 16px;
-    }
-    &.is-active {
-      background: var(--lumo-accent-soft);
-      color: var(--lumo-accent);
-    }
-    &:hover:not(.is-active) {
-      color: var(--lumo-accent);
-    }
-  }
-}
-
 /* 确认按钮 → 「记下这一刻」 */
 div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .confirm-btn,
 div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .btn.confirm-btn {
@@ -1007,24 +975,43 @@ div[data-type='lumo_view'] #page-wrapper .lumo-emoji-popup {
   background: transparent !important;
 }
 div[data-type='lumo_view'] .lumo-sheet-panel .memo-editor-wrapper .confirm-btn {
-  background-color: var(--lumo-accent) !important;
+  background-color: var(--lumo-accent, #2f9e78) !important;
   color: #fff !important;
+}
+/* 移动端弹层内：确认按钮只留鹅毛笔图标（文字放不下工具行） */
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-sheet-panel .confirm-btn {
+  padding: 11px;
+  border-radius: 50%;
+
+  .confirm-label {
+    display: none;
+  }
+  .confirm-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 0;
+  }
 }
 
 /* =========================================================================
    悬浮记录按钮 (FAB) · "记一笔"
    ========================================================================= */
-div[data-type='lumo_view'] button.lumo-fab {
+/* 带 #page-wrapper 提权：global.less 的 button 重置（.theme-* … button:not(.rdp)）
+   会把背景清成 transparent，真机上表现为白色不可见 */
+div[data-type='lumo_view'] #page-wrapper button.lumo-fab {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 70px;
+  /* 需悬浮在 Obsidian 移动端底部导航栏之上（导航栏 ≈ 56px + 安全区） */
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 84px);
   .flex(row, center, center);
   gap: 8px;
   padding: 13px 24px;
   border: none;
   border-radius: 99px;
-  background-color: var(--lumo-accent);
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--lumo-accent, #2f9e78);
   color: #fff;
   font-family: var(--lumo-font);
   font-size: 14.5px;

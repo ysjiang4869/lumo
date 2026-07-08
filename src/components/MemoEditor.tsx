@@ -10,8 +10,6 @@ import Tag from '../icons/tag.svg?component';
 import ImageSvg from '../icons/image.svg?component';
 import JournalSvg from '../icons/journal.svg?component';
 import TaskSvg from '../icons/checkbox-active.svg?component';
-import PenLine from '../icons/pen-line.svg?component';
-import Mic from '../icons/mic.svg?component';
 import Smile from '../icons/smile.svg?component';
 
 const EMOJIS = [
@@ -85,8 +83,6 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
 
   const [isListShown, toggleList] = useToggle(false);
   const [isEditorShown, toggleEditor] = useState(false);
-  // 输入模式：文字 / 语音（语音暂为 UI 占位）
-  const [inputMode, setInputMode] = useState<'text' | 'voice'>('text');
   // 焦点展开：未获焦点且无内容时保持紧凑，获焦点后展开
   const [isFocused, setIsFocused] = useState(false);
   const [hasContent, setHasContent] = useState(false);
@@ -856,24 +852,6 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
         {...editorConfig}
         tools={
           <div className="lumo-tools" onMouseDown={keepEditorFocus}>
-            <div className="lumo-mode-pills">
-              <button
-                type="button"
-                className={`lumo-mode-pill ${inputMode === 'text' ? 'is-active' : ''}`}
-                onClick={() => setInputMode('text')}
-              >
-                <PenLine />
-                {t('Text')}
-              </button>
-              <button
-                type="button"
-                className={`lumo-mode-pill ${inputMode === 'voice' ? 'is-active' : ''}`}
-                onClick={() => setInputMode('voice')}
-              >
-                <Mic />
-                {t('Voice')}
-              </button>
-            </div>
             <span className="lumo-emoji-wrapper">
               <button
                 type="button"

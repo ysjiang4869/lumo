@@ -386,7 +386,7 @@ const Editor = forwardRef((props: EditorProps, ref: React.ForwardedRef<EditorRef
               onClick={handleCommonConfirmBtnClick}
             >
               <Feather className="confirm-icon" />
-              {t('Record this moment')}
+              <span className="confirm-label">{t('Record this moment')}</span>
             </button>
           </Only>
         </div>
