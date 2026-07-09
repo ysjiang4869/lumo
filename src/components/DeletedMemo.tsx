@@ -1,7 +1,7 @@
 import utils from '../helpers/utils';
 import useToggle from '../hooks/useToggle';
 import { memoService } from '../services';
-import { formatMemoContent } from './Memo';
+import MemoContent from './MemoContent';
 import '../less/memo.less';
 import React from 'react';
 import { Notice } from 'obsidian';
@@ -81,7 +81,12 @@ const DeletedMemo: React.FC<Props> = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="memo-content-text" dangerouslySetInnerHTML={{ __html: formatMemoContent(memo.content) }}></div>
+      <MemoContent
+        className="memo-content-text"
+        content={memo.content}
+        memoId={memo.id}
+        sourcePath={memo.path ?? ''}
+      />
       <MemoImage memo={memo.content} />
       {/* <Only when={externalImageUrls.length > 0}>
         <div className="images-wrapper">

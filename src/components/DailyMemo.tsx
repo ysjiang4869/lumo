@@ -1,6 +1,6 @@
 import { IMAGE_URL_REG, MARKDOWN_URL_REG, MARKDOWN_WEB_URL_REG, WIKI_IMAGE_URL_REG } from '../helpers/consts';
 import utils from '../helpers/utils';
-import { formatMemoContent } from './Memo';
+import MemoContent from './MemoContent';
 import Only from './common/OnlyWhen';
 import '../less/daily-memo.less';
 import React from 'react';
@@ -145,7 +145,12 @@ const DailyMemo: React.FC<Props> = (props: Props) => {
         <span className="normal-text">{memo.timeStr}</span>
       </div>
       <div className="memo-content-container">
-        <div className="memo-content-text" dangerouslySetInnerHTML={{ __html: formatMemoContent(memo.content) }}></div>
+        <MemoContent
+          className="memo-content-text"
+          content={memo.content}
+          memoId={memo.id}
+          sourcePath={memo.path ?? ''}
+        />
         <Only when={externalImageUrls.length > 0}>
           <div className="images-container">
             {externalImageUrls.map((imgUrl, idx) => (

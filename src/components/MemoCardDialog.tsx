@@ -4,6 +4,7 @@ import utils from '../helpers/utils';
 import { globalStateService, memoService } from '../services';
 import { parseHtmlToRawText } from '../helpers/marked';
 import { formatMemoContent } from './Memo';
+import MemoContent from './MemoContent';
 import { showDialog } from './Dialog';
 import '../less/memo-card-dialog.less';
 import { Notice } from 'obsidian';
@@ -116,11 +117,13 @@ const MemoCardDialog: React.FC<Props> = (props: Props) => {
           </div>
         </div>
         <div className="memo-container">
-          <div
+          <MemoContent
             className="memo-content-text"
+            content={memo.content}
+            memoId={memo.id}
+            sourcePath={memo.path ?? ''}
             onClick={handleMemoContentClick}
-            dangerouslySetInnerHTML={{ __html: formatMemoContent(memo.content) }}
-          ></div>
+          />
           <MemoImage memo={memo.content} />
           {/* <Only when={externalImageUrls.length > 0}>
             <div className="images-wrapper">

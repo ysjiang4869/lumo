@@ -1,16 +1,5 @@
 import React, { memo, useCallback, useContext, useEffect, useMemo, useRef } from 'react';
-import {
-  FIRST_TAG_REG,
-  IMAGE_URL_REG,
-  LINK_REG,
-  MARKDOWN_URL_REG,
-  MD_LINK_REG,
-  MEMO_LINK_REG,
-  TAG_REG,
-  WIKI_IMAGE_URL_REG,
-} from '../helpers/consts';
 import useState from 'react-usestateref';
-import { encodeHtml, parseMarkedToHtml, parseRawTextToHtml } from '../helpers/marked';
 import utils, { getDailyNoteFormat } from '../helpers/utils';
 import useToggle from '../hooks/useToggle';
 import { globalStateService, memoService, resourceService } from '../services';
@@ -35,6 +24,7 @@ import {
 import { t } from '../translations/helper';
 import Editor, { EditorRefActions } from './Editor/Editor';
 import MemoImage from './MemoImage';
+import MemoContent from './MemoContent';
 import appContext from '../stores/appContext';
 
 // interface LinkedMemo extends FormattedMemo {
@@ -573,12 +563,14 @@ const Memo: React.FC<Props> = (props: Props) => {
           ))}
         </div>
       )}
-      <div
+      <MemoContent
         className="memo-content-text"
+        content={propsMemo.content}
+        memoId={propsMemo.id}
+        sourcePath={propsMemo.path ?? ''}
         onClick={(e) => handleMemoContentClick(e, propsMemo)}
         onDoubleClick={handleMemoDoubleClick}
-        dangerouslySetInnerHTML={{ __html: formatMemoContent(propsMemo.content, propsMemo.id) }}
-      ></div>
+      />
       <MemoImage {...imageProps} />
       {/*<Only when={externalImageUrls.length > 0}>*/}
       {/*  <div className="images-wrapper">*/}
@@ -611,20 +603,17 @@ const Memo: React.FC<Props> = (props: Props) => {
                   {/*<div className="memo-comment-text" onDoubleClick={() => handleEditCommentClick(m)}>*/}
                   {/*  {m.content.replace(/comment:(.*)]]/g, '').replace(/^\d{14} /g, '')}*/}
                   {/*</div>*/}
-                  <div
+                  <MemoContent
                     className="memo-comment-text"
+                    content={m.content
+                      .replace(/comment:(.*)]]/g, '')
+                      .replace(/^\d{14} /g, '')
+                      .trim()}
+                    memoId={m.id}
+                    sourcePath={m.path ?? ''}
                     onClick={(e) => handleMemoContentClick(e, m)}
                     onDoubleClick={() => handleEditCommentClick(m)}
-                    dangerouslySetInnerHTML={{
-                      __html: formatMemoContent(
-                        m.content
-                          .replace(/comment:(.*)]]/g, '')
-                          .replace(/^\d{14} /g, '')
-                          .trim(),
-                        m.id,
-                      ),
-                    }}
-                  ></div>
+                  />
                 </div>
               ))}
             </div>
@@ -647,68 +636,7 @@ const Memo: React.FC<Props> = (props: Props) => {
   );
 };
 
-export function formatMemoContent(content: string, memoid?: string) {
-  // 过滤 picker 表情元数据（不在内容文本中渲染）
-  content = content.replace(/\s*\[mood::[^\]]*\]/g, '');
-  content = encodeHtml(content);
-  content = parseRawTextToHtml(content)
-    .split('<br>')
-    .map((t) => {
-      return `<p>${t !== '' ? t : '<br>'}</p>`;
-    })
-    .join('');
-
-  const { shouldUseMarkdownParser, shouldHideImageUrl } = globalStateService.getState();
-
-  if (shouldUseMarkdownParser) {
-    content = parseMarkedToHtml(content, memoid);
-  }
-
-  if (shouldHideImageUrl) {
-    content = content.replace(WIKI_IMAGE_URL_REG, '').replace(MARKDOWN_URL_REG, '').replace(IMAGE_URL_REG, '');
-  }
-
-  // console.log(content);
-
-  // 中英文之间加空格
-  // if (shouldSplitMemoWord) {
-  //   content = content
-  //     .replace(/([\u4e00-\u9fa5])([A-Za-z0-9?.,;[\]]+)/g, "$1 $2")
-  //     .replace(/([A-Za-z0-9?.,;[\]]+)([\u4e00-\u9fa5])/g, "$1 $2");
-  // }
-
-  content = content
-    .replace(TAG_REG, "<span class='tag-span'>#$1</span>")
-    .replace(FIRST_TAG_REG, "<p><span class='tag-span'>#$2</span>")
-    .replace(LINK_REG, "$1<a class='link' target='_blank' rel='noreferrer' href='$2'>$2</a>")
-    .replace(MD_LINK_REG, "<a class='link' target='_blank' rel='noreferrer' href='$2'>$1</a>")
-    .replace(MEMO_LINK_REG, "<span class='memo-link-text' data-value='$2'>$1</span>")
-    .replace(/\^\S{6}/g, '');
-
-  // const contentMark = content.split('');
-
-  // if(/(.*)<a(.*)/g.test(content)){
-
-  // }
-  //   for(let i=0; i<content.length;i++){
-  //     let mark = false;
-  //     let aMark = false;
-  //     if(contentMark[i])
-  //   }
-
-  const tempDivContainer = document.createElement('div');
-  tempDivContainer.innerHTML = content;
-  for (let i = 0; i < tempDivContainer.children.length; i++) {
-    const c = tempDivContainer.children[i];
-
-    if (c.tagName === 'P' && c.textContent === '' && c.firstElementChild?.tagName !== 'BR') {
-      c.remove();
-      i--;
-      continue;
-    }
-  }
-
-  return tempDivContainer.innerHTML;
-}
+// formatMemoContent 已迁移至 helpers，此处重新导出以兼容既有引用
+export { formatMemoContent } from '../helpers/formatMemoContent';
 
 export default memo(Memo);

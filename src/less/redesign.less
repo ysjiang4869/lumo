@@ -1092,3 +1092,190 @@ div[data-type='lumo_view'] .lumo-sheet-handle {
   margin: 0 auto 14px;
   opacity: 0.45;
 }
+
+/* =========================================================================
+   memo 正文 Markdown 元素（Obsidian MarkdownRenderer 输出）
+   仅新增元素样式，不改动 .tag-span / .memo-link-text 既有样式
+   ========================================================================= */
+div[data-type='lumo_view'] .memo-content-text.memo-md,
+div[data-type='lumo_view'] .memo-comment-text.memo-md {
+  /* Markdown 由块级结构排版，关掉 pre-wrap，否则块级元素间的换行会被显示成空行 */
+  white-space: normal;
+
+  /* 覆盖 memo-content.less 对后代元素设置的 pre-wrap（会把块级间换行显示成空行） */
+  p,
+  ul,
+  ol,
+  li,
+  blockquote,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  table,
+  thead,
+  tbody,
+  tr,
+  th,
+  td {
+    white-space: normal;
+  }
+  /* 代码需要保留空白 */
+  pre,
+  pre code {
+    white-space: pre;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0.5em 0 0.3em;
+    line-height: 1.35;
+    font-weight: 700;
+    color: var(--lumo-ink);
+  }
+  h1 {
+    font-size: 1.35em;
+  }
+  h2 {
+    font-size: 1.25em;
+  }
+  h3 {
+    font-size: 1.15em;
+  }
+  h4,
+  h5,
+  h6 {
+    font-size: 1em;
+  }
+
+  p {
+    margin: 0 0 0.4em;
+  }
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  /* 列表：有序 / 无序 / 任务 */
+  ul,
+  ol {
+    margin: 0.2em 0 0.4em;
+    padding-left: 1.6em;
+  }
+  li {
+    margin: 0.12em 0;
+  }
+  /* 列表项内的段落回归块级，避免继承正文的 inline-block 规则 */
+  li > p {
+    display: block;
+    width: auto;
+    margin: 0;
+  }
+  ul.contains-task-list {
+    padding-left: 0.4em;
+    list-style: none;
+  }
+  li.task-list-item {
+    list-style: none;
+  }
+  li.task-list-item > input.task-list-item-checkbox {
+    margin: 0 0.5em 0 0;
+    vertical-align: middle;
+  }
+
+  blockquote {
+    margin: 0.4em 0;
+    padding: 0.15em 0.9em;
+    border-left: 3px solid var(--lumo-accent);
+    color: var(--lumo-muted);
+  }
+  blockquote > p {
+    display: block;
+    width: auto;
+  }
+
+  code {
+    font-family: var(--font-monospace, monospace);
+    font-size: 0.9em;
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    background: var(--lumo-accent-tint);
+  }
+  pre {
+    margin: 0.4em 0;
+    padding: 0.7em 0.9em;
+    border-radius: 8px;
+    overflow-x: auto;
+    background: var(--lumo-accent-tint);
+  }
+  pre > code {
+    padding: 0;
+    background: none;
+  }
+
+  hr {
+    margin: 0.7em 0;
+    border: none;
+    border-top: 1px solid var(--background-modifier-border);
+  }
+
+  table {
+    display: block;
+    max-width: 100%;
+    border-collapse: collapse;
+    margin: 0.4em 0;
+    overflow-x: auto;
+    font-size: 0.95em;
+  }
+  th,
+  td {
+    border: 1px solid var(--background-modifier-border);
+    padding: 0.3em 0.6em;
+  }
+  th {
+    font-weight: 700;
+  }
+
+  a.internal-link,
+  a.external-link {
+    color: var(--lumo-accent);
+    text-decoration: none;
+  }
+  a.internal-link:hover,
+  a.external-link:hover {
+    text-decoration: underline;
+  }
+}
+
+/* global.less 用 `li:not(.rta__item)::before{content:'•'}` 给所有列表注入了圆点，
+   会让有序列表也显示圆点、任务列表多一个点。这里以同等/更高特异度恢复原生列表标记。 */
+.theme-light div[data-type='lumo_view'] .memo-content-text.memo-md li:not(.rta__item)::before,
+.theme-dark div[data-type='lumo_view'] .memo-content-text.memo-md li:not(.rta__item)::before,
+.theme-light div[data-type='lumo_view'] .memo-comment-text.memo-md li:not(.rta__item)::before,
+.theme-dark div[data-type='lumo_view'] .memo-comment-text.memo-md li:not(.rta__item)::before {
+  content: none;
+  margin-right: 0;
+}
+.theme-light div[data-type='lumo_view'] .memo-content-text.memo-md ul > li:not(.rta__item),
+.theme-dark div[data-type='lumo_view'] .memo-content-text.memo-md ul > li:not(.rta__item),
+.theme-light div[data-type='lumo_view'] .memo-comment-text.memo-md ul > li:not(.rta__item),
+.theme-dark div[data-type='lumo_view'] .memo-comment-text.memo-md ul > li:not(.rta__item) {
+  list-style-type: disc;
+}
+.theme-light div[data-type='lumo_view'] .memo-content-text.memo-md ol > li:not(.rta__item),
+.theme-dark div[data-type='lumo_view'] .memo-content-text.memo-md ol > li:not(.rta__item),
+.theme-light div[data-type='lumo_view'] .memo-comment-text.memo-md ol > li:not(.rta__item),
+.theme-dark div[data-type='lumo_view'] .memo-comment-text.memo-md ol > li:not(.rta__item) {
+  list-style-type: decimal;
+}
+.theme-light div[data-type='lumo_view'] .memo-content-text.memo-md ul.contains-task-list > li:not(.rta__item),
+.theme-dark div[data-type='lumo_view'] .memo-content-text.memo-md ul.contains-task-list > li:not(.rta__item),
+.theme-light div[data-type='lumo_view'] .memo-comment-text.memo-md ul.contains-task-list > li:not(.rta__item),
+.theme-dark div[data-type='lumo_view'] .memo-comment-text.memo-md ul.contains-task-list > li:not(.rta__item) {
+  list-style-type: none;
+}
