@@ -2,7 +2,7 @@ import { moment } from 'obsidian';
 import { getDailyNote } from 'obsidian-daily-notes-interface';
 import dailyNotesService from '../services/dailyNotesService';
 import appStore from '../stores/appStore';
-import { getAllLinesFromFile, appendMarker, ARCHIVED_FIELD_REG } from './obMemoContent';
+import { getAllLinesFromFile, appendMarker, ARCHIVED_FIELD_REG, PINNED_FIELD_REG } from './obMemoContent';
 
 // Resolve the daily note file and bullet-line index encoded in a memo id (date + line index).
 const locateBulletLine = (memoid: string): { file: any; idString: number } | null => {
@@ -58,6 +58,38 @@ export async function obArchiveMemo(memoid: string): Promise<any> {
     return true;
   }
   fileLines[idString] = appendMarker(fileLines[idString], `[archived::true]`);
+  await vault.modify(file, fileLines.join('\n'));
+  return true;
+}
+
+// Pin / unpin: add or strip a [pinned::true] marker on the memo's bullet line. Pinned memos are
+// sorted to the top of the list.
+export async function obTogglePinMemo(memoid: string, pin: boolean): Promise<boolean> {
+  if (!/\d{14,}/.test(memoid)) {
+    return false;
+  }
+  const { vault } = appStore.getState().dailyNotesState.app;
+  const located = locateBulletLine(memoid);
+  if (!located) {
+    return false;
+  }
+  const { file, idString } = located;
+  const fileLines = getAllLinesFromFile(await vault.read(file));
+  if (fileLines[idString] === undefined) {
+    return false;
+  }
+  const isPinned = PINNED_FIELD_REG.test(fileLines[idString]);
+  if (pin) {
+    if (isPinned) {
+      return true;
+    }
+    fileLines[idString] = appendMarker(fileLines[idString], `[pinned::true]`);
+  } else {
+    if (!isPinned) {
+      return true;
+    }
+    fileLines[idString] = fileLines[idString].replace(new RegExp(PINNED_FIELD_REG.source, 'gi'), '');
+  }
   await vault.modify(file, fileLines.join('\n'));
   return true;
 }

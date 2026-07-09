@@ -4,7 +4,7 @@ import { findQuery } from '../obComponents/obGetQueries';
 import { createObsidianQuery } from '../obComponents/obCreateQuery';
 import { getMemos } from '../obComponents/obGetMemos';
 import { updateObsidianQuery } from '../obComponents/obUpdateQuery';
-import { obHideMemo, obArchiveMemo } from '../obComponents/obHideMemo';
+import { obHideMemo, obArchiveMemo, obTogglePinMemo } from '../obComponents/obHideMemo';
 import { deleteForever, getDeletedMemos, restoreDeletedMemo } from '../obComponents/obDeleteMemo';
 import { deleteQueryForever } from '../obComponents/obDeleteQuery';
 import { pinQueryInFile, unpinQueryInFile } from '../obComponents/obPinQuery';
@@ -157,6 +157,11 @@ namespace api {
   //eslint-disable-next-line
   export function archiveMemo(memoId: string) {
     return obArchiveMemo(memoId);
+  }
+
+  //eslint-disable-next-line
+  export function pinMemo(memoId: string, pin: boolean) {
+    return obTogglePinMemo(memoId, pin);
   }
 
   //eslint-disable-next-line

@@ -131,7 +131,11 @@ const MemoList: React.FC<Props> = () => {
           return !memo.content.contains('comment:');
         });
 
-  copyShownMemos = shownMemos;
+  // Pinned memos float to the top; Array.prototype.sort is stable so the existing order is
+  // otherwise preserved.
+  const sortedMemos = [...shownMemos].sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+
+  copyShownMemos = sortedMemos;
 
   useEffect(() => {
     setTimeout(() => {
@@ -188,7 +192,7 @@ const MemoList: React.FC<Props> = () => {
       onClick={handleMemoListClick}
       ref={wrapperElement}
     >
-      {shownMemos.map((memo) => (
+      {sortedMemos.map((memo) => (
         <Memo key={`${memo.id}-${memo.updatedAt}`} memo={memo} />
       ))}
       <div className="status-text-container">

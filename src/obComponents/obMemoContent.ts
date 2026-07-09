@@ -121,17 +121,23 @@ export const buildMemoBlockText = (prefix: string, content: string, indent: stri
 // Inline dataview-style state markers appended to a memo's bullet line on disk:
 //   [deleted::20260615123014]  -> soft-deleted (recycle bin), timestamp = deletion time
 //   [archived::true]           -> archived (hidden from list but still counted in stats)
+//   [pinned::true]             -> pinned (sorted to the top of the list)
 export const DELETED_FIELD_REG = /\s*\[deleted::\s*([^\]]*)\]/;
 export const ARCHIVED_FIELD_REG = /\s*\[archived::\s*true\s*\]/i;
+export const PINNED_FIELD_REG = /\s*\[pinned::\s*true\s*\]/i;
 
 // Strip the state markers out of a memo's content and report what was found.
-export const parseMemoMarkers = (content: string): { content: string; deletedRaw: string; archived: boolean } => {
+export const parseMemoMarkers = (
+  content: string,
+): { content: string; deletedRaw: string; archived: boolean; pinned: boolean } => {
   const deletedMatch = content.match(DELETED_FIELD_REG);
   const archived = ARCHIVED_FIELD_REG.test(content);
+  const pinned = PINNED_FIELD_REG.test(content);
   const cleanContent = content
     .replace(new RegExp(DELETED_FIELD_REG.source, 'g'), '')
-    .replace(new RegExp(ARCHIVED_FIELD_REG.source, 'gi'), '');
-  return { content: cleanContent, deletedRaw: deletedMatch ? deletedMatch[1].trim() : '', archived };
+    .replace(new RegExp(ARCHIVED_FIELD_REG.source, 'gi'), '')
+    .replace(new RegExp(PINNED_FIELD_REG.source, 'gi'), '');
+  return { content: cleanContent, deletedRaw: deletedMatch ? deletedMatch[1].trim() : '', archived, pinned };
 };
 
 // Append a marker to a bullet line, avoiding duplicates.

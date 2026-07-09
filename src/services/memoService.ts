@@ -158,6 +158,15 @@ class MemoService {
     await this.fetchAllMemos();
   }
 
+  public async pinMemoById(id: string, pin: boolean) {
+    await api.pinMemo(id, pin);
+    // Update the store in place so the card re-styles and re-sorts without a full disk re-sync.
+    const memo = this.getMemoById(id);
+    if (memo) {
+      this.editMemo({ ...memo, pinned: pin });
+    }
+  }
+
   public async restoreMemoById(id: string) {
     await api.restoreMemo(id);
     // memoService.clearMemos();

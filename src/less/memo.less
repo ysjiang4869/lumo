@@ -15,6 +15,13 @@
 
   &:hover {
     border-color: @bg-gray;
+
+    // Reveal the pin button on card hover; a pinned card keeps it shown at all times.
+    // Full child path so this out-specifies the base `opacity: 0` rule (which appears later
+    // in source with equal specificity and would otherwise win).
+    > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn:not(.pinned) {
+      opacity: 0.7;
+    }
   }
 
   > .memo-top-wrapper {
@@ -50,6 +57,33 @@
         width: 40%;
         height: 21px;
         margin-right: 4px;
+      }
+      > .pin-btn {
+        .flex(row, center, center);
+        width: 28px;
+        height: 28px;
+        margin-right: 2px;
+        border-radius: 4px;
+        cursor: pointer;
+        flex-shrink: 0;
+        opacity: 0;
+        color: rgb(168, 168, 168);
+        transition: opacity 0.15s ease;
+
+        > .icon-img {
+          width: 15px;
+          height: 15px;
+        }
+
+        &:hover {
+          background-color: @bg-whitegray;
+        }
+
+        // Pinned: always visible and highlighted to mark the state.
+        &.pinned {
+          opacity: 1;
+          color: @text-blue;
+        }
       }
       > .btns-container {
         .flex(row, flex-end, center);
@@ -272,6 +306,13 @@
 
   &:hover {
     border-color: @bg-dark-gray;
+
+    // Reveal the pin button on card hover; a pinned card keeps it shown at all times.
+    // Full child path so this out-specifies the base `opacity: 0` rule (which appears later
+    // in source with equal specificity and would otherwise win).
+    > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn:not(.pinned) {
+      opacity: 0.7;
+    }
   }
 
   > .memo-top-wrapper {
@@ -309,6 +350,33 @@
         margin-right: 4px;
         fill: #cdcdcd;
         filter: invert(0.9);
+      }
+      > .pin-btn {
+        .flex(row, center, center);
+        width: 28px;
+        height: 28px;
+        margin-right: 2px;
+        border-radius: 4px;
+        cursor: pointer;
+        flex-shrink: 0;
+        opacity: 0;
+        color: #cdcdcd;
+        transition: opacity 0.15s ease;
+
+        > .icon-img {
+          width: 15px;
+          height: 15px;
+        }
+
+        &:hover {
+          background-color: @bg-dark-whitegray;
+        }
+
+        // Pinned: always visible and highlighted to mark the state.
+        &.pinned {
+          opacity: 1;
+          color: @text-blue;
+        }
       }
        > .btns-container {
       .flex(row, flex-end, center);

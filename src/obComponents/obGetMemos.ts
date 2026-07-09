@@ -164,7 +164,7 @@ export async function getMemosFromDailyNote(
       // Skip the continuation lines so they aren't reprocessed as separate entries.
       i = blockEnd;
       // Pull out [deleted::ts] / [archived::true] state markers and clean the content.
-      const { content: rawText, deletedRaw, archived } = parseMemoMarkers(rawTextWithMarkers);
+      const { content: rawText, deletedRaw, archived, pinned } = parseMemoMarkers(rawTextWithMarkers);
       let originId = '';
       if (rawText !== '') {
         let hasId = Math.random().toString(36).slice(-6);
@@ -189,6 +189,7 @@ export async function getMemosFromDailyNote(
           path: dailyNote.path,
           deletedAt: deletedRaw ? moment(deletedRaw, 'YYYYMMDDHHmmss').format('YYYY/MM/DD HH:mm:SS') : '',
           archived: archived,
+          pinned: pinned,
         };
         // Soft-deleted memos go to the recycle bin; everything else (incl. archived) to the list.
         if (deletedRaw) {
@@ -285,7 +286,7 @@ export async function getMemosFromNote(allMemos: any[], commentMemos: any[], del
     if (list.length === 0) continue;
     for (let j = 0; j < list.length; j++) {
       const rawContent = (list.values[j].text as string).replace(/\n/g, '<br>');
-      const { content, deletedRaw, archived } = parseMemoMarkers(rawContent);
+      const { content, deletedRaw, archived, pinned } = parseMemoMarkers(rawContent);
       const header = list.values[j].header.subpath;
       const path = list.values[j].path;
       const line = list.values[j].line;
@@ -330,6 +331,7 @@ export async function getMemosFromNote(allMemos: any[], commentMemos: any[], del
         path: path,
         deletedAt: deletedRaw ? moment(deletedRaw, 'YYYYMMDDHHmmss').format('YYYY/MM/DD HH:mm:SS') : '',
         archived: archived,
+        pinned: pinned,
       };
       if (deletedRaw) {
         deletedMemos.push(noteMemoObj);

@@ -5387,6 +5387,9 @@ div[data-type='lumo_view'] .image-container > img {
 .theme-light div[data-type='lumo_view'] .memo-wrapper:hover {
   border-color: #e4e4e4;
 }
+.theme-light div[data-type='lumo_view'] .memo-wrapper:hover > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn:not(.pinned) {
+  opacity: 0.7;
+}
 .theme-light div[data-type='lumo_view'] .memo-wrapper > .memo-top-wrapper {
   display: flex;
   flex-direction: row;
@@ -5430,6 +5433,32 @@ div[data-type='lumo_view'] .image-container > img {
   width: 40%;
   height: 21px;
   margin-right: 4px;
+}
+.theme-light div[data-type='lumo_view'] .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  margin-right: 2px;
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  opacity: 0;
+  color: #a8a8a8;
+  transition: opacity 0.15s ease;
+}
+.theme-light div[data-type='lumo_view'] .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn > .icon-img {
+  width: 15px;
+  height: 15px;
+}
+.theme-light div[data-type='lumo_view'] .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn:hover {
+  background-color: #f8f8f8;
+}
+.theme-light div[data-type='lumo_view'] .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn.pinned {
+  opacity: 1;
+  color: #5783f7;
 }
 .theme-light div[data-type='lumo_view'] .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper > .btns-container {
   display: flex;
@@ -5651,6 +5680,9 @@ div[data-type='lumo_view'] .image-container > img {
 .theme-dark div[data-type='lumo_view'] .memo-wrapper:hover {
   border-color: #353535;
 }
+.theme-dark div[data-type='lumo_view'] .memo-wrapper:hover > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn:not(.pinned) {
+  opacity: 0.7;
+}
 .theme-dark div[data-type='lumo_view'] .memo-wrapper > .memo-top-wrapper {
   display: flex;
   flex-direction: row;
@@ -5696,6 +5728,32 @@ div[data-type='lumo_view'] .image-container > img {
   margin-right: 4px;
   fill: #cdcdcd;
   filter: invert(0.9);
+}
+.theme-dark div[data-type='lumo_view'] .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  margin-right: 2px;
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  opacity: 0;
+  color: #cdcdcd;
+  transition: opacity 0.15s ease;
+}
+.theme-dark div[data-type='lumo_view'] .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn > .icon-img {
+  width: 15px;
+  height: 15px;
+}
+.theme-dark div[data-type='lumo_view'] .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn:hover {
+  background-color: #808080;
+}
+.theme-dark div[data-type='lumo_view'] .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn.pinned {
+  opacity: 1;
+  color: #5783f7;
 }
 .theme-dark div[data-type='lumo_view'] .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper > .btns-container {
   display: flex;

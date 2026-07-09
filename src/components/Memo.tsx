@@ -20,6 +20,7 @@ import '../less/memo.less';
 import { moment, Notice, Platform } from 'obsidian';
 import { showMemoInDailyNotes } from '../obComponents/obShowMemo';
 import More from '../icons/more.svg?component';
+import Pin from '../icons/pin.svg?component';
 import Comment from '../icons/comment.svg?component';
 import TaskBlank from '../icons/task-blank.svg?component';
 import Task from '../icons/task.svg?component';
@@ -352,6 +353,14 @@ const Memo: React.FC<Props> = (props: Props) => {
     }
   };
 
+  const handleTogglePinClick = async () => {
+    try {
+      await memoService.pinMemoById(propsMemo.id, !propsMemo.pinned);
+    } catch (error: any) {
+      new Notice(error.message);
+    }
+  };
+
   const handleMouseLeaveMemoWrapper = () => {
     if (showConfirmDeleteBtn) {
       toggleConfirmDeleteBtn(false);
@@ -477,7 +486,9 @@ const Memo: React.FC<Props> = (props: Props) => {
 
   return (
     <div
-      className={`memo-wrapper ${'memos-' + propsMemo.id} ${propsMemo.memoType}`}
+      className={`memo-wrapper ${'memos-' + propsMemo.id} ${propsMemo.memoType} ${
+        propsMemo.pinned ? 'memo-pinned' : ''
+      }`}
       onMouseLeave={handleMouseLeaveMemoWrapper}
       draggable="true"
       onDragStart={(e) => {
@@ -510,6 +521,13 @@ const Memo: React.FC<Props> = (props: Props) => {
           ) : (
             ''
           )}
+          <span
+            className={`btn pin-btn ${propsMemo.pinned ? 'pinned' : ''}`}
+            onClick={handleTogglePinClick}
+            aria-label={propsMemo.pinned ? t('UNPIN') : t('PIN')}
+          >
+            <Pin className="icon-img" />
+          </span>
           <div className="btns-container">
             <span className="btn more-action-btn">
               {/*<img className="icon-img" src={more} />*/}

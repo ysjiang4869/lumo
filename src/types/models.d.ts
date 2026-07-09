@@ -18,6 +18,7 @@ declare namespace Model {
     hasId?: string;
     path?: string;
     archived?: boolean;
+    pinned?: boolean;
   }
 
   interface Query extends BaseModel {
