@@ -295,6 +295,7 @@ div[data-type='lumo_view'] {
   --lumo-faint: #b3ada2;
   --lumo-line: rgba(40, 30, 20, 0.07);
   --lumo-line-2: rgba(40, 30, 20, 0.09);
+  --lumo-danger: #d28653;
   --lumo-font: 'Manrope', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', var(--font-interface), system-ui, sans-serif;
   --lumo-display: 'Outfit', 'PingFang SC', var(--font-interface), system-ui, sans-serif;
 }
@@ -312,6 +313,7 @@ div[data-type='lumo_view'] {
   --lumo-faint: #7a756b;
   --lumo-line: rgba(255, 250, 240, 0.08);
   --lumo-line-2: rgba(255, 250, 240, 0.12);
+  --lumo-danger: #e0946a;
 }
 /* ---- 背景 / 容器 ---------------------------------------------------------- */
 div[data-type='lumo_view'] .view-content {
@@ -637,6 +639,62 @@ div[data-type='lumo_view'] #page-wrapper .filter-query-container .filter-item-co
 /* memo 卡片操作按钮 hover 用绿色 */
 div[data-type='lumo_view'] #page-wrapper .memo-wrapper .more-action-btns-container .btn:hover {
   color: var(--lumo-accent);
+}
+/* 卡片 pin 按钮 —— 用 #page-wrapper + lumo 变量提权，避免被自定义主题覆盖 */
+div[data-type='lumo_view'] #page-wrapper .memo-wrapper .memo-top-right-wrapper > .pin-btn {
+  /* 锁死尺寸并清零 padding：部分主题给 .btn 加了 padding(如 .75rem 1.5rem)，
+     配合 box-sizing:border-box 会把按钮撑宽（Song 库现象） */
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  min-width: 0;
+  padding: 0;
+  color: var(--lumo-muted-2);
+  /* flex:none 防止图标 SVG 在部分主题下被 flex 压缩成 0 宽（Song 库现象） */
+}
+div[data-type='lumo_view'] #page-wrapper .memo-wrapper .memo-top-right-wrapper > .pin-btn:hover {
+  background-color: var(--lumo-panel);
+  color: var(--lumo-accent);
+}
+div[data-type='lumo_view'] #page-wrapper .memo-wrapper .memo-top-right-wrapper > .pin-btn.pinned {
+  color: var(--lumo-accent);
+}
+div[data-type='lumo_view'] #page-wrapper .memo-wrapper .memo-top-right-wrapper > .pin-btn > .icon-img {
+  flex: none;
+  width: 15px;
+  height: 15px;
+}
+/* 卡片右上「更多」图标按钮 */
+div[data-type='lumo_view'] #page-wrapper .memo-wrapper .btns-container > .more-action-btn {
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  min-width: 0;
+  padding: 0;
+  color: var(--lumo-muted-2);
+}
+div[data-type='lumo_view'] #page-wrapper .memo-wrapper .btns-container > .more-action-btn:hover {
+  background-color: var(--lumo-panel);
+}
+div[data-type='lumo_view'] #page-wrapper .memo-wrapper .btns-container > .more-action-btn > .icon-img {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+/* 卡片操作菜单弹层 —— 容器与条目均显式取 lumo 色，防止主题把文字变透明看不见 */
+div[data-type='lumo_view'] #page-wrapper .memo-wrapper .more-action-btns-container {
+  background-color: var(--lumo-card);
+  border: 1px solid var(--lumo-line);
+  box-shadow: 0 6px 20px rgba(40, 30, 20, 0.12);
+}
+div[data-type='lumo_view'] #page-wrapper .memo-wrapper .more-action-btns-container > .btn {
+  color: var(--lumo-ink-2);
+}
+div[data-type='lumo_view'] #page-wrapper .memo-wrapper .more-action-btns-container > .btn:hover {
+  background-color: var(--lumo-panel);
+}
+div[data-type='lumo_view'] #page-wrapper .memo-wrapper .more-action-btns-container > .btn.delete-btn {
+  color: var(--lumo-danger);
 }
 div[data-type='lumo_view'] #page-wrapper .memolist-wrapper {
   gap: 12px;
