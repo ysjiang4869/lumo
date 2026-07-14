@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#2f9e78">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#2f9e78"/>
+    <g fill="none" stroke="#ffffff" stroke-width="34" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M760 380c0 140-114 254-254 254H400V520c0-140 114-254 254-254h106z"/>
+      <path d="M640 400 440 600"/>
+    </g>
+  </svg>
+</template>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#eceeec;font-family:"Manrope","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+  .dv-turn{padding:44px 48px 36px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+  .dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 26px}
+  .dv-tid{font:700 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1b2320;color:#fff;border-radius:5px;text-decoration:none}
+  .dv-tname{font:600 13px/1.3 system-ui,sans-serif;color:#1b2320}
+  .dv-opts{display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start}
+  .dv-opt{flex:none;display:flex;flex-direction:column;gap:20px;scroll-margin-top:16px}
+  .dv-oid{font:700 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1b2320;border-radius:6px;text-decoration:none}
+  .dv-olabel{display:flex;align-items:baseline;gap:9px;font:500 12px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.5)}
+  .dv-olabel b{font:700 13px system-ui,sans-serif;color:#1b2320}
+  .dv-opt:target .dv-oid{background:#2f9e78;color:#fff}
+  .dv-next{margin:26px 0 0;font:13px/1.6 system-ui,sans-serif;color:rgba(0,0,0,.5)}
+  .dv-next a{color:#2f9e78;text-decoration:none;font-weight:600}
+  .frame{border-radius:22px;overflow:hidden;border:1px solid rgba(20,40,30,.08);box-shadow:0 2px 4px rgba(20,40,30,.04),0 30px 60px -40px rgba(20,40,30,.3)}
+  .ico i{width:1em;height:1em;display:inline-flex}
+  [data-lucide]{stroke-width:1.75}
+  ::-webkit-scrollbar{width:0;height:0}
+</style>
+</helmet>
+<section class="dv-turn" id="t2">
+  <div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Quiet Journal · 更像一本持续更新的数字日记</span></div>
+  <div class="dv-opts">
+
+    <div class="dv-opt" id="2a">
+      <div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a><b>数字日记 Quiet Journal</b>· 弱化统计 · 情绪 / 天气 / 地点 · 日记页感</div>
+
+      <!-- ===== 2A · DESKTOP ===== -->
+      <div class="frame" style="width:1360px;height:868px;display:flex;flex-direction:column;background:#eae7e1;font-family:'Manrope','PingFang SC','Hiragino Sans GB',system-ui,sans-serif;color:#2b2823">
+        <div style="height:38px;flex:none;background:#e2ded7;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid rgba(40,30,20,.06)">
+          <span style="width:11px;height:11px;border-radius:50%;background:#cbc6bd"></span><span style="width:11px;height:11px;border-radius:50%;background:#cbc6bd"></span><span style="width:11px;height:11px;border-radius:50%;background:#cbc6bd"></span>
+          <span style="flex:1;text-align:center;font-size:12px;font-weight:600;color:#aba69c">My Vault — Obsidian</span><span style="width:80px"></span>
+        </div>
+        <div style="flex:1;display:flex;min-height:0">
+          <div style="width:44px;flex:none;background:#e5e1da;display:flex;flex-direction:column;align-items:center;gap:15px;padding:14px 0;color:#b2ada2;font-size:17px;border-right:1px solid rgba(40,30,20,.05)">
+            <span class="ico"><i data-lucide="panel-left" style="width:18px;height:18px"></i></span>
+            <span class="ico"><i data-lucide="search" style="width:18px;height:18px"></i></span>
+            <span class="ico"><i data-lucide="files" style="width:18px;height:18px"></i></span>
+            <span class="ico" style="color:#2f9e78;position:relative"><i data-lucide="feather" style="width:18px;height:18px"></i><span style="position:absolute;left:-14px;top:50%;transform:translateY(-50%);width:3px;height:18px;border-radius:2px;background:#2f9e78"></span></span>
+            <span style="flex:1"></span><span class="ico"><i data-lucide="settings" style="width:18px;height:18px"></i></span>
+          </div>
+          <div data-screen-label="桌面 · Lumo 日记" style="flex:1;min-width:0;display:flex;flex-direction:column;background:#f8f6f1">
+            <div style="height:36px;flex:none;background:#e8e4dd;display:flex;align-items:stretch;padding:5px 8px 0;gap:5px">
+              <div style="display:flex;align-items:center;gap:7px;padding:0 14px;background:#f8f6f1;border-radius:9px 9px 0 0;font-size:12.5px;font-weight:700"><i data-lucide="feather" style="width:14px;height:14px;color:#2f9e78"></i>Lumo</div>
+              <div style="display:flex;align-items:center;gap:7px;padding:0 14px;font-size:12.5px;color:#aba69c"><i data-lucide="file-text" style="width:14px;height:14px"></i>周计划.md</div>
+            </div>
+            <div style="flex:1;min-height:0;overflow:hidden;display:flex;justify-content:center">
+              <div style="width:100%;max-width:720px;display:flex;flex-direction:column;padding:30px 30px 0;gap:20px;overflow:hidden">
+                <!-- 1. 顶部：自然叙述式，弱化数字 -->
+                <div>
+                  <div style="display:flex;align-items:baseline;gap:12px"><span style="font-family:'Outfit',sans-serif;font-size:27px;font-weight:700;letter-spacing:-.01em">晚上好，Song</span><span style="font-size:13px;color:#a49f95">7 月 5 日 · 星期日</span></div>
+                  <p style="margin:11px 0 0;font-size:13.5px;line-height:1.7;color:#8f8a80">已连续记录 <b style="color:#2f9e78;font-weight:700">60</b> 天 · 累计 <b style="color:#5a564d;font-weight:700">506</b> 条 · 今年留下 <b style="color:#5a564d;font-weight:700">22</b> 个重要时刻</p>
+                </div>
+                <!-- 2. 记录入口：悬浮感 + 文字/语音 -->
+                <div style="background:#fff;border-radius:18px;padding:16px 18px;box-shadow:0 2px 6px rgba(40,30,20,.05),0 22px 48px -30px rgba(40,30,20,.55)">
+                  <div style="font-size:15.5px;line-height:1.6;color:#b3ada2">写点什么，记录此刻的心情…</div>
+                  <div style="display:flex;align-items:center;gap:6px;margin-top:14px;padding-top:13px;border-top:1px solid rgba(40,30,20,.06)">
+                    <span class="ico" style="display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:10px;background:#f0f4f2;color:#2f9e78;font-size:13px;font-weight:700"><i data-lucide="pen-line" style="width:16px;height:16px"></i>文字</span>
+                    <span class="ico" style="display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:10px;color:#8a857b;font-size:13px;font-weight:600" style-hover="background:#f0f4f2;color:#2f9e78"><i data-lucide="mic" style="width:16px;height:16px"></i>语音</span>
+                    <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;color:#a49f95" style-hover="background:#f0f4f2"><i data-lucide="smile" style="width:17px;height:17px"></i></span>
+                    <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;color:#a49f95" style-hover="background:#f0f4f2"><i data-lucide="image" style="width:17px;height:17px"></i></span>
+                    <span style="flex:1"></span>
+                    <button style="display:flex;align-items:center;gap:6px;background:#2f9e78;color:#fff;border:none;padding:9px 20px;border-radius:12px;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 10px 22px -12px rgba(47,158,120,.9)"><i data-lucide="feather" style="width:16px;height:16px"></i>记下这一刻</button>
+                  </div>
+                </div>
+                <!-- pill nav -->
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="display:flex;gap:3px;background:#ece8e1;border-radius:11px;padding:3px">
+                    <sc-for list="{{jpills}}" as="p" hint-placeholder-count="4"><span style="padding:6px 14px;border-radius:9px;font-size:12.5px;font-weight:700;color:{{p.color}};background:{{p.bg}};cursor:pointer">{{p.label}}</span></sc-for>
+                  </div>
+                  <span style="flex:1"></span>
+                  <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(40,30,20,.06);color:#8a857b;cursor:pointer" style-hover="color:#2f9e78"><i data-lucide="search" style="width:16px;height:16px"></i></span>
+                  <a style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#8a857b;cursor:pointer" class="ico"><i data-lucide="sparkles" style="width:15px;height:15px"></i>记录洞察</a>
+                </div>
+                <!-- 按标签快速过滤 -->
+                <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;margin-top:-6px">
+                  <sc-for list="{{jtags}}" as="t" hint-placeholder-count="8">
+                    <span style="flex:none;display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:99px;cursor:pointer;color:{{t.fg}};background:{{t.bg}}">#{{t.name}}<span style="font-size:11px;opacity:.7;font-weight:600">{{t.count}}</span></span>
+                  </sc-for>
+                </div>
+                <!-- 3+4. 日记页式时间线 -->
+                <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;gap:14px">
+                  <sc-for list="{{journal}}" as="n" hint-placeholder-count="4">
+                    <article style="background:#fff;border-radius:18px;padding:22px 24px;box-shadow:0 1px 3px rgba(40,30,20,.04)">
+                      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px">
+                        <span style="font-family:'Outfit',sans-serif;font-size:19px;font-weight:700;letter-spacing:.01em;color:#2b2823">{{n.date}}</span>
+                        <span style="font-size:12px;color:#b3ada2">{{n.dow}} · {{n.when}}</span>
+                        <span style="flex:1"></span>
+                        <sc-if value="{{n.tag}}" hint-placeholder-val="{{false}}"><span style="font-size:12px;font-weight:600;color:#2f9e78">#{{n.tag}}</span></sc-if>
+                      </div>
+                      <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:13px;font-size:13px;color:#7a756b">
+                        <span style="display:inline-flex;align-items:center;gap:5px"><span style="font-size:15px">{{n.mood.e}}</span>{{n.mood.l}}</span>
+                        <span style="display:inline-flex;align-items:center;gap:5px"><span style="font-size:15px">{{n.weather.e}}</span>{{n.weather.l}}</span>
+                        <span style="display:inline-flex;align-items:center;gap:4px;color:#948f84"><i data-lucide="map-pin" style="width:13px;height:13px"></i>{{n.place}}</span>
+                      </div>
+                      <p style="margin:0;font-size:15px;line-height:1.85;color:#3d3a33;text-wrap:pretty">{{n.text}}</p>
+                    </article>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 2A · MOBILE + 记录洞察 ===== -->
+      <div style="display:flex;gap:56px;align-items:flex-start">
+        <!-- mobile -->
+        <div style="width:380px;height:800px;border-radius:44px;background:#211f1b;padding:11px;flex:none;box-shadow:0 40px 80px -50px rgba(40,30,20,.6)">
+          <div style="width:100%;height:100%;border-radius:34px;overflow:hidden;background:#f8f6f1;display:flex;flex-direction:column;position:relative">
+            <div style="height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:13px;font-weight:700"><span>9:41</span><span style="display:flex;gap:5px"><i data-lucide="signal" style="width:15px;height:15px"></i><i data-lucide="wifi" style="width:15px;height:15px"></i><i data-lucide="battery-full" style="width:17px;height:17px"></i></span></div>
+            <div style="height:40px;flex:none;display:flex;align-items:center;gap:10px;padding:0 16px;color:#aba69c"><i data-lucide="menu" style="width:19px;height:19px"></i><span style="flex:1;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#2b2823"><i data-lucide="feather" style="width:14px;height:14px;color:#2f9e78"></i>Lumo</span><i data-lucide="search" style="width:18px;height:18px"></i><i data-lucide="sparkles" style="width:18px;height:18px"></i></div>
+            <div style="flex:none;padding:6px 18px 12px">
+              <div style="font-family:'Outfit',sans-serif;font-size:21px;font-weight:700">晚上好，Song</div>
+              <p style="margin:7px 0 0;font-size:12.5px;line-height:1.6;color:#8f8a80">已连续记录 <b style="color:#2f9e78">60</b> 天 · 累计 <b style="color:#5a564d">506</b> 条</p>
+            </div>
+            <div style="flex:none;display:flex;gap:7px;overflow-x:auto;padding:0 18px 12px">
+              <sc-for list="{{jtags}}" as="t" hint-placeholder-count="6">
+                <span style="flex:none;font-size:12px;font-weight:600;padding:5px 11px;border-radius:99px;color:{{t.fg}};background:{{t.bg}}">#{{t.name}}</span>
+              </sc-for>
+            </div>
+            <div style="flex:1;overflow:hidden;padding:2px 16px 0;display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{journal}}" as="n" hint-placeholder-count="3">
+                <article style="background:#fff;border-radius:16px;padding:16px 17px;box-shadow:0 1px 3px rgba(40,30,20,.04)">
+                  <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:9px"><span style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700">{{n.date}}</span><span style="font-size:11px;color:#b3ada2">{{n.when}}</span><span style="flex:1"></span><sc-if value="{{n.tag}}" hint-placeholder-val="{{false}}"><span style="font-size:11px;font-weight:600;color:#2f9e78">#{{n.tag}}</span></sc-if></div>
+                  <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;font-size:12px;color:#7a756b"><span style="display:inline-flex;align-items:center;gap:4px"><span style="font-size:14px">{{n.mood.e}}</span>{{n.mood.l}}</span><span style="display:inline-flex;align-items:center;gap:4px"><span style="font-size:14px">{{n.weather.e}}</span>{{n.weather.l}}</span><span style="display:inline-flex;align-items:center;gap:3px;color:#948f84"><i data-lucide="map-pin" style="width:12px;height:12px"></i>{{n.place}}</span></div>
+                  <p style="margin:0;font-size:14px;line-height:1.8;color:#3d3a33">{{n.text}}</p>
+                </article>
+              </sc-for>
+              <div style="height:74px;flex:none"></div>
+            </div>
+            <!-- 6. 固定悬浮记录按钮 -->
+            <button style="position:absolute;left:50%;transform:translateX(-50%);bottom:60px;display:flex;align-items:center;gap:8px;padding:13px 24px;border:none;border-radius:99px;background:#2f9e78;color:#fff;font-size:14.5px;font-weight:700;box-shadow:0 18px 34px -12px rgba(47,158,120,.95);cursor:pointer"><i data-lucide="feather" style="width:19px;height:19px"></i>记一笔</button>
+            <div style="height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-top:1px solid rgba(40,30,20,.06);color:#b6b1a6"><i data-lucide="panel-left" style="width:20px;height:20px"></i><i data-lucide="chevron-left" style="width:20px;height:20px"></i><i data-lucide="chevron-right" style="width:20px;height:20px"></i><i data-lucide="panel-right" style="width:20px;height:20px"></i></div>
+          </div>
+        </div>
+
+        <!-- 移动端 · 输入展开态（底部弹层 Modal + 键盘） -->
+        <div style="display:flex;flex-direction:column;gap:12px;flex:none">
+          <div data-screen-label="移动端 · 输入展开态" style="width:380px;height:800px;border-radius:44px;background:#211f1b;padding:11px;box-shadow:0 40px 80px -50px rgba(40,30,20,.6)">
+            <div style="width:100%;height:100%;border-radius:34px;overflow:hidden;background:#f8f6f1;display:flex;flex-direction:column;position:relative">
+              <!-- 淡化的时间线背景 -->
+              <div style="position:absolute;inset:0;display:flex;flex-direction:column;filter:blur(1.5px);opacity:.5">
+                <div style="height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:13px;font-weight:700"><span>9:41</span><span style="display:flex;gap:5px"><i data-lucide="signal" style="width:15px;height:15px"></i><i data-lucide="wifi" style="width:15px;height:15px"></i><i data-lucide="battery-full" style="width:17px;height:17px"></i></span></div>
+                <div style="padding:14px 18px"><div style="font-family:'Outfit',sans-serif;font-size:21px;font-weight:700">晚上好，Song</div></div>
+                <div style="padding:0 16px;display:flex;flex-direction:column;gap:12px">
+                  <div style="background:#fff;border-radius:16px;height:120px"></div>
+                  <div style="background:#fff;border-radius:16px;height:120px"></div>
+                </div>
+              </div>
+              <!-- backdrop -->
+              <div style="position:absolute;inset:0;background:rgba(30,28,22,.42)"></div>
+              <!-- 底部记录弹层 + 键盘 -->
+              <div style="position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column">
+                <div style="background:#f8f6f1;border-radius:26px 26px 0 0;padding:9px 18px 12px;box-shadow:0 -14px 44px -18px rgba(0,0,0,.45)">
+                  <div style="width:38px;height:4px;border-radius:99px;background:#d8d3ca;margin:0 auto 12px"></div>
+                  <div style="display:flex;align-items:center;margin-bottom:12px"><span style="font-family:'Outfit',sans-serif;font-size:15px;font-weight:700">2026.07.05</span><span style="font-size:12px;color:#a49f95;margin-left:8px">星期日 · 上午</span><span style="flex:1"></span><span class="ico" style="width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;background:#ece8e1;color:#8a857b"><i data-lucide="x" style="width:16px;height:16px"></i></span></div>
+                  <div style="font-size:15.5px;line-height:1.75;color:#2b2823;min-height:52px">今天完成了 Lumo 的重构方案，团队都挺满意<span style="display:inline-block;width:2px;height:18px;background:#2f9e78;vertical-align:-3px;margin-left:1px"></span></div>
+                  <!-- 心情选择器 -->
+                  <div style="display:flex;align-items:center;gap:8px;margin:12px 0 10px"><span style="font-size:12.5px;color:#948f84;font-weight:600;margin-right:2px">心情</span>
+                    <sc-for list="{{pickMoods}}" as="m" hint-placeholder-count="7">
+                      <span style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-size:18px;background:{{m.bg}};border:{{m.ring}};cursor:pointer">{{m.e}}</span>
+                    </sc-for>
+                  </div>
+                  <!-- 天气 / 地点 / 标签 -->
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;padding-bottom:12px;border-bottom:1px solid rgba(40,30,20,.07)">
+                    <span style="display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:#6f6a60;background:#efece5;border-radius:99px;padding:6px 12px"><span style="font-size:14px">☀️</span>晴</span>
+                    <span style="display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:#6f6a60;background:#efece5;border-radius:99px;padding:6px 12px"><i data-lucide="map-pin" style="width:13px;height:13px"></i>杭州</span>
+                    <span style="display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:#2f9e78;background:#e9f4ef;border-radius:99px;padding:6px 12px">#工作</span>
+                    <span style="display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;color:#a49f95;background:transparent;border:1px dashed #cfcabf;border-radius:99px;padding:6px 11px"><i data-lucide="plus" style="width:13px;height:13px"></i>标签</span>
+                  </div>
+                  <!-- 工具条 -->
+                  <div style="display:flex;align-items:center;gap:4px;margin-top:11px">
+                    <span class="ico" style="display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:10px;background:#f0f4f2;color:#2f9e78;font-size:13px;font-weight:700"><i data-lucide="pen-line" style="width:16px;height:16px"></i>文字</span>
+                    <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;color:#8a857b"><i data-lucide="mic" style="width:18px;height:18px"></i></span>
+                    <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;color:#8a857b"><i data-lucide="image" style="width:18px;height:18px"></i></span>
+                    <span style="flex:1"></span>
+                    <button style="display:flex;align-items:center;gap:6px;background:#2f9e78;color:#fff;border:none;padding:9px 20px;border-radius:12px;font-size:13.5px;font-weight:700;box-shadow:0 10px 22px -12px rgba(47,158,120,.9)"><i data-lucide="feather" style="width:16px;height:16px"></i>记录</button>
+                  </div>
+                </div>
+                <!-- 系统键盘 -->
+                <div style="background:#cfccc4;padding:9px 4px 8px;display:flex;flex-direction:column;gap:8px">
+                  <div style="display:flex;gap:4px;justify-content:center">
+                    <sc-for list="{{kb1}}" as="k" hint-placeholder-count="10"><span style="flex:1;height:38px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:6px;font-size:15px;font-weight:500;color:#2b2823;box-shadow:0 1px 0 rgba(0,0,0,.22)">{{k}}</span></sc-for>
+                  </div>
+                  <div style="display:flex;gap:4px;justify-content:center;padding:0 16px">
+                    <sc-for list="{{kb2}}" as="k" hint-placeholder-count="9"><span style="flex:1;height:38px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:6px;font-size:15px;font-weight:500;color:#2b2823;box-shadow:0 1px 0 rgba(0,0,0,.22)">{{k}}</span></sc-for>
+                  </div>
+                  <div style="display:flex;gap:4px;align-items:center">
+                    <span style="width:40px;height:38px;display:flex;align-items:center;justify-content:center;background:#adaaa2;border-radius:6px;color:#3d3a33"><i data-lucide="arrow-big-up" style="width:18px;height:18px"></i></span>
+                    <sc-for list="{{kb3}}" as="k" hint-placeholder-count="7"><span style="flex:1;height:38px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:6px;font-size:15px;font-weight:500;color:#2b2823;box-shadow:0 1px 0 rgba(0,0,0,.22)">{{k}}</span></sc-for>
+                    <span style="width:40px;height:38px;display:flex;align-items:center;justify-content:center;background:#adaaa2;border-radius:6px;color:#3d3a33"><i data-lucide="delete" style="width:18px;height:18px"></i></span>
+                  </div>
+                  <div style="display:flex;gap:4px;align-items:center">
+                    <span style="width:50px;height:38px;display:flex;align-items:center;justify-content:center;background:#adaaa2;border-radius:6px;font-size:13px;font-weight:600;color:#3d3a33">123</span>
+                    <span style="width:40px;height:38px;display:flex;align-items:center;justify-content:center;background:#adaaa2;border-radius:6px;color:#3d3a33"><i data-lucide="globe" style="width:17px;height:17px"></i></span>
+                    <span style="flex:1;height:38px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:6px;font-size:13px;color:#8a857b;box-shadow:0 1px 0 rgba(0,0,0,.22)">空格</span>
+                    <span style="width:74px;height:38px;display:flex;align-items:center;justify-content:center;background:#2f9e78;border-radius:6px;font-size:13px;font-weight:700;color:#fff">换行</span>
+                  </div>
+                  <div style="width:120px;height:4px;border-radius:99px;background:#8a857b;margin:2px auto 0"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="font:500 12px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.45);text-align:center">输入展开态 · 底部弹层 Modal + 系统键盘</div>
+        </div>
+
+        <!-- 5. 记录洞察（独立页面） -->
+        <div class="frame" data-screen-label="记录洞察" style="width:924px;height:800px;background:#f8f6f1;display:flex;flex-direction:column;font-family:'Manrope','PingFang SC',system-ui,sans-serif;color:#2b2823">
+          <div style="flex:1;min-height:0;overflow:hidden;display:flex;justify-content:center">
+            <div style="width:100%;max-width:660px;padding:36px 30px 0;display:flex;flex-direction:column;gap:28px">
+              <div>
+                <div style="font-family:'Outfit',sans-serif;font-size:25px;font-weight:700">记录洞察</div>
+                <p style="margin:12px 0 0;font-size:15px;line-height:1.8;color:#6f6a60;text-wrap:pretty">今年你已经记录了 <b style="color:#2f9e78;font-weight:700">506</b> 条，覆盖 <b style="color:#2b2823;font-weight:700">187</b> 天。<br>这段时间里，你最常有的心情是 <span style="font-size:17px">😊</span> <b style="color:#2b2823;font-weight:700">开心</b>。</p>
+              </div>
+              <!-- 轻量数字，非卡片化 -->
+              <div style="display:flex;gap:36px;padding-bottom:26px;border-bottom:1px solid rgba(40,30,20,.08)">
+                <sc-for list="{{insight}}" as="i" hint-placeholder-count="3">
+                  <div><div style="font-family:'Outfit',sans-serif;font-size:30px;font-weight:700;letter-spacing:-.01em">{{i.value}}</div><div style="font-size:12.5px;color:#948f84;margin-top:3px">{{i.label}}</div></div>
+                </sc-for>
+              </div>
+              <!-- 常见情绪 -->
+              <div>
+                <div style="font-size:13px;font-weight:700;color:#6f6a60;margin-bottom:18px">常见情绪</div>
+                <div style="display:flex;flex-direction:column;gap:15px">
+                  <sc-for list="{{moods}}" as="m" hint-placeholder-count="5">
+                    <div style="display:flex;align-items:center;gap:13px"><span style="font-size:19px;width:24px;text-align:center">{{m.e}}</span><span style="font-size:13.5px;font-weight:600;width:44px;color:#3d3a33">{{m.l}}</span><div style="flex:1;height:8px;border-radius:99px;background:#eceae3"><div style="height:100%;border-radius:99px;background:#2f9e78;width:{{m.pct}}%"></div></div><span style="font-size:12.5px;color:#a49f95;font-weight:600;width:36px;text-align:right">{{m.count}}</span></div>
+                  </sc-for>
+                </div>
+              </div>
+              <!-- 常用标签 -->
+              <div>
+                <div style="font-size:13px;font-weight:700;color:#6f6a60;margin-bottom:16px">常用标签</div>
+                <div style="display:flex;flex-wrap:wrap;gap:9px">
+                  <sc-for list="{{tags}}" as="t" hint-placeholder-count="12">
+                    <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#4a473f;background:#fff;border-radius:99px;padding:6px 13px;box-shadow:0 1px 2px rgba(40,30,20,.04)">#{{t.name}}<span style="font-size:11.5px;color:#a49f95;font-weight:600">{{t.count}}</span></span>
+                  </sc-for>
+                </div>
+              </div>
+              <!-- 年度回顾 -->
+              <div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font-size:13px;font-weight:700;color:#6f6a60">年度回顾</span><span style="font-size:12px;color:#a49f95">过去一年的记录足迹</span></div>
+                <div style="display:grid;grid-template-columns:repeat(26,1fr);gap:4px">
+                  <sc-for list="{{heat}}" as="c" hint-placeholder-count="78"><span style="aspect-ratio:1;border-radius:3px;background:{{c.bg}}"></span></sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <p class="dv-next">2a 落实了你的 7 点：叙述式顶部 · 悬浮记录入口(文字/语音) · 日记页卡片 · 情绪/天气/地点 · 独立「记录洞察」 · 移动端悬浮记录按钮。可继续说：定这个方向做深色模式 · 情绪选择器展开态 · 或调整暖色纸感的浓淡。</p>
+</section>
+<section class="dv-turn" id="t1">
+  <div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Lumo 重设计 · 两个方向</span></div>
+  <div class="dv-opts">
+
+    <div class="dv-opt" id="1a">
+      <div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a><b>清新卡片 Airy Cards</b>· 大留白 · 柔和阴影 · 编辑器悬浮</div>
+
+      <!-- ===== A · DESKTOP (plugin pane inside Obsidian) ===== -->
+      <div class="frame" style="width:1360px;height:868px;display:flex;flex-direction:column;background:#e9ede9;font-family:'Manrope','PingFang SC','Hiragino Sans GB',system-ui,sans-serif;color:#1c2320">
+        <!-- Obsidian titlebar (环境, 淡化) -->
+        <div style="height:38px;flex:none;background:#dfe5e1;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid rgba(20,40,30,.06)">
+          <span style="width:11px;height:11px;border-radius:50%;background:#c6cec8"></span>
+          <span style="width:11px;height:11px;border-radius:50%;background:#c6cec8"></span>
+          <span style="width:11px;height:11px;border-radius:50%;background:#c6cec8"></span>
+          <span style="flex:1;text-align:center;font-size:12px;font-weight:600;color:#a7afa9">My Vault — Obsidian</span>
+          <span style="width:80px"></span>
+        </div>
+        <div style="flex:1;display:flex;min-height:0">
+          <!-- Obsidian ribbon (环境, 淡化) -->
+          <div style="width:44px;flex:none;background:#e4e9e6;display:flex;flex-direction:column;align-items:center;gap:15px;padding:14px 0;color:#aeb6b0;font-size:17px;border-right:1px solid rgba(20,40,30,.05)">
+            <span class="ico"><i data-lucide="panel-left" style="width:18px;height:18px"></i></span>
+            <span class="ico"><i data-lucide="search" style="width:18px;height:18px"></i></span>
+            <span class="ico"><i data-lucide="files" style="width:18px;height:18px"></i></span>
+            <span class="ico" style="color:#2f9e78;position:relative"><i data-lucide="feather" style="width:18px;height:18px"></i><span style="position:absolute;left:-14px;top:50%;transform:translateY(-50%);width:3px;height:18px;border-radius:2px;background:#2f9e78"></span></span>
+            <span style="flex:1"></span>
+            <span class="ico"><i data-lucide="settings" style="width:18px;height:18px"></i></span>
+          </div>
+          <!-- Lumo 插件面板 (active leaf) -->
+          <div data-screen-label="桌面 · Lumo 面板" style="flex:1;min-width:0;display:flex;flex-direction:column;background:#f5f8f6">
+            <!-- leaf 标签条 (环境, 淡化) -->
+            <div style="height:36px;flex:none;background:#e6ebe8;display:flex;align-items:stretch;padding:5px 8px 0;gap:5px">
+              <div style="display:flex;align-items:center;gap:7px;padding:0 14px;background:#f5f8f6;border-radius:9px 9px 0 0;font-size:12.5px;font-weight:700;color:#1c2320"><i data-lucide="feather" style="width:14px;height:14px;color:#2f9e78"></i>Lumo</div>
+              <div style="display:flex;align-items:center;gap:7px;padding:0 14px;font-size:12.5px;color:#a7afa9"><i data-lucide="file-text" style="width:14px;height:14px"></i>周计划.md</div>
+            </div>
+            <div style="flex:1;display:flex;min-height:0">
+        <!-- plugin sidebar -->
+        <aside style="width:238px;flex:none;padding:24px 20px;display:flex;flex-direction:column;gap:22px;border-right:1px solid rgba(20,40,30,.06)">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:44px;height:44px;border-radius:14px;background:linear-gradient(140deg,#8fd6b6,#2f9e78);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;box-shadow:0 6px 16px -8px rgba(47,158,120,.7)">S</div>
+            <div style="min-width:0">
+              <div style="display:flex;align-items:center;gap:6px"><span style="font-weight:800;font-size:16px">Song</span><span style="font-size:9px;font-weight:800;letter-spacing:.06em;color:#fff;background:#2f9e78;padding:2px 6px;border-radius:5px">PRO</span></div>
+              <div style="font-size:12px;color:#9aa39d;margin-top:2px">Live your self</div>
+            </div>
+          </div>
+
+          <nav style="display:flex;flex-direction:column;gap:2px">
+            <sc-for list="{{nav}}" as="item" hint-placeholder-count="5">
+              <a style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:11px;font-size:13.5px;font-weight:600;color:{{item.color}};background:{{item.bg}};cursor:pointer" class="ico"><i data-lucide="{{item.icon}}" style="width:17px;height:17px"></i>{{item.label}}</a>
+            </sc-for>
+          </nav>
+
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.08em;color:#aab2ac;text-transform:uppercase;margin-bottom:10px">检索式</div>
+            <div style="display:flex;gap:10px">
+              <div style="flex:1;background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:12px;padding:12px 14px"><div style="display:flex;align-items:center;gap:6px;color:#2f9e78"><i data-lucide="filter" style="width:15px;height:15px"></i><span style="font-size:20px;font-weight:800;color:#1c2320">1</span></div><div style="font-size:11px;color:#9aa39d;margin-top:3px">过滤器</div></div>
+              <div style="flex:1;background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:12px;padding:12px 14px"><div style="display:flex;align-items:center;gap:6px;color:#9aa39d"><i data-lucide="pin" style="width:15px;height:15px"></i><span style="font-size:20px;font-weight:800;color:#1c2320">0</span></div><div style="font-size:11px;color:#9aa39d;margin-top:3px">置顶</div></div>
+            </div>
+          </div>
+
+          <div style="flex:1;min-height:0">
+            <div style="font-size:11px;font-weight:700;letter-spacing:.08em;color:#aab2ac;text-transform:uppercase;margin-bottom:12px">Thino 状态</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 14px">
+              <sc-for list="{{kpis}}" as="k" hint-placeholder-count="6">
+                <div><div style="font-size:11px;color:#9aa39d;margin-bottom:3px">{{k.label}}</div><div style="font-size:19px;font-weight:800;letter-spacing:-.01em;color:{{k.color}}">{{k.value}}</div></div>
+              </sc-for>
+            </div>
+          </div>
+        </aside>
+
+        <!-- center -->
+        <main style="flex:1;min-width:0;display:flex;flex-direction:column;padding:22px 26px;gap:16px;overflow:hidden">
+          <div style="display:flex;align-items:center;gap:8px;color:#8b968f">
+            <span style="font-size:15px;font-weight:800;color:#1c2320">Thino</span>
+            <span style="flex:1"></span>
+            <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(20,40,30,.06)"><i data-lucide="calendar-check" style="width:16px;height:16px"></i></span>
+            <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(20,40,30,.06)"><i data-lucide="arrow-up-down" style="width:16px;height:16px"></i></span>
+            <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(20,40,30,.06)"><i data-lucide="sliders-horizontal" style="width:16px;height:16px"></i></span>
+            <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(20,40,30,.06)"><i data-lucide="search" style="width:16px;height:16px"></i></span>
+          </div>
+
+          <!-- compose -->
+          <div style="background:#fff;border:1px solid rgba(20,40,30,.07);border-radius:18px;box-shadow:0 1px 2px rgba(20,40,30,.04),0 14px 34px -24px rgba(20,40,30,.28);padding:18px 20px 13px">
+            <div style="min-height:58px;color:#aab2ac;font-size:15px;line-height:1.6">记录此刻的想法，随手写下一个念头…</div>
+            <div style="display:flex;align-items:center;gap:3px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(20,40,30,.06)">
+              <sc-for list="{{tools}}" as="t" hint-placeholder-count="5">
+                <span class="ico" style="width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border-radius:9px;color:#7d877f;cursor:pointer" style-hover="background:#eef3f0;color:#2f9e78"><i data-lucide="{{t}}" style="width:17px;height:17px"></i></span>
+              </sc-for>
+              <span style="flex:1"></span>
+              <span style="font-size:12px;color:#c2c9c4;margin-right:6px">⌘↵</span>
+              <button style="display:flex;align-items:center;gap:6px;background:#2f9e78;color:#fff;border:none;padding:9px 18px;border-radius:11px;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 8px 18px -10px rgba(47,158,120,.9)"><i data-lucide="check" style="width:16px;height:16px"></i>记录</button>
+            </div>
+          </div>
+
+          <!-- feed -->
+          <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{notes}}" as="n" hint-placeholder-count="4">
+              <article style="background:#fff;border:1px solid rgba(20,40,30,.07);border-radius:16px;padding:18px 20px;box-shadow:0 1px 2px rgba(20,40,30,.03),0 10px 26px -22px rgba(20,40,30,.2)">
+                <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+                  <time style="font-size:12px;font-weight:600;color:#a2aaa4;letter-spacing:.01em">{{n.date}}</time>
+                  <sc-if value="{{n.pinned}}" hint-placeholder-val="{{false}}"><span class="ico" style="color:#2f9e78"><i data-lucide="pin" style="width:13px;height:13px"></i></span></sc-if>
+                  <span style="flex:1"></span>
+                  <span class="ico" style="color:#c7cec9"><i data-lucide="more-horizontal" style="width:16px;height:16px"></i></span>
+                </div>
+                <sc-if value="{{n.tag}}" hint-placeholder-val="{{false}}">
+                  <span style="display:inline-flex;align-items:center;font-size:12px;font-weight:600;color:#2f9e78;background:#e9f4ef;padding:3px 9px;border-radius:8px;margin-bottom:9px">#{{n.tag}}</span>
+                </sc-if>
+                <p style="margin:0;font-size:14.5px;line-height:1.7;color:#2c3430;text-wrap:pretty">{{n.text}}</p>
+                <sc-if value="{{n.bullets}}" hint-placeholder-val="{{false}}">
+                  <ul style="margin:10px 0 0;padding-left:4px;list-style:none;display:flex;flex-direction:column;gap:6px">
+                    <sc-for list="{{n.bullets}}" as="b" hint-placeholder-count="2">
+                      <li style="display:flex;gap:9px;font-size:14px;line-height:1.6;color:#4a534e"><span style="width:5px;height:5px;border-radius:50%;background:#8fd6b6;margin-top:8px;flex:none"></span><span>{{b}}</span></li>
+                    </sc-for>
+                  </ul>
+                </sc-if>
+              </article>
+            </sc-for>
+          </div>
+        </main>
+
+        <!-- right -->
+        <aside style="width:300px;flex:none;padding:22px 22px 22px 4px;display:flex;flex-direction:column;gap:18px">
+          <div style="background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:16px;padding:18px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font-size:13px;font-weight:700;color:#1c2320">年度足迹</span><span style="font-size:11px;color:#a2aaa4">1165 天</span></div>
+            <div style="display:grid;grid-template-columns:repeat(14,1fr);gap:4px">
+              <sc-for list="{{heat}}" as="c" hint-placeholder-count="98">
+                <span style="aspect-ratio:1;border-radius:4px;background:{{c.bg}}"></span>
+              </sc-for>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:12px;font-size:10px;color:#a2aaa4">少<span style="width:9px;height:9px;border-radius:3px;background:#edf1ef"></span><span style="width:9px;height:9px;border-radius:3px;background:#cbe8db"></span><span style="width:9px;height:9px;border-radius:3px;background:#8fd1b5"></span><span style="width:9px;height:9px;border-radius:3px;background:#2f9e78"></span>多</div>
+          </div>
+
+          <div style="background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:16px;padding:18px;flex:1;min-height:0;overflow:hidden">
+            <div style="font-size:13px;font-weight:700;color:#1c2320;margin-bottom:14px">常用标签</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{tags}}" as="t" hint-placeholder-count="16">
+                <span style="display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:500;color:#4a534e;background:#f2f6f4;border:1px solid rgba(20,40,30,.05);padding:5px 10px;border-radius:9px;cursor:pointer">#{{t.name}}<span style="font-size:11px;color:#adb5af;font-weight:600">{{t.count}}</span></span>
+              </sc-for>
+            </div>
+          </div>
+        </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== A · MOBILE + STATS ===== -->
+      <div style="display:flex;gap:56px;align-items:flex-start">
+
+        <!-- mobile -->
+        <div style="width:380px;height:800px;border-radius:44px;background:#1c2320;padding:11px;flex:none;box-shadow:0 40px 80px -50px rgba(20,40,30,.6)">
+          <div style="width:100%;height:100%;border-radius:34px;overflow:hidden;background:#f5f8f6;display:flex;flex-direction:column;position:relative;font-family:'Manrope','PingFang SC',system-ui,sans-serif">
+            <div style="height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:13px;font-weight:700;color:#1c2320"><span>9:41</span><span style="display:flex;gap:5px;color:#1c2320"><i data-lucide="signal" style="width:15px;height:15px"></i><i data-lucide="wifi" style="width:15px;height:15px"></i><i data-lucide="battery-full" style="width:17px;height:17px"></i></span></div>
+            <!-- Obsidian mobile 顶栏 (环境, 淡化) -->
+            <div style="height:40px;flex:none;display:flex;align-items:center;gap:10px;padding:0 16px;color:#a7afa9">
+              <i data-lucide="menu" style="width:19px;height:19px"></i>
+              <span style="flex:1;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#1c2320"><i data-lucide="feather" style="width:14px;height:14px;color:#2f9e78"></i>Lumo</span>
+              <i data-lucide="more-vertical" style="width:19px;height:19px"></i>
+            </div>
+            <!-- 插件内顶部分段导航 -->
+            <div style="flex:none;padding:4px 14px 10px">
+              <div style="display:flex;gap:4px;background:#e8ede a;background:#e9eeeb;border-radius:12px;padding:4px">
+                <sc-for list="{{segs}}" as="s" hint-placeholder-count="4">
+                  <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:8px 0;border-radius:9px;font-size:12.5px;font-weight:700;color:{{s.color}};background:{{s.bg}};box-shadow:{{s.shadow}}"><i data-lucide="{{s.icon}}" style="width:15px;height:15px"></i>{{s.label}}</div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="flex:1;overflow:hidden;padding:2px 14px 0;display:flex;flex-direction:column;gap:11px">
+              <sc-for list="{{notes}}" as="n" hint-placeholder-count="3">
+                <article style="background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:16px;padding:15px 16px;box-shadow:0 8px 22px -20px rgba(20,40,30,.3)">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px"><time style="font-size:11px;font-weight:600;color:#a2aaa4">{{n.date}}</time><sc-if value="{{n.pinned}}" hint-placeholder-val="{{false}}"><i data-lucide="pin" style="width:12px;height:12px;color:#2f9e78"></i></sc-if></div>
+                  <sc-if value="{{n.tag}}" hint-placeholder-val="{{false}}"><span style="display:inline-block;font-size:11px;font-weight:600;color:#2f9e78;background:#e9f4ef;padding:2px 8px;border-radius:7px;margin-bottom:7px">#{{n.tag}}</span></sc-if>
+                  <p style="margin:0;font-size:13.5px;line-height:1.65;color:#2c3430">{{n.text}}</p>
+                </article>
+              </sc-for>
+            </div>
+            <!-- 插件底部记录输入条 -->
+            <div style="flex:none;padding:10px 14px 8px">
+              <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(20,40,30,.08);border-radius:16px;padding:9px 10px 9px 16px;box-shadow:0 10px 26px -18px rgba(20,40,30,.4)">
+                <span style="flex:1;font-size:14px;color:#aab2ac">记一笔想法…</span>
+                <span class="ico" style="color:#9aa39d"><i data-lucide="hash" style="width:19px;height:19px"></i></span>
+                <span class="ico" style="color:#9aa39d"><i data-lucide="image" style="width:19px;height:19px"></i></span>
+                <button style="width:38px;height:38px;flex:none;border:none;border-radius:12px;background:#2f9e78;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px -8px rgba(47,158,120,.9);cursor:pointer"><i data-lucide="arrow-up" style="width:20px;height:20px"></i></button>
+              </div>
+            </div>
+            <!-- Obsidian mobile 底部导航 (环境, 淡化) -->
+            <div style="height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-top:1px solid rgba(20,40,30,.06);color:#b3bbb5">
+              <i data-lucide="panel-left" style="width:20px;height:20px"></i>
+              <i data-lucide="chevron-left" style="width:20px;height:20px"></i>
+              <i data-lucide="chevron-right" style="width:20px;height:20px"></i>
+              <i data-lucide="panel-right" style="width:20px;height:20px"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- stats -->
+        <div class="frame" style="width:924px;height:800px;background:#f5f8f6;padding:26px 28px;display:flex;flex-direction:column;gap:20px;font-family:'Manrope','PingFang SC',system-ui,sans-serif;color:#1c2320">
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:20px;font-weight:800">统计</span><span style="font-size:13px;color:#a2aaa4">记录你的思考轨迹</span></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+            <sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+              <div style="background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:16px;padding:18px"><div style="font-size:12px;color:#9aa39d;margin-bottom:8px">{{k.label}}</div><div style="font-size:28px;font-weight:800;letter-spacing:-.02em;color:{{k.color}}">{{k.value}}</div></div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:20px;flex:1;min-height:0">
+            <div style="flex:1;background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:18px;padding:20px 22px;display:flex;flex-direction:column">
+              <div style="font-size:13px;font-weight:700;margin-bottom:6px">近 12 周记录频次</div>
+              <div style="font-size:12px;color:#a2aaa4;margin-bottom:20px">平均每周 9 条</div>
+              <div style="flex:1;display:flex;align-items:flex-end;gap:12px">
+                <sc-for list="{{weeks}}" as="w" hint-placeholder-count="12">
+                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end"><div style="width:100%;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#4cb78b,#2f9e78);height:{{w}}%"></div></div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="width:300px;flex:none;background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:18px;padding:20px 22px;display:flex;flex-direction:column">
+              <div style="font-size:13px;font-weight:700;margin-bottom:18px">标签排行</div>
+              <div style="display:flex;flex-direction:column;gap:15px;flex:1">
+                <sc-for list="{{ranks}}" as="r" hint-placeholder-count="5">
+                  <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="font-weight:600;color:#2c3430">#{{r.name}}</span><span style="color:#a2aaa4;font-weight:600">{{r.count}}</span></div><div style="height:7px;border-radius:99px;background:#eef3f0"><div style="height:100%;border-radius:99px;background:#2f9e78;width:{{r.pct}}%"></div></div></div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dv-opt" id="1b">
+      <div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a><b>静谧时间线 Quiet Timeline</b>· 单列居中 · 时间轴 · 顶部胶囊导航</div>
+
+      <!-- ===== B · DESKTOP ===== -->
+      <div class="frame" style="width:1360px;height:868px;display:flex;flex-direction:column;background:#eae7e1;font-family:'Manrope','PingFang SC','Hiragino Sans GB',system-ui,sans-serif;color:#211f1b">
+        <div style="height:38px;flex:none;background:#e2ded7;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid rgba(40,30,20,.06)">
+          <span style="width:11px;height:11px;border-radius:50%;background:#cbc6bd"></span><span style="width:11px;height:11px;border-radius:50%;background:#cbc6bd"></span><span style="width:11px;height:11px;border-radius:50%;background:#cbc6bd"></span>
+          <span style="flex:1;text-align:center;font-size:12px;font-weight:600;color:#aba69c">My Vault — Obsidian</span><span style="width:80px"></span>
+        </div>
+        <div style="flex:1;display:flex;min-height:0">
+          <div style="width:44px;flex:none;background:#e5e1da;display:flex;flex-direction:column;align-items:center;gap:15px;padding:14px 0;color:#b2ada2;font-size:17px;border-right:1px solid rgba(40,30,20,.05)">
+            <span class="ico"><i data-lucide="panel-left" style="width:18px;height:18px"></i></span>
+            <span class="ico"><i data-lucide="search" style="width:18px;height:18px"></i></span>
+            <span class="ico"><i data-lucide="files" style="width:18px;height:18px"></i></span>
+            <span class="ico" style="color:#2f9e78;position:relative"><i data-lucide="feather" style="width:18px;height:18px"></i><span style="position:absolute;left:-14px;top:50%;transform:translateY(-50%);width:3px;height:18px;border-radius:2px;background:#2f9e78"></span></span>
+            <span style="flex:1"></span><span class="ico"><i data-lucide="settings" style="width:18px;height:18px"></i></span>
+          </div>
+          <div data-screen-label="桌面 · Lumo 时间线" style="flex:1;min-width:0;display:flex;flex-direction:column;background:#f7f5f0">
+            <div style="height:36px;flex:none;background:#e8e4dd;display:flex;align-items:stretch;padding:5px 8px 0;gap:5px">
+              <div style="display:flex;align-items:center;gap:7px;padding:0 14px;background:#f7f5f0;border-radius:9px 9px 0 0;font-size:12.5px;font-weight:700"><i data-lucide="feather" style="width:14px;height:14px;color:#2f9e78"></i>Lumo</div>
+              <div style="display:flex;align-items:center;gap:7px;padding:0 14px;font-size:12.5px;color:#aba69c"><i data-lucide="file-text" style="width:14px;height:14px"></i>周计划.md</div>
+            </div>
+            <!-- plugin content: single centered column -->
+            <div style="flex:1;min-height:0;overflow:hidden;display:flex;justify-content:center">
+              <div style="width:100%;max-width:760px;display:flex;flex-direction:column;padding:26px 30px 0;gap:18px;overflow:hidden">
+                <!-- hero -->
+                <div>
+                  <div style="display:flex;align-items:baseline;gap:10px"><span style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.01em">晚上好，Song</span><span style="font-size:13px;color:#a49f95">6 月 12 日 · 星期五</span></div>
+                  <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+                    <sc-for list="{{chips}}" as="c" hint-placeholder-count="4">
+                      <span style="display:inline-flex;align-items:baseline;gap:6px;background:#fff;border:1px solid rgba(40,30,20,.06);border-radius:11px;padding:8px 13px"><span style="font-size:17px;font-weight:800;color:{{c.color}}">{{c.value}}</span><span style="font-size:12px;color:#a49f95;font-weight:600">{{c.label}}</span></span>
+                    </sc-for>
+                  </div>
+                  <!-- slim heat strip -->
+                  <div style="display:flex;gap:3px;margin-top:14px">
+                    <sc-for list="{{heatStrip}}" as="c" hint-placeholder-count="52">
+                      <span style="flex:1;height:12px;border-radius:3px;background:{{c.bg}}"></span>
+                    </sc-for>
+                  </div>
+                </div>
+                <!-- pill nav + compose -->
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="display:flex;gap:3px;background:#ece8e1;border-radius:11px;padding:3px">
+                    <sc-for list="{{pills}}" as="p" hint-placeholder-count="4">
+                      <span style="padding:6px 14px;border-radius:9px;font-size:12.5px;font-weight:700;color:{{p.color}};background:{{p.bg}};cursor:pointer">{{p.label}}</span>
+                    </sc-for>
+                  </div>
+                  <span style="flex:1"></span>
+                  <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(40,30,20,.06);color:#8a857b"><i data-lucide="arrow-up-down" style="width:16px;height:16px"></i></span>
+                  <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(40,30,20,.06);color:#8a857b"><i data-lucide="search" style="width:16px;height:16px"></i></span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(40,30,20,.07);border-radius:15px;padding:11px 12px 11px 18px;box-shadow:0 12px 30px -22px rgba(40,30,20,.4)">
+                  <i data-lucide="feather" style="width:18px;height:18px;color:#2f9e78"></i>
+                  <span style="flex:1;font-size:14.5px;color:#aba69c">此刻在想什么？</span>
+                  <span class="ico" style="color:#a49f95"><i data-lucide="hash" style="width:18px;height:18px"></i></span>
+                  <span class="ico" style="color:#a49f95"><i data-lucide="image" style="width:18px;height:18px"></i></span>
+                  <button style="display:flex;align-items:center;gap:5px;background:#2f9e78;color:#fff;border:none;padding:8px 15px;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer">记录</button>
+                </div>
+                <!-- timeline feed -->
+                <div style="flex:1;overflow:hidden;position:relative;padding-left:22px">
+                  <div style="position:absolute;left:4px;top:6px;bottom:0;width:2px;background:linear-gradient(180deg,#d8e6de,transparent)"></div>
+                  <div style="display:flex;flex-direction:column;gap:16px">
+                    <sc-for list="{{notes}}" as="n" hint-placeholder-count="4">
+                      <div style="position:relative">
+                        <span style="position:absolute;left:-22px;top:6px;width:10px;height:10px;border-radius:50%;background:#2f9e78;border:2px solid #f7f5f0"></span>
+                        <article style="background:#fff;border-radius:15px;padding:16px 18px;box-shadow:0 1px 2px rgba(40,30,20,.04),0 14px 34px -26px rgba(40,30,20,.4);border-left:3px solid {{n.edge}}">
+                          <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px"><time style="font-size:12px;font-weight:600;color:#a49f95">{{n.date}}</time><sc-if value="{{n.pinned}}" hint-placeholder-val="{{false}}"><i data-lucide="pin" style="width:13px;height:13px;color:#2f9e78"></i></sc-if><span style="flex:1"></span><sc-if value="{{n.tag}}" hint-placeholder-val="{{false}}"><span style="font-size:12px;font-weight:600;color:#2f9e78;background:#e9f4ef;padding:2px 9px;border-radius:8px">#{{n.tag}}</span></sc-if></div>
+                          <p style="margin:0;font-size:14.5px;line-height:1.7;color:#33302a;text-wrap:pretty">{{n.text}}</p>
+                          <sc-if value="{{n.bullets}}" hint-placeholder-val="{{false}}">
+                            <ul style="margin:9px 0 0;padding-left:2px;list-style:none;display:flex;flex-direction:column;gap:5px">
+                              <sc-for list="{{n.bullets}}" as="b" hint-placeholder-count="2">
+                                <li style="display:flex;gap:9px;font-size:13.5px;line-height:1.6;color:#5a564d"><span style="width:5px;height:5px;border-radius:50%;background:#a9d9c3;margin-top:8px;flex:none"></span><span>{{b}}</span></li>
+                              </sc-for>
+                            </ul>
+                          </sc-if>
+                        </article>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== B · MOBILE + STATS ===== -->
+      <div style="display:flex;gap:56px;align-items:flex-start">
+        <div style="width:380px;height:800px;border-radius:44px;background:#211f1b;padding:11px;flex:none;box-shadow:0 40px 80px -50px rgba(40,30,20,.6)">
+          <div style="width:100%;height:100%;border-radius:34px;overflow:hidden;background:#f7f5f0;display:flex;flex-direction:column;position:relative">
+            <div style="height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:13px;font-weight:700;color:#211f1b"><span>9:41</span><span style="display:flex;gap:5px"><i data-lucide="signal" style="width:15px;height:15px"></i><i data-lucide="wifi" style="width:15px;height:15px"></i><i data-lucide="battery-full" style="width:17px;height:17px"></i></span></div>
+            <div style="height:40px;flex:none;display:flex;align-items:center;gap:10px;padding:0 16px;color:#aba69c"><i data-lucide="menu" style="width:19px;height:19px"></i><span style="flex:1;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#211f1b"><i data-lucide="feather" style="width:14px;height:14px;color:#2f9e78"></i>Lumo</span><i data-lucide="more-vertical" style="width:19px;height:19px"></i></div>
+            <div style="flex:none;padding:6px 16px 10px">
+              <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:700">晚上好，Song</div>
+              <div style="display:flex;gap:3px;margin-top:10px">
+                <sc-for list="{{heatStrip}}" as="c" hint-placeholder-count="52"><span style="flex:1;height:10px;border-radius:2px;background:{{c.bg}}"></span></sc-for>
+              </div>
+              <div style="display:flex;gap:4px;margin-top:12px;background:#ece8e1;border-radius:11px;padding:3px">
+                <sc-for list="{{pills}}" as="p" hint-placeholder-count="4"><span style="flex:1;text-align:center;padding:7px 0;border-radius:9px;font-size:12px;font-weight:700;color:{{p.color}};background:{{p.bg}}">{{p.label}}</span></sc-for>
+              </div>
+            </div>
+            <div style="flex:1;overflow:hidden;padding:2px 16px 0;position:relative">
+              <div style="position:absolute;left:20px;top:6px;bottom:0;width:2px;background:linear-gradient(180deg,#d8e6de,transparent)"></div>
+              <div style="display:flex;flex-direction:column;gap:13px;padding-left:16px">
+                <sc-for list="{{notes}}" as="n" hint-placeholder-count="3">
+                  <div style="position:relative">
+                    <span style="position:absolute;left:-16px;top:6px;width:9px;height:9px;border-radius:50%;background:#2f9e78;border:2px solid #f7f5f0"></span>
+                    <article style="background:#fff;border-radius:14px;padding:13px 15px;box-shadow:0 10px 26px -22px rgba(40,30,20,.4);border-left:3px solid {{n.edge}}">
+                      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><time style="font-size:11px;font-weight:600;color:#a49f95">{{n.date}}</time><sc-if value="{{n.tag}}" hint-placeholder-val="{{false}}"><span style="font-size:11px;font-weight:600;color:#2f9e78;background:#e9f4ef;padding:1px 8px;border-radius:7px">#{{n.tag}}</span></sc-if></div>
+                      <p style="margin:0;font-size:13.5px;line-height:1.65;color:#33302a">{{n.text}}</p>
+                    </article>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="flex:none;padding:10px 16px 8px"><div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(40,30,20,.08);border-radius:16px;padding:9px 10px 9px 16px;box-shadow:0 10px 26px -18px rgba(40,30,20,.4)"><span style="flex:1;font-size:14px;color:#aba69c">此刻在想什么？</span><span class="ico" style="color:#a49f95"><i data-lucide="hash" style="width:19px;height:19px"></i></span><button style="width:38px;height:38px;flex:none;border:none;border-radius:12px;background:#2f9e78;color:#fff;display:flex;align-items:center;justify-content:center"><i data-lucide="arrow-up" style="width:20px;height:20px"></i></button></div></div>
+            <div style="height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-top:1px solid rgba(40,30,20,.06);color:#b6b1a6"><i data-lucide="panel-left" style="width:20px;height:20px"></i><i data-lucide="chevron-left" style="width:20px;height:20px"></i><i data-lucide="chevron-right" style="width:20px;height:20px"></i><i data-lucide="panel-right" style="width:20px;height:20px"></i></div>
+          </div>
+        </div>
+
+        <!-- stats B -->
+        <div class="frame" style="width:924px;height:800px;background:#f7f5f0;padding:28px 30px;display:flex;flex-direction:column;gap:20px;font-family:'Manrope','PingFang SC',system-ui,sans-serif;color:#211f1b">
+          <div style="font-family:'Outfit',sans-serif;font-size:24px;font-weight:700">思考轨迹</div>
+          <div style="display:flex;gap:16px">
+            <sc-for list="{{chips}}" as="c" hint-placeholder-count="4">
+              <div style="flex:1;background:#fff;border-radius:16px;padding:18px 20px;box-shadow:0 14px 34px -30px rgba(40,30,20,.5)"><div style="font-size:30px;font-weight:800;letter-spacing:-.02em;color:{{c.color}}">{{c.value}}</div><div style="font-size:12px;color:#a49f95;margin-top:4px">{{c.label}}</div></div>
+            </sc-for>
+          </div>
+          <div style="flex:1;display:flex;gap:20px;min-height:0">
+            <div style="flex:1;background:#fff;border-radius:18px;padding:22px 24px;display:flex;flex-direction:column">
+              <div style="font-size:13px;font-weight:700;margin-bottom:6px">近 12 周记录频次</div><div style="font-size:12px;color:#a49f95;margin-bottom:20px">平均每周 9 条</div>
+              <div style="flex:1;display:flex;align-items:flex-end;gap:12px">
+                <sc-for list="{{weeks}}" as="w" hint-placeholder-count="12"><div style="flex:1;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#4cb78b,#2f9e78);height:{{w}}%"></div></sc-for>
+              </div>
+            </div>
+            <div style="width:300px;flex:none;background:#fff;border-radius:18px;padding:22px 24px;display:flex;flex-direction:column">
+              <div style="font-size:13px;font-weight:700;margin-bottom:18px">标签排行</div>
+              <div style="display:flex;flex-direction:column;gap:15px;flex:1">
+                <sc-for list="{{ranks}}" as="r" hint-placeholder-count="5">
+                  <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="font-weight:600;color:#33302a">#{{r.name}}</span><span style="color:#a49f95;font-weight:600">{{r.count}}</span></div><div style="height:7px;border-radius:99px;background:#efece6"><div style="height:100%;border-radius:99px;background:#2f9e78;width:{{r.pct}}%"></div></div></div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <p class="dv-next">下一步可以说：把 <a class="dv-oid" href="#1a">1a</a> 的强调色换成蓝色 · 让 <a class="dv-oid" href="#1b">1b</a> 更紧凑 · 基于某个方案做深色模式 · 细化编辑器展开态</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount(){ this._ic(); }
+  componentDidUpdate(){ this._ic(); }
+  _ic(){ try { window.lucide && window.lucide.createIcons(); } catch(e){} }
+  renderVals(){
+    const g = ['#edf1ef','#cbe8db','#8fd1b5','#4cb78b','#2f9e78'];
+    const seed = [0,1,0,3,0,2,0,0,4,1,0,2,3,0,1,0,0,2,4,0,1,3,0,0,2,0,1,4];
+    const heat = [];
+    for (let i=0;i<98;i++){ heat.push({ bg: g[seed[(i*5 + (i%7)) % seed.length]] }); }
+
+    const nav = [
+      { icon:'shuffle',        label:'随机回顾', color:'#2f9e78', bg:'#e9f4ef' },
+      { icon:'image',          label:'画廊',     color:'#4a534e', bg:'transparent' },
+      { icon:'bar-chart-3',    label:'统计',     color:'#4a534e', bg:'transparent' },
+      { icon:'archive',        label:'归档',     color:'#4a534e', bg:'transparent' },
+      { icon:'trash-2',        label:'回收站',   color:'#4a534e', bg:'transparent' },
+    ];
+
+    const tools = ['hash','paperclip','list-checks','image','clock'];
+
+    const kpis = [
+      { label:'Thino 数量',   value:'506',        color:'#1c2320' },
+      { label:'任务数量',     value:'22',         color:'#1c2320' },
+      { label:'使用的标签',   value:'60',         color:'#1c2320' },
+      { label:'使用的天数',   value:'1165',       color:'#2f9e78' },
+      { label:'最活跃的一天', value:'02/20',      color:'#1c2320' },
+      { label:'最活跃一小时', value:'15 时',      color:'#1c2320' },
+    ];
+
+    const notes = [
+      { date:'2026/06/12 07:43', pinned:true, edge:'#2f9e78', text:'AI 订阅 claude 或者 chatgpt，土耳其已经涨价了，忽略，走美区的路径。', bullets:['apple 美区账号 + paypal 或礼品卡，可注册多个','Google play，目前有 2 个谷歌号码，最多再注册一个'] },
+      { date:'2026/05/30 21:23', edge:'#c7d3cc', text:'家里万年历调时间：ABCD 四个按键，长按 D 开始设置，按 B 是减。' },
+      { date:'2025/08/23 14:33', tag:'观影日记', edge:'#8fd6b6', text:'《新驯龙高手》2025-06-20，动画特效不错，故事也比较吸引人。' },
+      { date:'2026/04/14 09:25', tag:'工具', edge:'#8fd6b6', text:'Mac 磁盘清理工具 mole，github.com/tw93/mole，界面很干净。' },
+    ];
+
+    const tags = [
+      {name:'工作',count:25},{name:'追剧',count:34},{name:'备忘',count:91},{name:'美食',count:13},
+      {name:'技巧',count:17},{name:'观影日记',count:16},{name:'羊毛',count:13},{name:'哈尔滨',count:11},
+      {name:'海阳',count:9},{name:'旅游',count:7},{name:'电影',count:6},{name:'好物',count:6},
+      {name:'停车',count:5},{name:'折腾',count:5},{name:'收纳',count:4},{name:'消费',count:4},
+    ];
+
+    const weeks = [34,52,26,64,44,78,38,58,30,70,48,90];
+
+    const ranks = [
+      {name:'备忘',count:91,pct:100},
+      {name:'追剧',count:34,pct:37},
+      {name:'工作',count:25,pct:27},
+      {name:'技巧',count:17,pct:19},
+      {name:'观影日记',count:16,pct:18},
+    ];
+
+    const segs = [
+      {icon:'feather',    label:'记录', color:'#2f9e78', bg:'#fff', shadow:'0 4px 10px -6px rgba(20,40,30,.4)'},
+      {icon:'shuffle',    label:'回顾', color:'#8b968f', bg:'transparent', shadow:'none'},
+      {icon:'bar-chart-3',label:'统计', color:'#8b968f', bg:'transparent', shadow:'none'},
+      {icon:'hash',       label:'标签', color:'#8b968f', bg:'transparent', shadow:'none'},
+    ];
+
+    const heatStrip = [];
+    for (let i=0;i<52;i++){ heatStrip.push({ bg: g[seed[(i*3 + (i%5)) % seed.length]] }); }
+
+    const chips = [
+      { value:'506',  label:'Thino', color:'#211f1b' },
+      { value:'1165', label:'记录天数', color:'#2f9e78' },
+      { value:'60',   label:'标签', color:'#211f1b' },
+      { value:'22',   label:'待办', color:'#211f1b' },
+    ];
+
+    const pills = [
+      { label:'全部', color:'#211f1b', bg:'#fff' },
+      { label:'任务', color:'#8a857b', bg:'transparent' },
+      { label:'图片', color:'#8a857b', bg:'transparent' },
+      { label:'标签', color:'#8a857b', bg:'transparent' },
+    ];
+
+    // ---- Quiet Journal (2a) ----
+    const jpills = [
+      { label:'全部', color:'#2b2823', bg:'#fff' },
+      { label:'心情', color:'#948f84', bg:'transparent' },
+      { label:'图片', color:'#948f84', bg:'transparent' },
+      { label:'标签', color:'#948f84', bg:'transparent' },
+    ];
+
+    // 快速标签过滤条
+    const jtags = [
+      { name:'全部', count:506, on:true },
+      { name:'工作', count:25 },
+      { name:'观影日记', count:16 },
+      { name:'备忘', count:91 },
+      { name:'追剧', count:34 },
+      { name:'技巧', count:17 },
+      { name:'美食', count:13 },
+      { name:'旅游', count:7 },
+    ].map(t => ({ ...t, fg: t.on ? '#fff' : '#6f6a60', bg: t.on ? '#2f9e78' : '#efece5' }));
+
+    // 输入展开态：心情选择器 + 键盘
+    const pickMoods = [
+      {e:'😊',on:true},{e:'😌'},{e:'🥰'},{e:'🤔'},{e:'😔'},{e:'😮'},{e:'😴'}
+    ].map(m => ({ e:m.e, bg: m.on ? '#e6f3ec' : 'transparent', ring: m.on ? '2px solid #2f9e78' : '2px solid transparent' }));
+    const kb1 = 'QWERTYUIOP'.split('');
+    const kb2 = 'ASDFGHJKL'.split('');
+    const kb3 = 'ZXCVBNM'.split('');
+
+    const journal = [
+      { date:'2026.07.05', dow:'星期日', when:'上午', mood:{e:'😊',l:'开心'}, weather:{e:'☀️',l:'晴'}, place:'杭州', tag:'工作',
+        text:'完成了 Lumo 的重构方案，团队都挺满意。下午去西湖边走了走，久违的放松。' },
+      { date:'2026.07.03', dow:'星期五', when:'夜晚', mood:{e:'😌',l:'平静'}, weather:{e:'⛅',l:'多云'}, place:'家',
+        text:'整理了这半年的读书笔记，发现自己确实变了不少。慢下来记录，是一件值得坚持的事。' },
+      { date:'2026.06.28', dow:'星期日', when:'下午', mood:{e:'🤔',l:'思考'}, weather:{e:'🌧️',l:'雨'}, place:'公司', tag:'工作',
+        text:'关于产品方向的讨论有些焦灼。先把几个待验证的假设记下来，明天再想。' },
+      { date:'2026.06.20', dow:'星期六', when:'傍晚', mood:{e:'🥰',l:'温暖'}, weather:{e:'☀️',l:'晴'}, place:'海阳', tag:'观影日记',
+        text:'全家一起看了《新驯龙高手》，孩子笑得很开心。这样的时刻，想多留住一些。' },
+    ];
+
+    const moods = [
+      {e:'😊',l:'开心',count:142,pct:100},
+      {e:'😌',l:'平静',count:98,pct:69},
+      {e:'🥰',l:'温暖',count:73,pct:51},
+      {e:'🤔',l:'思考',count:54,pct:38},
+      {e:'😔',l:'低落',count:25,pct:18},
+    ];
+
+    const insight = [
+      { value:'187', label:'今年记录的天数' },
+      { value:'506', label:'累计记录条数' },
+      { value:'60',  label:'连续记录（天）' },
+    ];
+
+    return { heat, heatStrip, chips, pills, nav, tools, kpis, notes, tags, weeks, ranks, segs, jpills, jtags, journal, moods, insight, pickMoods, kb1, kb2, kb3 };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  @page { margin: 0.5in; }
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#eceeec;font-family:"Manrope","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+  .dv-turn{padding:44px 48px 36px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+  .dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 26px}
+  .dv-tid{font:700 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1b2320;color:#fff;border-radius:5px;text-decoration:none}
+  .dv-tname{font:600 13px/1.3 system-ui,sans-serif;color:#1b2320}
+  .dv-opts{display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start}
+  .dv-opt{flex:none;display:flex;flex-direction:column;gap:20px;scroll-margin-top:16px}
+  .dv-oid{font:700 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1b2320;border-radius:6px;text-decoration:none}
+  .dv-olabel{display:flex;align-items:baseline;gap:9px;font:500 12px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.5)}
+  .dv-olabel b{font:700 13px system-ui,sans-serif;color:#1b2320}
+  .dv-opt:target .dv-oid{background:#2f9e78;color:#fff}
+  .dv-next{margin:26px 0 0;font:13px/1.6 system-ui,sans-serif;color:rgba(0,0,0,.5)}
+  .dv-next a{color:#2f9e78;text-decoration:none;font-weight:600}
+  .frame{border-radius:22px;overflow:hidden;border:1px solid rgba(20,40,30,.08);box-shadow:0 2px 4px rgba(20,40,30,.04),0 30px 60px -40px rgba(20,40,30,.3)}
+  .ico i{width:1em;height:1em;display:inline-flex}
+  [data-lucide]{stroke-width:1.75}
+  ::-webkit-scrollbar{width:0;height:0}
+</style>
+</helmet>
+<section class="dv-turn" id="t1">
+  <div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Lumo 重设计 · 两个方向</span></div>
+  <div class="dv-opts">
+
+    <div class="dv-opt" id="1a">
+      <div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a><b>清新卡片 Airy Cards</b>· 大留白 · 柔和阴影 · 编辑器悬浮</div>
+
+      <!-- ===== A · DESKTOP (plugin pane inside Obsidian) ===== -->
+      <div class="frame" style="width:1360px;height:868px;display:flex;flex-direction:column;background:#e9ede9;font-family:'Manrope','PingFang SC','Hiragino Sans GB',system-ui,sans-serif;color:#1c2320">
+        <!-- Obsidian titlebar (环境, 淡化) -->
+        <div style="height:38px;flex:none;background:#dfe5e1;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid rgba(20,40,30,.06)">
+          <span style="width:11px;height:11px;border-radius:50%;background:#c6cec8"></span>
+          <span style="width:11px;height:11px;border-radius:50%;background:#c6cec8"></span>
+          <span style="width:11px;height:11px;border-radius:50%;background:#c6cec8"></span>
+          <span style="flex:1;text-align:center;font-size:12px;font-weight:600;color:#a7afa9">My Vault — Obsidian</span>
+          <span style="width:80px"></span>
+        </div>
+        <div style="flex:1;display:flex;min-height:0">
+          <!-- Obsidian ribbon (环境, 淡化) -->
+          <div style="width:44px;flex:none;background:#e4e9e6;display:flex;flex-direction:column;align-items:center;gap:15px;padding:14px 0;color:#aeb6b0;font-size:17px;border-right:1px solid rgba(20,40,30,.05)">
+            <span class="ico"><i data-lucide="panel-left" style="width:18px;height:18px"></i></span>
+            <span class="ico"><i data-lucide="search" style="width:18px;height:18px"></i></span>
+            <span class="ico"><i data-lucide="files" style="width:18px;height:18px"></i></span>
+            <span class="ico" style="color:#2f9e78;position:relative"><i data-lucide="feather" style="width:18px;height:18px"></i><span style="position:absolute;left:-14px;top:50%;transform:translateY(-50%);width:3px;height:18px;border-radius:2px;background:#2f9e78"></span></span>
+            <span style="flex:1"></span>
+            <span class="ico"><i data-lucide="settings" style="width:18px;height:18px"></i></span>
+          </div>
+          <!-- Lumo 插件面板 (active leaf) -->
+          <div data-screen-label="桌面 · Lumo 面板" style="flex:1;min-width:0;display:flex;flex-direction:column;background:#f5f8f6">
+            <!-- leaf 标签条 (环境, 淡化) -->
+            <div style="height:36px;flex:none;background:#e6ebe8;display:flex;align-items:stretch;padding:5px 8px 0;gap:5px">
+              <div style="display:flex;align-items:center;gap:7px;padding:0 14px;background:#f5f8f6;border-radius:9px 9px 0 0;font-size:12.5px;font-weight:700;color:#1c2320"><i data-lucide="feather" style="width:14px;height:14px;color:#2f9e78"></i>Lumo</div>
+              <div style="display:flex;align-items:center;gap:7px;padding:0 14px;font-size:12.5px;color:#a7afa9"><i data-lucide="file-text" style="width:14px;height:14px"></i>周计划.md</div>
+            </div>
+            <div style="flex:1;display:flex;min-height:0">
+        <!-- plugin sidebar -->
+        <aside style="width:238px;flex:none;padding:24px 20px;display:flex;flex-direction:column;gap:22px;border-right:1px solid rgba(20,40,30,.06)">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:44px;height:44px;border-radius:14px;background:linear-gradient(140deg,#8fd6b6,#2f9e78);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;box-shadow:0 6px 16px -8px rgba(47,158,120,.7)">S</div>
+            <div style="min-width:0">
+              <div style="display:flex;align-items:center;gap:6px"><span style="font-weight:800;font-size:16px">Song</span><span style="font-size:9px;font-weight:800;letter-spacing:.06em;color:#fff;background:#2f9e78;padding:2px 6px;border-radius:5px">PRO</span></div>
+              <div style="font-size:12px;color:#9aa39d;margin-top:2px">Live your self</div>
+            </div>
+          </div>
+
+          <nav style="display:flex;flex-direction:column;gap:2px">
+            <sc-for list="{{nav}}" as="item" hint-placeholder-count="5">
+              <a style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:11px;font-size:13.5px;font-weight:600;color:{{item.color}};background:{{item.bg}};cursor:pointer" class="ico"><i data-lucide="{{item.icon}}" style="width:17px;height:17px"></i>{{item.label}}</a>
+            </sc-for>
+          </nav>
+
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.08em;color:#aab2ac;text-transform:uppercase;margin-bottom:10px">检索式</div>
+            <div style="display:flex;gap:10px">
+              <div style="flex:1;background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:12px;padding:12px 14px"><div style="display:flex;align-items:center;gap:6px;color:#2f9e78"><i data-lucide="filter" style="width:15px;height:15px"></i><span style="font-size:20px;font-weight:800;color:#1c2320">1</span></div><div style="font-size:11px;color:#9aa39d;margin-top:3px">过滤器</div></div>
+              <div style="flex:1;background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:12px;padding:12px 14px"><div style="display:flex;align-items:center;gap:6px;color:#9aa39d"><i data-lucide="pin" style="width:15px;height:15px"></i><span style="font-size:20px;font-weight:800;color:#1c2320">0</span></div><div style="font-size:11px;color:#9aa39d;margin-top:3px">置顶</div></div>
+            </div>
+          </div>
+
+          <div style="flex:1;min-height:0">
+            <div style="font-size:11px;font-weight:700;letter-spacing:.08em;color:#aab2ac;text-transform:uppercase;margin-bottom:12px">Thino 状态</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 14px">
+              <sc-for list="{{kpis}}" as="k" hint-placeholder-count="6">
+                <div><div style="font-size:11px;color:#9aa39d;margin-bottom:3px">{{k.label}}</div><div style="font-size:19px;font-weight:800;letter-spacing:-.01em;color:{{k.color}}">{{k.value}}</div></div>
+              </sc-for>
+            </div>
+          </div>
+        </aside>
+
+        <!-- center -->
+        <main style="flex:1;min-width:0;display:flex;flex-direction:column;padding:22px 26px;gap:16px;overflow:hidden">
+          <div style="display:flex;align-items:center;gap:8px;color:#8b968f">
+            <span style="font-size:15px;font-weight:800;color:#1c2320">Thino</span>
+            <span style="flex:1"></span>
+            <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(20,40,30,.06)"><i data-lucide="calendar-check" style="width:16px;height:16px"></i></span>
+            <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(20,40,30,.06)"><i data-lucide="arrow-up-down" style="width:16px;height:16px"></i></span>
+            <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(20,40,30,.06)"><i data-lucide="sliders-horizontal" style="width:16px;height:16px"></i></span>
+            <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(20,40,30,.06)"><i data-lucide="search" style="width:16px;height:16px"></i></span>
+          </div>
+
+          <!-- compose -->
+          <div style="background:#fff;border:1px solid rgba(20,40,30,.07);border-radius:18px;box-shadow:0 1px 2px rgba(20,40,30,.04),0 14px 34px -24px rgba(20,40,30,.28);padding:18px 20px 13px">
+            <div style="min-height:58px;color:#aab2ac;font-size:15px;line-height:1.6">记录此刻的想法，随手写下一个念头…</div>
+            <div style="display:flex;align-items:center;gap:3px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(20,40,30,.06)">
+              <sc-for list="{{tools}}" as="t" hint-placeholder-count="5">
+                <span class="ico" style="width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border-radius:9px;color:#7d877f;cursor:pointer" style-hover="background:#eef3f0;color:#2f9e78"><i data-lucide="{{t}}" style="width:17px;height:17px"></i></span>
+              </sc-for>
+              <span style="flex:1"></span>
+              <span style="font-size:12px;color:#c2c9c4;margin-right:6px">⌘↵</span>
+              <button style="display:flex;align-items:center;gap:6px;background:#2f9e78;color:#fff;border:none;padding:9px 18px;border-radius:11px;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 8px 18px -10px rgba(47,158,120,.9)"><i data-lucide="check" style="width:16px;height:16px"></i>记录</button>
+            </div>
+          </div>
+
+          <!-- feed -->
+          <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{notes}}" as="n" hint-placeholder-count="4">
+              <article style="background:#fff;border:1px solid rgba(20,40,30,.07);border-radius:16px;padding:18px 20px;box-shadow:0 1px 2px rgba(20,40,30,.03),0 10px 26px -22px rgba(20,40,30,.2)">
+                <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+                  <time style="font-size:12px;font-weight:600;color:#a2aaa4;letter-spacing:.01em">{{n.date}}</time>
+                  <sc-if value="{{n.pinned}}" hint-placeholder-val="{{false}}"><span class="ico" style="color:#2f9e78"><i data-lucide="pin" style="width:13px;height:13px"></i></span></sc-if>
+                  <span style="flex:1"></span>
+                  <span class="ico" style="color:#c7cec9"><i data-lucide="more-horizontal" style="width:16px;height:16px"></i></span>
+                </div>
+                <sc-if value="{{n.tag}}" hint-placeholder-val="{{false}}">
+                  <span style="display:inline-flex;align-items:center;font-size:12px;font-weight:600;color:#2f9e78;background:#e9f4ef;padding:3px 9px;border-radius:8px;margin-bottom:9px">#{{n.tag}}</span>
+                </sc-if>
+                <p style="margin:0;font-size:14.5px;line-height:1.7;color:#2c3430;text-wrap:pretty">{{n.text}}</p>
+                <sc-if value="{{n.bullets}}" hint-placeholder-val="{{false}}">
+                  <ul style="margin:10px 0 0;padding-left:4px;list-style:none;display:flex;flex-direction:column;gap:6px">
+                    <sc-for list="{{n.bullets}}" as="b" hint-placeholder-count="2">
+                      <li style="display:flex;gap:9px;font-size:14px;line-height:1.6;color:#4a534e"><span style="width:5px;height:5px;border-radius:50%;background:#8fd6b6;margin-top:8px;flex:none"></span><span>{{b}}</span></li>
+                    </sc-for>
+                  </ul>
+                </sc-if>
+              </article>
+            </sc-for>
+          </div>
+        </main>
+
+        <!-- right -->
+        <aside style="width:300px;flex:none;padding:22px 22px 22px 4px;display:flex;flex-direction:column;gap:18px">
+          <div style="background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:16px;padding:18px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font-size:13px;font-weight:700;color:#1c2320">年度足迹</span><span style="font-size:11px;color:#a2aaa4">1165 天</span></div>
+            <div style="display:grid;grid-template-columns:repeat(14,1fr);gap:4px">
+              <sc-for list="{{heat}}" as="c" hint-placeholder-count="98">
+                <span style="aspect-ratio:1;border-radius:4px;background:{{c.bg}}"></span>
+              </sc-for>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:12px;font-size:10px;color:#a2aaa4">少<span style="width:9px;height:9px;border-radius:3px;background:#edf1ef"></span><span style="width:9px;height:9px;border-radius:3px;background:#cbe8db"></span><span style="width:9px;height:9px;border-radius:3px;background:#8fd1b5"></span><span style="width:9px;height:9px;border-radius:3px;background:#2f9e78"></span>多</div>
+          </div>
+
+          <div style="background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:16px;padding:18px;flex:1;min-height:0;overflow:hidden">
+            <div style="font-size:13px;font-weight:700;color:#1c2320;margin-bottom:14px">常用标签</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{tags}}" as="t" hint-placeholder-count="16">
+                <span style="display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:500;color:#4a534e;background:#f2f6f4;border:1px solid rgba(20,40,30,.05);padding:5px 10px;border-radius:9px;cursor:pointer">#{{t.name}}<span style="font-size:11px;color:#adb5af;font-weight:600">{{t.count}}</span></span>
+              </sc-for>
+            </div>
+          </div>
+        </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== A · MOBILE + STATS ===== -->
+      <div style="display:flex;gap:56px;align-items:flex-start">
+
+        <!-- mobile -->
+        <div style="width:380px;height:800px;border-radius:44px;background:#1c2320;padding:11px;flex:none;box-shadow:0 40px 80px -50px rgba(20,40,30,.6)">
+          <div style="width:100%;height:100%;border-radius:34px;overflow:hidden;background:#f5f8f6;display:flex;flex-direction:column;position:relative;font-family:'Manrope','PingFang SC',system-ui,sans-serif">
+            <div style="height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:13px;font-weight:700;color:#1c2320"><span>9:41</span><span style="display:flex;gap:5px;color:#1c2320"><i data-lucide="signal" style="width:15px;height:15px"></i><i data-lucide="wifi" style="width:15px;height:15px"></i><i data-lucide="battery-full" style="width:17px;height:17px"></i></span></div>
+            <!-- Obsidian mobile 顶栏 (环境, 淡化) -->
+            <div style="height:40px;flex:none;display:flex;align-items:center;gap:10px;padding:0 16px;color:#a7afa9">
+              <i data-lucide="menu" style="width:19px;height:19px"></i>
+              <span style="flex:1;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#1c2320"><i data-lucide="feather" style="width:14px;height:14px;color:#2f9e78"></i>Lumo</span>
+              <i data-lucide="more-vertical" style="width:19px;height:19px"></i>
+            </div>
+            <!-- 插件内顶部分段导航 -->
+            <div style="flex:none;padding:4px 14px 10px">
+              <div style="display:flex;gap:4px;background:#e8ede a;background:#e9eeeb;border-radius:12px;padding:4px">
+                <sc-for list="{{segs}}" as="s" hint-placeholder-count="4">
+                  <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:8px 0;border-radius:9px;font-size:12.5px;font-weight:700;color:{{s.color}};background:{{s.bg}};box-shadow:{{s.shadow}}"><i data-lucide="{{s.icon}}" style="width:15px;height:15px"></i>{{s.label}}</div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="flex:1;overflow:hidden;padding:2px 14px 0;display:flex;flex-direction:column;gap:11px">
+              <sc-for list="{{notes}}" as="n" hint-placeholder-count="3">
+                <article style="background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:16px;padding:15px 16px;box-shadow:0 8px 22px -20px rgba(20,40,30,.3)">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px"><time style="font-size:11px;font-weight:600;color:#a2aaa4">{{n.date}}</time><sc-if value="{{n.pinned}}" hint-placeholder-val="{{false}}"><i data-lucide="pin" style="width:12px;height:12px;color:#2f9e78"></i></sc-if></div>
+                  <sc-if value="{{n.tag}}" hint-placeholder-val="{{false}}"><span style="display:inline-block;font-size:11px;font-weight:600;color:#2f9e78;background:#e9f4ef;padding:2px 8px;border-radius:7px;margin-bottom:7px">#{{n.tag}}</span></sc-if>
+                  <p style="margin:0;font-size:13.5px;line-height:1.65;color:#2c3430">{{n.text}}</p>
+                </article>
+              </sc-for>
+            </div>
+            <!-- 插件底部记录输入条 -->
+            <div style="flex:none;padding:10px 14px 8px">
+              <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(20,40,30,.08);border-radius:16px;padding:9px 10px 9px 16px;box-shadow:0 10px 26px -18px rgba(20,40,30,.4)">
+                <span style="flex:1;font-size:14px;color:#aab2ac">记一笔想法…</span>
+                <span class="ico" style="color:#9aa39d"><i data-lucide="hash" style="width:19px;height:19px"></i></span>
+                <span class="ico" style="color:#9aa39d"><i data-lucide="image" style="width:19px;height:19px"></i></span>
+                <button style="width:38px;height:38px;flex:none;border:none;border-radius:12px;background:#2f9e78;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px -8px rgba(47,158,120,.9);cursor:pointer"><i data-lucide="arrow-up" style="width:20px;height:20px"></i></button>
+              </div>
+            </div>
+            <!-- Obsidian mobile 底部导航 (环境, 淡化) -->
+            <div style="height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-top:1px solid rgba(20,40,30,.06);color:#b3bbb5">
+              <i data-lucide="panel-left" style="width:20px;height:20px"></i>
+              <i data-lucide="chevron-left" style="width:20px;height:20px"></i>
+              <i data-lucide="chevron-right" style="width:20px;height:20px"></i>
+              <i data-lucide="panel-right" style="width:20px;height:20px"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- stats -->
+        <div class="frame" style="width:924px;height:800px;background:#f5f8f6;padding:26px 28px;display:flex;flex-direction:column;gap:20px;font-family:'Manrope','PingFang SC',system-ui,sans-serif;color:#1c2320">
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:20px;font-weight:800">统计</span><span style="font-size:13px;color:#a2aaa4">记录你的思考轨迹</span></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+            <sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+              <div style="background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:16px;padding:18px"><div style="font-size:12px;color:#9aa39d;margin-bottom:8px">{{k.label}}</div><div style="font-size:28px;font-weight:800;letter-spacing:-.02em;color:{{k.color}}">{{k.value}}</div></div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:20px;flex:1;min-height:0">
+            <div style="flex:1;background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:18px;padding:20px 22px;display:flex;flex-direction:column">
+              <div style="font-size:13px;font-weight:700;margin-bottom:6px">近 12 周记录频次</div>
+              <div style="font-size:12px;color:#a2aaa4;margin-bottom:20px">平均每周 9 条</div>
+              <div style="flex:1;display:flex;align-items:flex-end;gap:12px">
+                <sc-for list="{{weeks}}" as="w" hint-placeholder-count="12">
+                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end"><div style="width:100%;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#4cb78b,#2f9e78);height:{{w}}%"></div></div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="width:300px;flex:none;background:#fff;border:1px solid rgba(20,40,30,.06);border-radius:18px;padding:20px 22px;display:flex;flex-direction:column">
+              <div style="font-size:13px;font-weight:700;margin-bottom:18px">标签排行</div>
+              <div style="display:flex;flex-direction:column;gap:15px;flex:1">
+                <sc-for list="{{ranks}}" as="r" hint-placeholder-count="5">
+                  <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="font-weight:600;color:#2c3430">#{{r.name}}</span><span style="color:#a2aaa4;font-weight:600">{{r.count}}</span></div><div style="height:7px;border-radius:99px;background:#eef3f0"><div style="height:100%;border-radius:99px;background:#2f9e78;width:{{r.pct}}%"></div></div></div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dv-opt" id="1b">
+      <div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a><b>静谧时间线 Quiet Timeline</b>· 单列居中 · 时间轴 · 顶部胶囊导航</div>
+
+      <!-- ===== B · DESKTOP ===== -->
+      <div class="frame" style="width:1360px;height:868px;display:flex;flex-direction:column;background:#eae7e1;font-family:'Manrope','PingFang SC','Hiragino Sans GB',system-ui,sans-serif;color:#211f1b">
+        <div style="height:38px;flex:none;background:#e2ded7;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid rgba(40,30,20,.06)">
+          <span style="width:11px;height:11px;border-radius:50%;background:#cbc6bd"></span><span style="width:11px;height:11px;border-radius:50%;background:#cbc6bd"></span><span style="width:11px;height:11px;border-radius:50%;background:#cbc6bd"></span>
+          <span style="flex:1;text-align:center;font-size:12px;font-weight:600;color:#aba69c">My Vault — Obsidian</span><span style="width:80px"></span>
+        </div>
+        <div style="flex:1;display:flex;min-height:0">
+          <div style="width:44px;flex:none;background:#e5e1da;display:flex;flex-direction:column;align-items:center;gap:15px;padding:14px 0;color:#b2ada2;font-size:17px;border-right:1px solid rgba(40,30,20,.05)">
+            <span class="ico"><i data-lucide="panel-left" style="width:18px;height:18px"></i></span>
+            <span class="ico"><i data-lucide="search" style="width:18px;height:18px"></i></span>
+            <span class="ico"><i data-lucide="files" style="width:18px;height:18px"></i></span>
+            <span class="ico" style="color:#2f9e78;position:relative"><i data-lucide="feather" style="width:18px;height:18px"></i><span style="position:absolute;left:-14px;top:50%;transform:translateY(-50%);width:3px;height:18px;border-radius:2px;background:#2f9e78"></span></span>
+            <span style="flex:1"></span><span class="ico"><i data-lucide="settings" style="width:18px;height:18px"></i></span>
+          </div>
+          <div data-screen-label="桌面 · Lumo 时间线" style="flex:1;min-width:0;display:flex;flex-direction:column;background:#f7f5f0">
+            <div style="height:36px;flex:none;background:#e8e4dd;display:flex;align-items:stretch;padding:5px 8px 0;gap:5px">
+              <div style="display:flex;align-items:center;gap:7px;padding:0 14px;background:#f7f5f0;border-radius:9px 9px 0 0;font-size:12.5px;font-weight:700"><i data-lucide="feather" style="width:14px;height:14px;color:#2f9e78"></i>Lumo</div>
+              <div style="display:flex;align-items:center;gap:7px;padding:0 14px;font-size:12.5px;color:#aba69c"><i data-lucide="file-text" style="width:14px;height:14px"></i>周计划.md</div>
+            </div>
+            <!-- plugin content: single centered column -->
+            <div style="flex:1;min-height:0;overflow:hidden;display:flex;justify-content:center">
+              <div style="width:100%;max-width:760px;display:flex;flex-direction:column;padding:26px 30px 0;gap:18px;overflow:hidden">
+                <!-- hero -->
+                <div>
+                  <div style="display:flex;align-items:baseline;gap:10px"><span style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.01em">晚上好，Song</span><span style="font-size:13px;color:#a49f95">6 月 12 日 · 星期五</span></div>
+                  <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+                    <sc-for list="{{chips}}" as="c" hint-placeholder-count="4">
+                      <span style="display:inline-flex;align-items:baseline;gap:6px;background:#fff;border:1px solid rgba(40,30,20,.06);border-radius:11px;padding:8px 13px"><span style="font-size:17px;font-weight:800;color:{{c.color}}">{{c.value}}</span><span style="font-size:12px;color:#a49f95;font-weight:600">{{c.label}}</span></span>
+                    </sc-for>
+                  </div>
+                  <!-- slim heat strip -->
+                  <div style="display:flex;gap:3px;margin-top:14px">
+                    <sc-for list="{{heatStrip}}" as="c" hint-placeholder-count="52">
+                      <span style="flex:1;height:12px;border-radius:3px;background:{{c.bg}}"></span>
+                    </sc-for>
+                  </div>
+                </div>
+                <!-- pill nav + compose -->
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="display:flex;gap:3px;background:#ece8e1;border-radius:11px;padding:3px">
+                    <sc-for list="{{pills}}" as="p" hint-placeholder-count="4">
+                      <span style="padding:6px 14px;border-radius:9px;font-size:12.5px;font-weight:700;color:{{p.color}};background:{{p.bg}};cursor:pointer">{{p.label}}</span>
+                    </sc-for>
+                  </div>
+                  <span style="flex:1"></span>
+                  <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(40,30,20,.06);color:#8a857b"><i data-lucide="arrow-up-down" style="width:16px;height:16px"></i></span>
+                  <span class="ico" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid rgba(40,30,20,.06);color:#8a857b"><i data-lucide="search" style="width:16px;height:16px"></i></span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(40,30,20,.07);border-radius:15px;padding:11px 12px 11px 18px;box-shadow:0 12px 30px -22px rgba(40,30,20,.4)">
+                  <i data-lucide="feather" style="width:18px;height:18px;color:#2f9e78"></i>
+                  <span style="flex:1;font-size:14.5px;color:#aba69c">此刻在想什么？</span>
+                  <span class="ico" style="color:#a49f95"><i data-lucide="hash" style="width:18px;height:18px"></i></span>
+                  <span class="ico" style="color:#a49f95"><i data-lucide="image" style="width:18px;height:18px"></i></span>
+                  <button style="display:flex;align-items:center;gap:5px;background:#2f9e78;color:#fff;border:none;padding:8px 15px;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer">记录</button>
+                </div>
+                <!-- timeline feed -->
+                <div style="flex:1;overflow:hidden;position:relative;padding-left:22px">
+                  <div style="position:absolute;left:4px;top:6px;bottom:0;width:2px;background:linear-gradient(180deg,#d8e6de,transparent)"></div>
+                  <div style="display:flex;flex-direction:column;gap:16px">
+                    <sc-for list="{{notes}}" as="n" hint-placeholder-count="4">
+                      <div style="position:relative">
+                        <span style="position:absolute;left:-22px;top:6px;width:10px;height:10px;border-radius:50%;background:#2f9e78;border:2px solid #f7f5f0"></span>
+                        <article style="background:#fff;border-radius:15px;padding:16px 18px;box-shadow:0 1px 2px rgba(40,30,20,.04),0 14px 34px -26px rgba(40,30,20,.4);border-left:3px solid {{n.edge}}">
+                          <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px"><time style="font-size:12px;font-weight:600;color:#a49f95">{{n.date}}</time><sc-if value="{{n.pinned}}" hint-placeholder-val="{{false}}"><i data-lucide="pin" style="width:13px;height:13px;color:#2f9e78"></i></sc-if><span style="flex:1"></span><sc-if value="{{n.tag}}" hint-placeholder-val="{{false}}"><span style="font-size:12px;font-weight:600;color:#2f9e78;background:#e9f4ef;padding:2px 9px;border-radius:8px">#{{n.tag}}</span></sc-if></div>
+                          <p style="margin:0;font-size:14.5px;line-height:1.7;color:#33302a;text-wrap:pretty">{{n.text}}</p>
+                          <sc-if value="{{n.bullets}}" hint-placeholder-val="{{false}}">
+                            <ul style="margin:9px 0 0;padding-left:2px;list-style:none;display:flex;flex-direction:column;gap:5px">
+                              <sc-for list="{{n.bullets}}" as="b" hint-placeholder-count="2">
+                                <li style="display:flex;gap:9px;font-size:13.5px;line-height:1.6;color:#5a564d"><span style="width:5px;height:5px;border-radius:50%;background:#a9d9c3;margin-top:8px;flex:none"></span><span>{{b}}</span></li>
+                              </sc-for>
+                            </ul>
+                          </sc-if>
+                        </article>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== B · MOBILE + STATS ===== -->
+      <div style="display:flex;gap:56px;align-items:flex-start">
+        <div style="width:380px;height:800px;border-radius:44px;background:#211f1b;padding:11px;flex:none;box-shadow:0 40px 80px -50px rgba(40,30,20,.6)">
+          <div style="width:100%;height:100%;border-radius:34px;overflow:hidden;background:#f7f5f0;display:flex;flex-direction:column;position:relative">
+            <div style="height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:13px;font-weight:700;color:#211f1b"><span>9:41</span><span style="display:flex;gap:5px"><i data-lucide="signal" style="width:15px;height:15px"></i><i data-lucide="wifi" style="width:15px;height:15px"></i><i data-lucide="battery-full" style="width:17px;height:17px"></i></span></div>
+            <div style="height:40px;flex:none;display:flex;align-items:center;gap:10px;padding:0 16px;color:#aba69c"><i data-lucide="menu" style="width:19px;height:19px"></i><span style="flex:1;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#211f1b"><i data-lucide="feather" style="width:14px;height:14px;color:#2f9e78"></i>Lumo</span><i data-lucide="more-vertical" style="width:19px;height:19px"></i></div>
+            <div style="flex:none;padding:6px 16px 10px">
+              <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:700">晚上好，Song</div>
+              <div style="display:flex;gap:3px;margin-top:10px">
+                <sc-for list="{{heatStrip}}" as="c" hint-placeholder-count="52"><span style="flex:1;height:10px;border-radius:2px;background:{{c.bg}}"></span></sc-for>
+              </div>
+              <div style="display:flex;gap:4px;margin-top:12px;background:#ece8e1;border-radius:11px;padding:3px">
+                <sc-for list="{{pills}}" as="p" hint-placeholder-count="4"><span style="flex:1;text-align:center;padding:7px 0;border-radius:9px;font-size:12px;font-weight:700;color:{{p.color}};background:{{p.bg}}">{{p.label}}</span></sc-for>
+              </div>
+            </div>
+            <div style="flex:1;overflow:hidden;padding:2px 16px 0;position:relative">
+              <div style="position:absolute;left:20px;top:6px;bottom:0;width:2px;background:linear-gradient(180deg,#d8e6de,transparent)"></div>
+              <div style="display:flex;flex-direction:column;gap:13px;padding-left:16px">
+                <sc-for list="{{notes}}" as="n" hint-placeholder-count="3">
+                  <div style="position:relative">
+                    <span style="position:absolute;left:-16px;top:6px;width:9px;height:9px;border-radius:50%;background:#2f9e78;border:2px solid #f7f5f0"></span>
+                    <article style="background:#fff;border-radius:14px;padding:13px 15px;box-shadow:0 10px 26px -22px rgba(40,30,20,.4);border-left:3px solid {{n.edge}}">
+                      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><time style="font-size:11px;font-weight:600;color:#a49f95">{{n.date}}</time><sc-if value="{{n.tag}}" hint-placeholder-val="{{false}}"><span style="font-size:11px;font-weight:600;color:#2f9e78;background:#e9f4ef;padding:1px 8px;border-radius:7px">#{{n.tag}}</span></sc-if></div>
+                      <p style="margin:0;font-size:13.5px;line-height:1.65;color:#33302a">{{n.text}}</p>
+                    </article>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="flex:none;padding:10px 16px 8px"><div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(40,30,20,.08);border-radius:16px;padding:9px 10px 9px 16px;box-shadow:0 10px 26px -18px rgba(40,30,20,.4)"><span style="flex:1;font-size:14px;color:#aba69c">此刻在想什么？</span><span class="ico" style="color:#a49f95"><i data-lucide="hash" style="width:19px;height:19px"></i></span><button style="width:38px;height:38px;flex:none;border:none;border-radius:12px;background:#2f9e78;color:#fff;display:flex;align-items:center;justify-content:center"><i data-lucide="arrow-up" style="width:20px;height:20px"></i></button></div></div>
+            <div style="height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-top:1px solid rgba(40,30,20,.06);color:#b6b1a6"><i data-lucide="panel-left" style="width:20px;height:20px"></i><i data-lucide="chevron-left" style="width:20px;height:20px"></i><i data-lucide="chevron-right" style="width:20px;height:20px"></i><i data-lucide="panel-right" style="width:20px;height:20px"></i></div>
+          </div>
+        </div>
+
+        <!-- stats B -->
+        <div class="frame" style="width:924px;height:800px;background:#f7f5f0;padding:28px 30px;display:flex;flex-direction:column;gap:20px;font-family:'Manrope','PingFang SC',system-ui,sans-serif;color:#211f1b">
+          <div style="font-family:'Outfit',sans-serif;font-size:24px;font-weight:700">思考轨迹</div>
+          <div style="display:flex;gap:16px">
+            <sc-for list="{{chips}}" as="c" hint-placeholder-count="4">
+              <div style="flex:1;background:#fff;border-radius:16px;padding:18px 20px;box-shadow:0 14px 34px -30px rgba(40,30,20,.5)"><div style="font-size:30px;font-weight:800;letter-spacing:-.02em;color:{{c.color}}">{{c.value}}</div><div style="font-size:12px;color:#a49f95;margin-top:4px">{{c.label}}</div></div>
+            </sc-for>
+          </div>
+          <div style="flex:1;display:flex;gap:20px;min-height:0">
+            <div style="flex:1;background:#fff;border-radius:18px;padding:22px 24px;display:flex;flex-direction:column">
+              <div style="font-size:13px;font-weight:700;margin-bottom:6px">近 12 周记录频次</div><div style="font-size:12px;color:#a49f95;margin-bottom:20px">平均每周 9 条</div>
+              <div style="flex:1;display:flex;align-items:flex-end;gap:12px">
+                <sc-for list="{{weeks}}" as="w" hint-placeholder-count="12"><div style="flex:1;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#4cb78b,#2f9e78);height:{{w}}%"></div></sc-for>
+              </div>
+            </div>
+            <div style="width:300px;flex:none;background:#fff;border-radius:18px;padding:22px 24px;display:flex;flex-direction:column">
+              <div style="font-size:13px;font-weight:700;margin-bottom:18px">标签排行</div>
+              <div style="display:flex;flex-direction:column;gap:15px;flex:1">
+                <sc-for list="{{ranks}}" as="r" hint-placeholder-count="5">
+                  <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="font-weight:600;color:#33302a">#{{r.name}}</span><span style="color:#a49f95;font-weight:600">{{r.count}}</span></div><div style="height:7px;border-radius:99px;background:#efece6"><div style="height:100%;border-radius:99px;background:#2f9e78;width:{{r.pct}}%"></div></div></div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <p class="dv-next">下一步可以说：把 <a class="dv-oid" href="#1a">1a</a> 的强调色换成蓝色 · 让 <a class="dv-oid" href="#1b">1b</a> 更紧凑 · 基于某个方案做深色模式 · 细化编辑器展开态</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount(){ this._ic(); }
+  componentDidUpdate(){ this._ic(); }
+  _ic(){ try { window.lucide && window.lucide.createIcons(); } catch(e){} }
+  renderVals(){
+    const g = ['#edf1ef','#cbe8db','#8fd1b5','#4cb78b','#2f9e78'];
+    const seed = [0,1,0,3,0,2,0,0,4,1,0,2,3,0,1,0,0,2,4,0,1,3,0,0,2,0,1,4];
+    const heat = [];
+    for (let i=0;i<98;i++){ heat.push({ bg: g[seed[(i*5 + (i%7)) % seed.length]] }); }
+
+    const nav = [
+      { icon:'shuffle',        label:'随机回顾', color:'#2f9e78', bg:'#e9f4ef' },
+      { icon:'image',          label:'画廊',     color:'#4a534e', bg:'transparent' },
+      { icon:'bar-chart-3',    label:'统计',     color:'#4a534e', bg:'transparent' },
+      { icon:'archive',        label:'归档',     color:'#4a534e', bg:'transparent' },
+      { icon:'trash-2',        label:'回收站',   color:'#4a534e', bg:'transparent' },
+    ];
+
+    const tools = ['hash','paperclip','list-checks','image','clock'];
+
+    const kpis = [
+      { label:'Thino 数量',   value:'506',        color:'#1c2320' },
+      { label:'任务数量',     value:'22',         color:'#1c2320' },
+      { label:'使用的标签',   value:'60',         color:'#1c2320' },
+      { label:'使用的天数',   value:'1165',       color:'#2f9e78' },
+      { label:'最活跃的一天', value:'02/20',      color:'#1c2320' },
+      { label:'最活跃一小时', value:'15 时',      color:'#1c2320' },
+    ];
+
+    const notes = [
+      { date:'2026/06/12 07:43', pinned:true, edge:'#2f9e78', text:'AI 订阅 claude 或者 chatgpt，土耳其已经涨价了，忽略，走美区的路径。', bullets:['apple 美区账号 + paypal 或礼品卡，可注册多个','Google play，目前有 2 个谷歌号码，最多再注册一个'] },
+      { date:'2026/05/30 21:23', edge:'#c7d3cc', text:'家里万年历调时间：ABCD 四个按键，长按 D 开始设置，按 B 是减。' },
+      { date:'2025/08/23 14:33', tag:'观影日记', edge:'#8fd6b6', text:'《新驯龙高手》2025-06-20，动画特效不错，故事也比较吸引人。' },
+      { date:'2026/04/14 09:25', tag:'工具', edge:'#8fd6b6', text:'Mac 磁盘清理工具 mole，github.com/tw93/mole，界面很干净。' },
+    ];
+
+    const tags = [
+      {name:'工作',count:25},{name:'追剧',count:34},{name:'备忘',count:91},{name:'美食',count:13},
+      {name:'技巧',count:17},{name:'观影日记',count:16},{name:'羊毛',count:13},{name:'哈尔滨',count:11},
+      {name:'海阳',count:9},{name:'旅游',count:7},{name:'电影',count:6},{name:'好物',count:6},
+      {name:'停车',count:5},{name:'折腾',count:5},{name:'收纳',count:4},{name:'消费',count:4},
+    ];
+
+    const weeks = [34,52,26,64,44,78,38,58,30,70,48,90];
+
+    const ranks = [
+      {name:'备忘',count:91,pct:100},
+      {name:'追剧',count:34,pct:37},
+      {name:'工作',count:25,pct:27},
+      {name:'技巧',count:17,pct:19},
+      {name:'观影日记',count:16,pct:18},
+    ];
+
+    const segs = [
+      {icon:'feather',    label:'记录', color:'#2f9e78', bg:'#fff', shadow:'0 4px 10px -6px rgba(20,40,30,.4)'},
+      {icon:'shuffle',    label:'回顾', color:'#8b968f', bg:'transparent', shadow:'none'},
+      {icon:'bar-chart-3',label:'统计', color:'#8b968f', bg:'transparent', shadow:'none'},
+      {icon:'hash',       label:'标签', color:'#8b968f', bg:'transparent', shadow:'none'},
+    ];
+
+    const heatStrip = [];
+    for (let i=0;i<52;i++){ heatStrip.push({ bg: g[seed[(i*3 + (i%5)) % seed.length]] }); }
+
+    const chips = [
+      { value:'506',  label:'Thino', color:'#211f1b' },
+      { value:'1165', label:'记录天数', color:'#2f9e78' },
+      { value:'60',   label:'标签', color:'#211f1b' },
+      { value:'22',   label:'待办', color:'#211f1b' },
+    ];
+
+    const pills = [
+      { label:'全部', color:'#211f1b', bg:'#fff' },
+      { label:'任务', color:'#8a857b', bg:'transparent' },
+      { label:'图片', color:'#8a857b', bg:'transparent' },
+      { label:'标签', color:'#8a857b', bg:'transparent' },
+    ];
+
+    return { heat, heatStrip, chips, pills, nav, tools, kpis, notes, tags, weeks, ranks, segs };
+  }
+}
+</script>
+<script>
+(async () => {
+  if (!document.title || !document.title.trim()) document.title = "Lumo 重设计";
+  // Prepend so page-supplied @page / break rules (deck-stage's margin:0,
+  // author CSS) keep source-order precedence over the baseline.
+  const baseCss = document.createElement('style');
+  baseCss.textContent = "@media print {\n  figure, table { break-inside: avoid; }\n  *, *::before, *::after {\n    print-color-adjust: exact; -webkit-print-color-adjust: exact;\n    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;\n    animation-delay: -99s !important; animation-duration: .001s !important;\n    animation-iteration-count: 1 !important; animation-fill-mode: both !important;\n    animation-play-state: running !important; transition-duration: 0s !important;\n  }\n}";
+  document.head.prepend(baseCss);
+  if (document.readyState === 'loading') {
+    await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+  }
+  let ds = document.querySelector('deck-stage');
+  // whenDefined never resolves when nothing registers the element, so only
+  // await it when a <deck-stage> tag exists (and race a timeout regardless).
+  if (ds && !customElements.get('deck-stage')) {
+    try {
+      await Promise.race([
+        customElements.whenDefined('deck-stage'),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]);
+    } catch (e) {}
+    ds = document.querySelector('deck-stage');
+  }
+  // dc-runtime assigns window.DCLogic at init and mounts into #dc-root on
+  // DOMContentLoaded; settle on that subtree so React has rendered before
+  // print(). Non-DC pages fall through to weighing body.
+  const isDc = !ds && 'DCLogic' in window;
+  const settleRoot = ds || (isDc ? document.getElementById('dc-root') : null) || document.body;
+  if (settleRoot) {
+    // Weigh only content children — skip script/style/template so inline
+    // Babel/CSS doesn't register as stable "content" before the framework
+    // has mounted anything.
+    const MEDIA = 'img,svg,canvas,video,picture,iframe,embed,object';
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of settleRoot.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll(MEDIA).length + (c.matches(MEDIA) ? 1 : 0);
+      }
+      return text + media * 100;
+    };
+    // "Non-zero and stable" alone is not sufficient to mean rendered: generic
+    // body can carry a static shell while async main content is pending, and
+    // #dc-root can carry the root DC's static text while child refs are still
+    // .sc-placeholder boxes. Gate generic on readyState 'complete', and never
+    // accept stability while a dc-runtime placeholder is present.
+    const isGeneric = settleRoot === document.body;
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      const ready =
+        (!isGeneric || document.readyState === 'complete') &&
+        !settleRoot.querySelector('.sc-placeholder');
+      if (n > 0 && n === last && ready) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  // Project support.js may predate runtime default-seeding; push via bridge.
+  if (isDc && window.__dcSetProps && window.__dcRootName) {
+    try {
+      const dpEl = document.querySelector('script[data-dc-script]');
+      const meta = JSON.parse((dpEl && dpEl.getAttribute('data-props')) || '{}');
+      const bag = {};
+      for (const k in meta)
+        if (k[0] !== '$' && meta[k] && meta[k].default !== undefined)
+          bag[k] = meta[k].default;
+      if (Object.keys(bag).length) {
+        window.__dcSetProps(window.__dcRootName(), bag);
+        await new Promise((r) => setTimeout(r, 50));
+      }
+    } catch (e) {}
+  }
+  // Reveal content gated on scroll or visibility before printing. Lazy <img>,
+  // IntersectionObserver fade-ins, and collapsed <details> don't render while
+  // off-screen, so a long page would print with them blank or closed. Open
+  // every <details>, force native-lazy images eager, and scroll the document
+  // through its full height to trip lazy-load + IO; then wait (bounded) for the
+  // newly-triggered images. Inert for deck-stage (slides aren't scroll-gated).
+  try {
+    for (const d of document.querySelectorAll('details')) d.open = true;
+    for (const img of document.querySelectorAll('img[loading="lazy"]'))
+      img.loading = 'eager';
+    const scroller = document.scrollingElement || document.documentElement;
+    const full = Math.max(scroller.scrollHeight, document.body.scrollHeight);
+    const step = window.innerHeight || 800;
+    for (let y = 0; y <= full; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+    window.scrollTo(0, 0);
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) =>
+          img.complete
+            ? null
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              })
+        )
+      ),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
+  } catch (e) {}
+  try { await document.fonts.ready; } catch (e) {}
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  // Re-append deck-stage's @page last so no author @page can add a margin and
+  // spill each full-bleed slide onto two sheets. Backstop for old copies.
+  if (ds) {
+    let pg = document.getElementById('deck-stage-print-page');
+    if (!pg) {
+      pg = document.createElement('style');
+      pg.textContent = '@page{size:' + (+ds.getAttribute('width') || 1920) +
+        'px ' + (+ds.getAttribute('height') || 1080) + 'px;margin:0}';
+    }
+    document.body.appendChild(pg);
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+  } catch (e) {}
+  // Size the PDF page to the rendered design unless the file opted into
+  // standard paper via @page{size:letter|A4|…}. Decks own their own @page.
+  // Wrappers (body, …) lose padding+margin so the frame sits at (0,0); the
+  // frame itself loses only margin — its padding is INSIDE the measured
+  // rect and must stay, or content shifts and leaves a gap at bottom/right.
+  var __m = null;
+  try { __m = (() => {
+  var STAMP = true;
+  var docEl = document.documentElement;
+  var doc = { width: docEl.scrollWidth, height: docEl.scrollHeight };
+
+  var ds = document.querySelector('deck-stage');
+  if (ds) {
+    var dw = Number(ds.getAttribute('width')) || 1920;
+    var dh = Number(ds.getAttribute('height')) || 1080;
+    var n = typeof ds.length === 'number' ? ds.length : ds.children.length;
+    var idx = typeof ds.index === 'number' ? ds.index : 0;
+    var frames = [];
+    for (var i = 0; i < n; i++) frames.push({ left: 0, top: 0, width: dw, height: dh });
+    return { kind: 'deck', source: 'declared', doc: doc, frames: frames,
+      authored: frames.map(function(){return{width:true,height:true}}),
+      deck: { width: dw, height: dh, slideCount: n, index: idx },
+      signals: { paperPage: false, pxPage: false } };
+  }
+
+  // Declared kind: a doc-page tag names the kind outright, so no signal
+  // heuristics run (like the deck branch above, signals report false —
+  // they describe inferred classifications only). The tag alone is not
+  // trusted: the element must have upgraded (shadowRoot present), so a
+  // leftover tag whose script was deleted falls through to the heuristics
+  // that handle plain markup.
+  var stageSx = window.scrollX || 0, stageSy = window.scrollY || 0;
+  var dp = document.querySelector('doc-page');
+  if (dp && dp.shadowRoot) {
+    // Crop to the sheet, not the host — the desk around it is screen-only
+    // chrome that must not land in PNG exports.
+    var sheet = dp.shadowRoot.querySelector('.sheet');
+    var sr = (sheet || dp).getBoundingClientRect();
+    return { kind: 'paper-doc', source: 'declared', doc: doc,
+      frames: [{ left: sr.left + stageSx, top: sr.top + stageSy,
+        width: sr.width, height: sr.height }],
+      authored: [{ width: false, height: false }],
+      signals: { paperPage: false, pxPage: false } };
+  }
+  var paperPage = false, pxPage = false;
+  var eachRule = function (fn) {
+    for (var s = 0; s < document.styleSheets.length; s++) {
+      var rs; try { rs = document.styleSheets[s].cssRules; } catch (e) { continue; }
+      for (var r = 0; r < rs.length; r++) {
+        fn(rs[r]);
+        if (rs[r].cssRules) for (var n = 0; n < rs[r].cssRules.length; n++) fn(rs[r].cssRules[n]);
+      }
+    }
+  };
+  eachRule(function (r) {
+    if (r.type !== 6) return;
+    var m = /\bsize\s*:\s*([^;}]+)/i.exec(r.cssText || '');
+    if (!m) return;
+    if (/\b(letter|a[3-5]|legal|ledger)\b/i.test(m[1])) paperPage = true;
+    if (/\d+(?:\.\d+)?px\b/i.test(m[1])) pxPage = true;
+  });
+  var signals = { paperPage: paperPage, pxPage: pxPage };
+
+  var pxVal = function (v) {
+    var m = /^(\d+(?:\.\d+)?)px$/.exec(v || ''); return m ? +m[1] : 0;
+  };
+  var authoredPx = function (el, prop) {
+    if (pxVal(el.style[prop])) return true;
+    var attr = el.getAttribute(prop);
+    if (attr && /^\d+$/.test(attr)) return true;
+    var hit = false;
+    eachRule(function (r) {
+      if (hit || r.type !== 1 || !r.style) return;
+      try { if (el.matches(r.selectorText) && pxVal(r.style[prop])) hit = true; } catch (e) {}
+    });
+    return hit;
+  };
+
+  var el = document.body, rootPxW = false;
+  for (;;) {
+    var kids = [];
+    for (var c = 0; c < el.children.length; c++) {
+      var t = el.children[c].tagName;
+      if (t !== 'SCRIPT' && t !== 'STYLE' && t !== 'TEMPLATE') kids.push(el.children[c]);
+    }
+    if (kids.length !== 1 || !(kids[0] instanceof HTMLElement)) break;
+    if (STAMP) el.setAttribute('data-om-frame-wrap', '');
+    el = kids[0];
+    rootPxW = authoredPx(el, 'width');
+    if (rootPxW) break;
+  }
+  if (!rootPxW) rootPxW = authoredPx(el, 'width');
+
+  // @page{size:letter} alone is a flowing doc; with a px-width root it's a
+  // fixed sheet pretending to be paper — fall through and size to render.
+  if (paperPage && !rootPxW) {
+    return { kind: 'paper-doc', source: 'inferred', doc: doc, signals: signals,
+      frames: [{ left: 0, top: 0, width: doc.width, height: doc.height }],
+      authored: [{ width: false, height: false }] };
+  }
+
+  var sx = window.scrollX || 0, sy = window.scrollY || 0;
+  var rectOf = function (e) {
+    var r = e.getBoundingClientRect();
+    var oy; try { oy = getComputedStyle(e).overflowY; } catch (err) {}
+    var h = oy === 'visible' ? Math.max(r.height, e.scrollHeight || 0) : r.height;
+    return { left: r.left + sx, top: r.top + sy, width: r.width, height: h };
+  };
+
+  // Multi-frame: ≥2 visible non-fixed children, each with authored px width
+  // AND height, all within ±2px of each other. Off unless the page opts in
+  // via data-om-multi-frame on the stop element — guards against card grids
+  // and pricing tables that match the geometry but aren't separate canvases.
+  if (el.hasAttribute('data-om-multi-frame')) {
+    var cands = [];
+    for (var k = 0; k < el.children.length; k++) {
+      var ch = el.children[k];
+      var cs; try { cs = getComputedStyle(ch); } catch (e) { continue; }
+      if (cs.display === 'none' || cs.visibility === 'hidden' || cs.position === 'fixed') continue;
+      var rc = rectOf(ch);
+      if (rc.width < 2 || rc.height < 2) continue;
+      if (!authoredPx(ch, 'width') || !authoredPx(ch, 'height')) continue;
+      cands.push(rc);
+    }
+    if (cands.length >= 2) {
+      var w0 = cands[0].width, h0 = cands[0].height, ok = true;
+      for (var q = 1; q < cands.length; q++)
+        if (Math.abs(cands[q].width - w0) > 2 || Math.abs(cands[q].height - h0) > 2) ok = false;
+      if (ok) return { kind: 'multi-frame', source: 'inferred', doc: doc, signals: signals,
+        frames: cands, authored: cands.map(function(){return{width:true,height:true}}) };
+    }
+  }
+
+  if (STAMP) el.setAttribute('data-om-frame', '');
+  return { kind: 'single-canvas', source: 'inferred', doc: doc, signals: signals,
+    frames: [rectOf(el)],
+    authored: [{ width: rootPxW, height: authoredPx(el, 'height') }] };
+})(); } catch (e) {}
+  var frame = null;
+  if (__m && __m.kind === 'single-canvas') {
+    var f = __m.frames && __m.frames[0];
+    if (f && f.width >= 200 && f.height >= 200) {
+      frame = f;
+      var fst = document.createElement('style');
+      fst.textContent = '@media print{@page{size:' + Math.ceil(f.width) + 'px ' +
+        Math.ceil(f.height) + 'px;margin:0}' +
+        'html,body,[data-om-frame-wrap]{padding:0!important;margin:0!important;background:none!important}' +
+        '[data-om-frame]{margin:0!important}}';
+      document.body.appendChild(fst);
+    }
+  }
+  // Relax break-inside on oversized elements. An element taller than a
+  // printable page can't honor break-inside: avoid — browsers either overflow
+  // it or push it whole to the next page, leaving a blank gap, then break it
+  // anyway at an arbitrary point. After the final layout (content revealed,
+  // animations jumped), find elements taller than a page that still compute
+  // break-inside: avoid and reset them to auto, so the browser breaks them at
+  // their children's boundaries instead (children keep their own avoid). PAGE_PX
+  // is a conservative portrait estimate at 96 CSS px/in — Letter/A4 usable
+  // height minus our 0.5in margins — so only clearly-oversized elements are
+  // touched and under-page elements still stay whole. Skipped for decks (slides
+  // are sized to the page) and for fixed-size canvases (frame set, or an author
+  // px-based @page) — runs as before for flowing docs on letter/A4.
+  try {
+    if (!ds && !frame && !(__m && __m.signals && __m.signals.pxPage)) {
+      const PAGE_PX = 1024;
+      // Our print defaults add a real @page margin only when the source has
+      // no @page of its own; computed style can't tell us (it reports screen
+      // media), so read the injected rule directly.
+      const defaults = document.querySelector('style[data-omelette-print-defaults]');
+      const pageInset = /@page\s*\{[^}]*margin/.test(defaults ? defaults.textContent || '' : '');
+      const SEL = 'section,article,figure,table,pre,blockquote,[class~="card" i],[class~="page" i],[class~="sheet" i]';
+      for (const el of document.body.querySelectorAll(SEL)) {
+        if (el instanceof HTMLElement && el.offsetHeight > PAGE_PX) {
+          el.setAttribute('data-om-oversized', '');
+          // Fake-paged docs simulate sheets with over-tall break-after:page
+          // boxes; honoring the break spills half-blank pages and ends a
+          // colored box mid-sheet. Flow them, and (only when we own the page
+          // inset) drop the redundant padding/background via the rule below.
+          const cs = getComputedStyle(el);
+          if (cs.breakAfter === 'page' || cs.pageBreakAfter === 'always') {
+            el.setAttribute('data-om-fakepage', '');
+          }
+        }
+      }
+      const ost = document.createElement('style');
+      ost.textContent = '@media print{' +
+        '[data-om-oversized]{break-inside:auto !important;page-break-inside:auto !important}' +
+        '[data-om-fakepage]{break-after:auto !important;page-break-after:auto !important}' +
+        (pageInset ? '[data-om-fakepage]{padding:0 !important;background:none !important}' : '') +
+        '}';
+      document.head.appendChild(ost);
+    }
+  } catch (e) {}
+  // macOS Preview renders Skia-PDF Luminosity soft-masks as opaque grey boxes;
+  // swap the CSS that triggers them for Preview-safe forms.
+  try {
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+
+      if (cs.boxShadow !== 'none' && cs.filter === 'none') {
+        const outs = [], kept = [];
+        for (const s of cs.boxShadow.split(/,(?![^(]*[)])/)) {
+          const t = s.trim();
+          const m = t.match(/^(rgba?[(][^)]+[)]) (-?[0-9.]+px) (-?[0-9.]+px) ([0-9.]+px) -?[0-9.]+px$/);
+          if (m && parseFloat(m[4]) > 0) outs.push('drop-shadow(' + m[2] + ' ' + m[3] + ' ' + m[4] + ' ' + m[1] + ')');
+          else kept.push(t);
+        }
+        if (outs.length) {
+          el.style.setProperty('filter', outs.join(' '), 'important');
+          el.style.setProperty('box-shadow', kept.join(', ') || 'none', 'important');
+        }
+      }
+
+      const mask = cs.maskImage && cs.maskImage !== 'none' ? cs.maskImage : cs.webkitMaskImage;
+      if (mask && mask !== 'none' && cs.filter === 'none') el.style.setProperty('filter', 'opacity(1)', 'important');
+    }
+  } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>
