@@ -4005,6 +4005,10 @@ div[data-type='lumo_view'].mobile-view .memos-header-container > .title-text > .
 .theme-dark div[data-type='lumo_view'].mobile-view .filter-query-container {
   padding-left: 20px;
 }
+.lumo-memo-content {
+  -webkit-user-select: text;
+  user-select: text;
+}
 .mono-font-family {
   font-family: 'ubuntu-mono', SFMono-Regular, Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace;
 }

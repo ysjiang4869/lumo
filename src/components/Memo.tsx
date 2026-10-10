@@ -480,14 +480,17 @@ const Memo: React.FC<Props> = (props: Props) => {
         propsMemo.pinned ? 'memo-pinned' : ''
       }`}
       onMouseLeave={handleMouseLeaveMemoWrapper}
-      draggable="true"
-      onDragStart={(e) => {
-        e.dataTransfer.setData('text/plain', propsMemo.content.replace(/<br>/g, '\n'));
-      }}
     >
       <div className="memo-top-wrapper">
         <div className="memo-top-left-wrapper">
-          <div className="memo-card-time" onClick={handleShowMemoStoryDialog}>
+          <div
+            className="memo-card-time"
+            onClick={handleShowMemoStoryDialog}
+            draggable="true"
+            onDragStart={(e) => {
+              e.dataTransfer.setData('text/plain', propsMemo.content.replace(/<br>/g, '\n'));
+            }}
+          >
             <span className="memo-card-date">{cardDateStr}</span>
             <span className="memo-card-period">{cardPeriod}</span>
           </div>

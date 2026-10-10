@@ -3,6 +3,7 @@ import { Component, MarkdownRenderer } from 'obsidian';
 import { globalStateService } from '../services';
 import { IMAGE_URL_REG, MARKDOWN_URL_REG, MEMO_LINK_REG, WIKI_IMAGE_URL_REG } from '../helpers/consts';
 import { formatMemoContent } from '../helpers/formatMemoContent';
+import '../less/memo-selection.less';
 
 interface Props {
   content: string;
@@ -110,7 +111,29 @@ const MemoContent: React.FC<Props> = ({
     };
   }, [content, memoId, sourcePath, shouldUseMarkdownParser]);
 
-  return <div ref={ref} className={className} onClick={onClick} onDoubleClick={onDoubleClick} />;
+  // 拖选或双击选词后保留选区，避免触发正文编辑、标签筛选或链接跳转。
+  const handleClick = (e: React.MouseEvent, handler?: (e: React.MouseEvent) => void) => {
+    const selection = e.currentTarget.ownerDocument.getSelection();
+    if (
+      selection &&
+      !selection.isCollapsed &&
+      (e.currentTarget.contains(selection.anchorNode) || e.currentTarget.contains(selection.focusNode))
+    ) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    handler?.(e);
+  };
+
+  return (
+    <div
+      ref={ref}
+      className={`lumo-memo-content ${className ?? ''}`}
+      onClick={(e) => handleClick(e, onClick)}
+      onDoubleClick={(e) => handleClick(e, onDoubleClick)}
+    />
+  );
 };
 
 export default MemoContent;
