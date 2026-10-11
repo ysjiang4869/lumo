@@ -57,7 +57,6 @@ interface Props {
 let isList: boolean;
 let isEditor = false as boolean;
 let isEditorGo = false as boolean;
-let positionX: number;
 
 const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
   const { globalState } = useContext(appContext);
@@ -78,6 +77,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
 
   // const [selected, setSelected] = useState<Date>();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [positionX, setPositionX] = useState(0);
 
   const popperRef = useRef<HTMLDivElement>(null);
   const [popperElement, setPopperElement] = useState(null);
@@ -464,12 +464,21 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
     const prevString = currentValue.slice(0, selectionStart);
     const nextString = currentValue.slice(selectionStart);
 
-    if ((prevString.endsWith('@') || prevString.endsWith('📆')) && nextString.startsWith(' ')) {
-      requestAnimationFrame(updateDateSelectorPopupPosition);
-      setIsDatePickerOpen(true);
-    } else if ((prevString.endsWith('@') || prevString.endsWith('📆')) && nextString === '') {
-      requestAnimationFrame(updateDateSelectorPopupPosition);
-      setIsDatePickerOpen(true);
+    const atDateTrigger =
+      (prevString.endsWith('@') || prevString.endsWith('📆')) && (nextString === '' || nextString.startsWith(' '));
+    if (atDateTrigger) {
+      requestAnimationFrame(() => {
+        const current = editorRef.current;
+        if (!current) return;
+        const value = current.getContent();
+        const cursor = current.getSelection().from;
+        const before = value.slice(0, cursor);
+        const after = value.slice(cursor);
+        if ((before.endsWith('@') || before.endsWith('📆')) && (after === '' || after.startsWith(' '))) {
+          updateDateSelectorPopupPosition();
+          setIsDatePickerOpen(true);
+        }
+      });
     } else {
       setIsDatePickerOpen(false);
     }
@@ -617,7 +626,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
       }
     }
 
-    positionX = x;
+    setPositionX(x);
 
     popperRef.current.style.left = `${left}px`;
     popperRef.current.style.top = `${top}px`;
