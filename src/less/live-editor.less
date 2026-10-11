@@ -1,0 +1,98 @@
+div[data-type='lumo_view'] .common-editor-wrapper > .common-editor-inputer.lumo-live-editor {
+  width: 100%;
+  max-height: none;
+  position: relative;
+  white-space: normal;
+  overflow: visible;
+  .cm-editor {
+    color: var(--lumo-ink-2, var(--text-normal));
+    background: transparent;
+    font-size: 15px;
+    outline: none;
+  }
+  .cm-scroller {
+    font-family: var(--font-text);
+    line-height: 1.7;
+    max-height: min(40vh, 320px);
+    overflow: auto;
+  }
+  .cm-content {
+    min-height: 48px;
+    padding: 2px 0 6px;
+    white-space: pre-wrap;
+    -webkit-user-select: text;
+    user-select: text;
+    caret-color: var(--lumo-ink, var(--text-normal));
+  }
+  .cm-line {
+    padding: 0;
+  }
+  .cm-placeholder {
+    color: var(--lumo-muted, var(--text-muted));
+  }
+  .cm-focused {
+    outline: none;
+  }
+  .cm-cursor {
+    border-left-color: var(--lumo-ink, var(--text-normal));
+  }
+  .lumo-md-heading-1 {
+    font-size: 1.6em;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .lumo-md-heading-2 {
+    font-size: 1.4em;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .lumo-md-heading-3 {
+    font-size: 1.2em;
+    font-weight: 700;
+  }
+  .lumo-md-heading-4,
+  .lumo-md-heading-5,
+  .lumo-md-heading-6 {
+    font-weight: 700;
+  }
+  .lumo-md-quote {
+    border-left: 3px solid var(--lumo-line-2, var(--background-modifier-border));
+    padding-left: 10px;
+    color: var(--text-muted);
+  }
+  .lumo-md-code-block {
+    font-family: var(--font-monospace);
+    background: var(--background-secondary);
+    padding: 0 8px;
+  }
+  .lumo-md-bullet {
+    color: var(--lumo-accent, var(--text-accent));
+  }
+  .lumo-md-checkbox {
+    color: var(--lumo-accent, var(--text-accent));
+    font-size: 1.1em;
+  }
+  .cm-tooltip-autocomplete {
+    color: var(--text-normal);
+    background: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 6px;
+    box-shadow: var(--shadow-s);
+  }
+  .cm-tooltip-autocomplete ul {
+    max-height: 200px;
+  }
+  .cm-tooltip-autocomplete ul li::before {
+    content: none !important;
+  }
+  .cm-tooltip-autocomplete ul li[aria-selected] {
+    background: var(--lumo-accent, var(--interactive-accent));
+    color: white;
+  }
+}
+div[data-type='lumo_view'] .memo-editor-wrapper:not(.expanded) .lumo-live-editor .cm-content {
+  min-height: 24px;
+}
+.is-mobile div[data-type='lumo_view'] .lumo-live-editor .cm-scroller {
+  max-height: 30vh;
+}

@@ -13,12 +13,34 @@ import TaskSvg from '../icons/checkbox-active.svg?component';
 import Smile from '../icons/smile.svg?component';
 
 const EMOJIS = [
-  '😀', '😊', '😌', '🤔', '😍', '🥳', '😢', '😴',
-  '😎', '🙏', '👍', '❤️', '🔥', '✨', '🎉', '☀️',
-  '🌧️', '🌙', '☕', '🍜', '🏃', '💡', '📌', '✅',
+  '😀',
+  '😊',
+  '😌',
+  '🤔',
+  '😍',
+  '🥳',
+  '😢',
+  '😴',
+  '😎',
+  '🙏',
+  '👍',
+  '❤️',
+  '🔥',
+  '✨',
+  '🎉',
+  '☀️',
+  '🌧️',
+  '🌙',
+  '☕',
+  '🍜',
+  '🏃',
+  '💡',
+  '📌',
+  '✅',
 ];
 import showEditorSvg from '../icons/show-editor.svg';
 import { usePopper } from 'react-popper';
+import { Placement } from '@popperjs/core';
 import useState from 'react-usestateref';
 import DatePicker from './common/DatePicker';
 import { moment, Notice, Platform } from 'obsidian';
@@ -26,46 +48,6 @@ import { DefaultEditorLocation, DefaultPrefix, FocusOnEditor, InsertDateFormat, 
 import useToggle from '../hooks/useToggle';
 import { LUMO_VIEW_TYPE } from '../constants';
 import { t } from '../translations/helper';
-
-const getCursorPostion = (input: HTMLTextAreaElement) => {
-  const {
-    offsetLeft: inputX,
-    offsetTop: inputY,
-    offsetHeight: inputH,
-    offsetWidth: inputW,
-    selectionEnd: selectionPoint,
-  } = input;
-  const div = document.createElement('div');
-
-  const copyStyle = window.getComputedStyle(input);
-  for (const item of copyStyle) {
-    div.style.setProperty(item, copyStyle.getPropertyValue(item));
-  }
-  div.style.position = 'fixed';
-  div.style.visibility = 'hidden';
-  div.style.whiteSpace = 'pre-wrap';
-
-  // we need a character that will replace whitespace when filling our dummy element if it's a single line <input/>
-  const swap = '.';
-  const inputValue = input.tagName === 'INPUT' ? input.value.replace(/ /g, swap) : input.value;
-  div.textContent = inputValue.substring(0, selectionPoint || 0);
-  if (input.tagName === 'TEXTAREA') {
-    div.style.height = 'auto';
-  }
-
-  const span = document.createElement('span');
-  span.textContent = inputValue.substring(selectionPoint || 0) || '.';
-  div.appendChild(span);
-  document.body.appendChild(div);
-  const { offsetLeft: spanX, offsetTop: spanY, offsetHeight: spanH, offsetWidth: spanW } = span;
-  document.body.removeChild(div);
-  return {
-    x: inputX + spanX,
-    y: inputY + spanY,
-    h: inputH + spanH,
-    w: inputW + spanW,
-  };
-};
 
 interface Props {
   isBottomSheet?: boolean;
@@ -281,148 +263,37 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
     }
   }, []);
 
-  // Change Date Picker Popper Position
-  const setPopper = () => {
-    let popperTemp;
-
-    if (!Platform.isMobile) {
-      popperTemp = usePopper(popperRef.current, popperElement, {
-        placement: 'right-end',
-        modifiers: [
-          {
-            name: 'flip',
-            options: {
-              allowedAutoPlacements: ['bottom'],
-              rootBoundary: 'document', // by default, all the placements are allowed
-            },
-          },
-        ],
-      });
-    } else if (Platform.isMobile && DefaultEditorLocation !== 'Bottom') {
-      const seletorPopupWidth = 280;
-      if (window.innerWidth - positionX > seletorPopupWidth * 1.2) {
-        popperTemp = usePopper(popperRef.current, popperElement, {
-          placement: 'right-end',
-          modifiers: [
-            {
-              name: 'flip',
-              options: {
-                allowedAutoPlacements: ['left-end'],
-                rootBoundary: 'document', // by default, all the placements are allowed
-              },
-            },
-            {
-              name: 'preventOverflow',
-              options: {
-                rootBoundary: 'document',
-              },
-            },
-          ],
-        });
-      } else if (window.innerWidth - positionX < seletorPopupWidth && window.innerWidth > seletorPopupWidth * 1.5) {
-        popperTemp = usePopper(popperRef.current, popperElement, {
-          placement: 'left-end',
-          modifiers: [
-            {
-              name: 'flip',
-              options: {
-                allowedAutoPlacements: ['right-end'],
-                rootBoundary: 'document', // by default, all the placements are allowed
-              },
-            },
-            {
-              name: 'preventOverflow',
-              options: {
-                rootBoundary: 'document',
-              },
-            },
-          ],
-        });
-      } else {
-        popperTemp = usePopper(popperRef.current, popperElement, {
-          placement: 'bottom',
-          modifiers: [
-            {
-              name: 'flip',
-              options: {
-                allowedAutoPlacements: ['bottom'],
-                rootBoundary: 'document', // by default, all the placements are allowed
-              },
-            },
-            {
-              name: 'preventOverflow',
-              options: {
-                rootBoundary: 'document',
-              },
-            },
-          ],
-        });
-      }
-    } else if (Platform.isMobile && DefaultEditorLocation === 'Bottom') {
-      const seletorPopupWidth = 280;
-      if (window.innerWidth - positionX > seletorPopupWidth * 1.2) {
-        popperTemp = usePopper(popperRef.current, popperElement, {
-          placement: 'top-end',
-          modifiers: [
-            {
-              name: 'flip',
-              options: {
-                allowedAutoPlacements: ['top-start'],
-                rootBoundary: 'document', // by default, all the placements are allowed
-              },
-            },
-            {
-              name: 'preventOverflow',
-              options: {
-                rootBoundary: 'document',
-              },
-            },
-          ],
-        });
-      } else if (window.innerWidth - positionX < seletorPopupWidth && positionX > seletorPopupWidth) {
-        popperTemp = usePopper(popperRef.current, popperElement, {
-          placement: 'top-start',
-          modifiers: [
-            {
-              name: 'flip',
-              options: {
-                allowedAutoPlacements: ['top-end'],
-                rootBoundary: 'document', // by default, all the placements are allowed
-              },
-            },
-            {
-              name: 'preventOverflow',
-              options: {
-                rootBoundary: 'document',
-              },
-            },
-          ],
-        });
-      } else {
-        popperTemp = usePopper(popperRef.current, popperElement, {
-          placement: 'top',
-          modifiers: [
-            {
-              name: 'flip',
-              options: {
-                allowedAutoPlacements: ['top'],
-                rootBoundary: 'document', // by default, all the placements are allowed
-              },
-            },
-            {
-              name: 'preventOverflow',
-              options: {
-                rootBoundary: 'document',
-              },
-            },
-          ],
-        });
-      }
+  // Hooks must run once on every render, regardless of screen or editor position.
+  let placement: Placement = 'right-end';
+  let fallbackPlacement: Placement = 'bottom';
+  const selectorWidth = 280;
+  const spaceToRight = window.innerWidth - positionX;
+  if (Platform.isMobile) {
+    if (DefaultEditorLocation === 'Bottom') {
+      placement =
+        spaceToRight > selectorWidth * 1.2
+          ? 'top-end'
+          : spaceToRight < selectorWidth && positionX > selectorWidth
+          ? 'top-start'
+          : 'top';
+      fallbackPlacement = placement === 'top-end' ? 'top-start' : placement === 'top-start' ? 'top-end' : 'top';
+    } else {
+      placement =
+        spaceToRight > selectorWidth * 1.2
+          ? 'right-end'
+          : spaceToRight < selectorWidth && window.innerWidth > selectorWidth * 1.5
+          ? 'left-end'
+          : 'bottom';
+      fallbackPlacement = placement === 'right-end' ? 'left-end' : placement === 'left-end' ? 'right-end' : 'bottom';
     }
-
-    return popperTemp;
-  };
-  const popper = setPopper();
+  }
+  const popper = usePopper(popperRef.current, popperElement, {
+    placement,
+    modifiers: [
+      { name: 'flip', options: { allowedAutoPlacements: [fallbackPlacement], rootBoundary: 'document' } },
+      { name: 'preventOverflow', options: { rootBoundary: 'document' } },
+    ],
+  });
 
   const closePopper = () => {
     setIsDatePickerOpen(false);
@@ -484,23 +355,26 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
     };
 
     const handleClickEvent = () => {
-      handleContentChange(editorRef.current?.element.value ?? '');
+      handleContentChange(editorRef.current?.getContent() ?? '');
     };
 
     const handleKeyDownEvent = () => {
       setTimeout(() => {
-        handleContentChange(editorRef.current?.element.value ?? '');
+        handleContentChange(editorRef.current?.getContent() ?? '');
       });
     };
 
-    editorRef.current.element.addEventListener('paste', handlePasteEvent);
-    editorRef.current.element.addEventListener('drop', handleDropEvent);
-    editorRef.current.element.addEventListener('click', handleClickEvent);
-    editorRef.current.element.addEventListener('keydown', handleKeyDownEvent);
+    const element = editorRef.current.element;
+    element.addEventListener('paste', handlePasteEvent);
+    element.addEventListener('drop', handleDropEvent);
+    element.addEventListener('click', handleClickEvent);
+    element.addEventListener('keydown', handleKeyDownEvent);
 
     return () => {
-      editorRef.current?.element.removeEventListener('paste', handlePasteEvent);
-      editorRef.current?.element.removeEventListener('drop', handleDropEvent);
+      element.removeEventListener('paste', handlePasteEvent);
+      element.removeEventListener('drop', handleDropEvent);
+      element.removeEventListener('click', handleClickEvent);
+      element.removeEventListener('keydown', handleKeyDownEvent);
     };
   }, [editorRef.current]);
 
@@ -522,7 +396,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
   const handleSaveBtnClick = useCallback(async (content: string) => {
     if (content === '') {
       new Notice(t('Content cannot be empty'));
-      return;
+      return false;
     }
 
     const { editMemoId } = globalStateService.getState();
@@ -533,9 +407,6 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
     if (moods.length > 0) {
       content = content + ' ' + moods.map((em) => `[mood::${em}]`).join(' ');
     }
-    setPickerEmojis([]);
-
-    setEditorContentCache('');
     try {
       if (editMemoId) {
         const prevMemo = memoService.getMemoById(editMemoId);
@@ -560,11 +431,13 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
       }
     } catch (error: any) {
       new Notice(error.message);
-      return;
+      return false;
     }
 
+    setPickerEmojis([]);
     setEditorContentCache('');
     onAfterSaveRef.current?.();
+    return true;
   }, []);
 
   const handleCancelBtnClick = useCallback(() => {
@@ -576,9 +449,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
   }, []);
 
   const handleContentChange = useCallback((content: string) => {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = content;
-    if (tempDiv.innerText.trim() === '') {
+    if (content.trim() === '') {
       content = '';
     }
     setEditorContentCache(content);
@@ -589,23 +460,19 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
     }
 
     const currentValue = editorRef.current.getContent();
-    const selectionStart = editorRef.current.element.selectionStart;
+    const selectionStart = editorRef.current.getSelection().from;
     const prevString = currentValue.slice(0, selectionStart);
     const nextString = currentValue.slice(selectionStart);
 
     if ((prevString.endsWith('@') || prevString.endsWith('📆')) && nextString.startsWith(' ')) {
-      updateDateSelectorPopupPosition();
+      requestAnimationFrame(updateDateSelectorPopupPosition);
       setIsDatePickerOpen(true);
     } else if ((prevString.endsWith('@') || prevString.endsWith('📆')) && nextString === '') {
-      updateDateSelectorPopupPosition();
+      requestAnimationFrame(updateDateSelectorPopupPosition);
       setIsDatePickerOpen(true);
     } else {
       setIsDatePickerOpen(false);
     }
-
-    setTimeout(() => {
-      editorRef.current?.focus();
-    });
   }, []);
 
   // const handleKeyPress = () => {
@@ -624,43 +491,34 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
     }
 
     const currentValue = editorRef.current.getContent();
-    const selectionStart = editorRef.current.element.selectionStart;
+    const selectionStart = editorRef.current.getSelection().from;
     const prevString = currentValue.slice(0, selectionStart);
     const nextString = currentValue.slice(selectionStart);
     const todayMoment = moment(date);
 
     if (!prevString.endsWith('@')) {
-      editorRef.current.element.value =
-        //eslint-disable-next-line
-        prevString + todayMoment.format('YYYY-MM-DD') + nextString;
-      editorRef.current.element.setSelectionRange(selectionStart + 10, selectionStart + 10);
+      editorRef.current.setContent(prevString + todayMoment.format('YYYY-MM-DD') + nextString);
+      editorRef.current.setSelection(selectionStart + 10, selectionStart + 10);
       editorRef.current.focus();
-      handleContentChange(editorRef.current.element.value);
+      handleContentChange(editorRef.current.getContent());
       return;
     } else {
       switch (InsertDateFormat) {
         case 'Dataview':
-          editorRef.current.element.value =
-            //eslint-disable-next-line
-            currentValue.slice(0, editorRef.current.element.selectionStart - 1) +
-            '[due::' +
-            todayMoment.format('YYYY-MM-DD') +
-            ']' +
-            nextString;
-          editorRef.current.element.setSelectionRange(selectionStart + 17, selectionStart + 17);
+          editorRef.current.setContent(
+            currentValue.slice(0, selectionStart - 1) + '[due::' + todayMoment.format('YYYY-MM-DD') + ']' + nextString,
+          );
+          editorRef.current.setSelection(selectionStart + 17, selectionStart + 17);
           editorRef.current.focus();
-          handleContentChange(editorRef.current.element.value);
+          handleContentChange(editorRef.current.getContent());
           break;
         case 'Tasks':
-          editorRef.current.element.value =
-            //eslint-disable-next-line
-            currentValue.slice(0, editorRef.current.element.selectionStart - 1) +
-            '📆' +
-            todayMoment.format('YYYY-MM-DD') +
-            nextString;
-          editorRef.current.element.setSelectionRange(selectionStart + 11, selectionStart + 11);
+          editorRef.current.setContent(
+            currentValue.slice(0, selectionStart - 1) + '📆' + todayMoment.format('YYYY-MM-DD') + nextString,
+          );
+          editorRef.current.setSelection(selectionStart + 11, selectionStart + 11);
           editorRef.current.focus();
-          handleContentChange(editorRef.current.element.value);
+          handleContentChange(editorRef.current.getContent());
       }
     }
   };
@@ -702,7 +560,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
     }
 
     const currentValue = editorRef.current.getContent();
-    const selectionStart = editorRef.current.element.selectionStart;
+    const selectionStart = editorRef.current.getSelection().from;
     const prevString = currentValue.slice(0, selectionStart);
     const nextString = currentValue.slice(selectionStart);
 
@@ -714,11 +572,11 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
       cursorIndex = prevString.length - 1;
     }
 
-    editorRef.current.element.value = nextValue;
-    editorRef.current.element.setSelectionRange(cursorIndex, cursorIndex);
+    editorRef.current.setContent(nextValue);
+    editorRef.current.setSelection(cursorIndex, cursorIndex);
 
     editorRef.current.focus();
-    handleContentChange(editorRef.current.element.value);
+    handleContentChange(editorRef.current.getContent());
   }, []);
 
   const updateDateSelectorPopupPosition = useCallback(() => {
@@ -735,7 +593,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
 
     // positionX = editorWidth;
 
-    const { x, y } = getCursorPostion(editorRef.current.element);
+    const { x, y } = editorRef.current.getCursorPosition();
     // const left = x + seletorPopupWidth + 16 > editorWidth ? editorWidth + 20 - seletorPopupWidth : x + 2;
     let left: number;
     let top: number;
@@ -864,12 +722,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
               {pickerEmojis.length > 0 && (
                 <span className="lumo-mood-chips">
                   {pickerEmojis.map((em, i) => (
-                    <span
-                      key={i}
-                      className="lumo-mood-chip"
-                      title="点击移除"
-                      onClick={() => removePickerEmoji(i)}
-                    >
+                    <span key={i} className="lumo-mood-chip" title="点击移除" onClick={() => removePickerEmoji(i)}>
                       {em}
                     </span>
                   ))}
@@ -878,12 +731,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
               {showEmojiPicker && (
                 <div className="lumo-emoji-popup">
                   {EMOJIS.map((em) => (
-                    <button
-                      type="button"
-                      key={em}
-                      className="lumo-emoji-item"
-                      onClick={() => handleInsertEmoji(em)}
-                    >
+                    <button type="button" key={em} className="lumo-emoji-item" onClick={() => handleInsertEmoji(em)}>
                       {em}
                     </button>
                   ))}

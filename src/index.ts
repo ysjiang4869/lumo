@@ -146,7 +146,7 @@ export default class MemosPlugin extends Plugin {
     }
     if (this.settings.FocusOnEditor) {
       const leaf = leaves[0];
-      leaf.view.containerEl.querySelector('textarea').focus();
+      (leaf.view.containerEl.querySelector('.lumo-live-editor .cm-content') as HTMLElement)?.focus();
       return;
     }
     if (!this.settings.OpenMemosAutomatically) {
@@ -185,8 +185,8 @@ export default class MemosPlugin extends Plugin {
       return;
     }
 
-    if (leaf.view.containerEl.querySelector('textarea') !== undefined) {
-      leaf.view.containerEl.querySelector('textarea').focus();
+    if (leaf.view.containerEl.querySelector('.lumo-live-editor .cm-content')) {
+      (leaf.view.containerEl.querySelector('.lumo-live-editor .cm-content') as HTMLElement)?.focus();
     }
   }
 
@@ -215,7 +215,7 @@ export default class MemosPlugin extends Plugin {
 
     const leaf = leaves[0];
     workspace.setActiveLeaf(leaf);
-    leaf.view.containerEl.querySelector('textarea').focus();
+    (leaf.view.containerEl.querySelector('.lumo-live-editor .cm-content') as HTMLElement)?.focus();
   }
 
   noteIt() {
@@ -258,8 +258,8 @@ export default class MemosPlugin extends Plugin {
       return;
     }
 
-    if (leaf.view.containerEl.querySelector('textarea') !== undefined) {
-      leaf.view.containerEl.querySelector('textarea').focus();
+    if (leaf.view.containerEl.querySelector('.lumo-live-editor .cm-content')) {
+      (leaf.view.containerEl.querySelector('.lumo-live-editor .cm-content') as HTMLElement)?.focus();
     }
   }
 }

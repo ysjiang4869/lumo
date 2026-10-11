@@ -1,40 +1,40 @@
-import React, { forwardRef, ReactNode, useCallback, useContext, useEffect, useImperativeHandle, useRef } from 'react';
-import TinyUndo from 'tiny-undo';
+import { Notice, TFile } from 'obsidian';
+import React, {
+  forwardRef,
+  ReactNode,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
+import { EditorState } from '@codemirror/state';
+import { EditorView, keymap, placeholder as editorPlaceholder } from '@codemirror/view';
+import { historyField } from '@codemirror/commands';
+import { autocompletion, CompletionContext, completionKeymap } from '@codemirror/autocomplete';
 import appContext from '../../stores/appContext';
 import { storage } from '../../helpers/storage';
-import useRefresh from '../../hooks/useRefresh';
-import Only from '../common/OnlyWhen';
-import '../../less/editor.less';
-import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
 import { usedTags } from '../../obComponents/obTagSuggester';
-import '../../less/suggest.less';
-import { FocusOnEditor } from '../../memos';
-import Feather from '../../icons/feather.svg?component';
 import { getSuggestions } from '../../obComponents/obFileSuggester';
-import { TFile } from 'obsidian';
+import { FocusOnEditor } from '../../memos';
 import appStore from '../../stores/appStore';
 import { t } from '../../translations/helper';
-import useState from 'react-usestateref';
-import { LUMO_VIEW_TYPE } from '../../constants';
-
-type ItemProps = {
-  entity: {
-    char: string;
-    name: string;
-    file?: TFile;
-  };
-};
-
-type LoadingProps = {
-  data: Array<{ name: string; char: string }>;
-};
+import Feather from '../../icons/feather.svg?component';
+import { livePreview } from './livePreview';
+import { markdownEditing } from './markdownEditing';
+import '../../less/editor.less';
+import '../../less/live-editor.less';
 
 export interface EditorRefActions {
-  element: HTMLTextAreaElement;
-  focus: FunctionType;
+  element: HTMLElement;
+  focus: () => void;
   insertText: (text: string) => void;
   setContent: (text: string) => void;
   getContent: () => string;
+  getSelection: () => { from: number; to: number };
+  setSelection: (from: number, to?: number) => void;
+  getCursorPosition: () => { x: number; y: number };
 }
 
 interface EditorProps {
@@ -45,350 +45,222 @@ interface EditorProps {
   showConfirmBtn: boolean;
   showCancelBtn: boolean;
   tools?: ReactNode;
-  onConfirmBtnClick: (content: string) => void;
+  onConfirmBtnClick: (content: string) => boolean | void | Promise<boolean | void>;
   onCancelBtnClick: () => void;
   onContentChange: (content: string) => void;
 }
 
-//eslint-disable-next-line
-const TItem = ({ entity: { name, char, file } }: ItemProps) => {
-  return <div>{`${char}`}</div>;
-};
-//eslint-disable-next-line
-const Loading = ({ data }: LoadingProps) => {
-  return <div>Loading</div>;
-};
+function completeMemo(context: CompletionContext) {
+  const tag = context.matchBefore(/#[^\s#]*$/);
+  if (tag && (tag.from === 0 || /\s/.test(context.state.doc.sliceString(tag.from - 1, tag.from)))) {
+    return {
+      from: tag.from + 1,
+      options: usedTags(tag.text.slice(1)).map(({ name, char }: { name: string; char: string }) => ({
+        label: name,
+        apply: char + ' ',
+        type: 'keyword',
+      })),
+      validFor: /^[^\s#]*$/,
+    };
+  }
+  const link = context.matchBefore(/\[\[[^\]\n]*$/);
+  if (!link) return null;
+  const { app } = appStore.getState().dailyNotesState;
+  return {
+    from: link.from,
+    options: getSuggestions('[' + link.text.slice(2))
+      .slice(0, 10)
+      .map(({ file }: { file: TFile }) => ({
+        label: file.basename,
+        detail: file.path,
+        type: 'text',
+        apply: (view: EditorView, _completion: unknown, from: number, to: number) => {
+          const text = app.fileManager.generateMarkdownLink(file, file.path, '', '');
+          const end = view.state.doc.sliceString(to, to + 2) === ']]' ? to + 2 : to;
+          view.dispatch({ changes: { from, to: end, insert: text }, selection: { anchor: from + text.length } });
+        },
+      })),
+  };
+}
 
-export let editorInput: HTMLTextAreaElement;
-let actualToken: string;
-
-// eslint-disable-next-line react/display-name
-const Editor = forwardRef((props: EditorProps, ref: React.ForwardedRef<EditorRefActions>) => {
+const Editor = forwardRef<EditorRefActions, EditorProps>(function Editor(props, ref) {
   const {
     globalState: { useTinyUndoHistoryCache },
   } = useContext(appContext);
-  const {
-    className,
-    inputerType,
-    initialContent,
-    placeholder,
-    showConfirmBtn,
-    showCancelBtn,
-    onConfirmBtnClick: handleConfirmBtnClickCallback,
-    onCancelBtnClick: handleCancelBtnClickCallback,
-    onContentChange: handleContentChangeCallback,
-  } = props;
-  const editorRef = useRef<HTMLTextAreaElement>(null);
-  const tinyUndoRef = useRef<TinyUndo | null>(null);
-  const refresh = useRefresh();
-  // const [value, setValue] = useState("")
-
-  const [, setHeight, currentHeightRef] = useState(0);
-  // const [showDatePicker, toggleShowDatePicker] = useToggle(false);
+  const host = useRef<HTMLDivElement>(null);
+  const editor = useRef<EditorView>();
+  const latest = useRef(props);
+  latest.current = props;
+  const cacheHistory = useRef(useTinyUndoHistoryCache);
+  cacheHistory.current = useTinyUndoHistoryCache;
+  const confirm = useRef<() => void>(() => undefined);
+  const [isSaving, setIsSaving] = useState(false);
+  const [hasContent, setHasContent] = useState(Boolean(props.initialContent));
 
   useEffect(() => {
-    const leaves = app.workspace.getLeavesOfType(LUMO_VIEW_TYPE);
-    let memosHeight;
-    let leafView;
+    if (!useTinyUndoHistoryCache && props.inputerType === 'memo') storage.remove(['liveEditorHistoryCache']);
+  }, [useTinyUndoHistoryCache, props.inputerType]);
 
-    if (leaves.length > 0) {
-      const leaf = leaves[0];
-      leafView = leaf.view.containerEl;
-      memosHeight = leafView.offsetHeight;
-    } else {
-      leafView = document;
-      memosHeight = window.outerHeight;
-    }
-
-    setHeight(memosHeight);
-  }, []);
-
-  useEffect(() => {
-    if (!editorRef.current) {
-      return;
-    }
-
-    if (initialContent) {
-      editorRef.current.value = initialContent;
-      refresh();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (useTinyUndoHistoryCache) {
-      if (!editorRef.current) {
-        return;
+  useLayoutEffect(() => {
+    if (!host.current) return;
+    let saving = false;
+    let destroyed = false;
+    let cacheTimer: ReturnType<typeof setTimeout> | undefined;
+    const persistHistory = () => {
+      if (cacheHistory.current && latest.current.inputerType === 'memo' && editor.current) {
+        storage.set({ liveEditorHistoryCache: editor.current.state.toJSON({ history: historyField }) });
       }
-
-      const { tinyUndoActionsCache, tinyUndoIndexCache } = storage.get(['tinyUndoActionsCache', 'tinyUndoIndexCache']);
-
-      tinyUndoRef.current = new TinyUndo(editorRef.current, {
-        interval: 5000,
-        initialActions: tinyUndoActionsCache,
-        initialIndex: tinyUndoIndexCache,
-      });
-
-      tinyUndoRef.current.subscribe((actions, index) => {
-        storage.set({
-          tinyUndoActionsCache: actions,
-          tinyUndoIndexCache: index,
-        });
-      });
-
-      return () => {
-        tinyUndoRef.current?.destroy();
-      };
-    } else {
-      tinyUndoRef.current?.destroy();
-      tinyUndoRef.current = null;
-      storage.remove(['tinyUndoActionsCache', 'tinyUndoIndexCache']);
+    };
+    const extensions = [
+      livePreview,
+      EditorView.lineWrapping,
+      editorPlaceholder(latest.current.placeholder),
+      EditorView.contentAttributes.of({ 'aria-label': latest.current.placeholder, spellcheck: 'true' }),
+      autocompletion({ override: [completeMemo] }),
+      keymap.of([
+        {
+          key: 'Mod-Enter',
+          run: () => {
+            confirm.current();
+            return true;
+          },
+        },
+        ...completionKeymap,
+      ]),
+      markdownEditing,
+      EditorView.domEventHandlers({
+        keydown: (event) => {
+          event.stopPropagation();
+          return false;
+        },
+      }),
+      EditorView.updateListener.of((update) => {
+        if (update.docChanged) {
+          const content = update.state.doc.toString();
+          setHasContent(Boolean(content));
+          latest.current.onContentChange(content);
+          clearTimeout(cacheTimer);
+          cacheTimer = setTimeout(persistHistory, 300);
+        }
+      }),
+    ];
+    const content = latest.current.initialContent;
+    let state = EditorState.create({ doc: content, extensions });
+    const cached = storage.get(['liveEditorHistoryCache']).liveEditorHistoryCache;
+    if (cacheHistory.current && latest.current.inputerType === 'memo' && cached?.doc === content) {
+      try {
+        state = EditorState.fromJSON(cached, { extensions }, { history: historyField });
+      } catch {
+        // 损坏缓存不应阻止编辑器启动。
+      }
     }
-  }, [useTinyUndoHistoryCache]);
-
-  useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.style.height = 'auto';
-      editorRef.current.style.height = (editorRef.current.scrollHeight ?? 0) + 'px';
-    }
-  }, [editorRef.current?.value]);
+    const view = new EditorView({ state, parent: host.current });
+    editor.current = view;
+    confirm.current = async () => {
+      const text = view.state.doc.toString();
+      if (!text.trim() || view.composing || saving) return;
+      saving = true;
+      setIsSaving(true);
+      try {
+        const saved = await latest.current.onConfirmBtnClick(text);
+        if (destroyed || saved === false) return;
+        if (view.state.doc.toString() === text) {
+          view.setState(EditorState.create({ extensions }));
+          setHasContent(false);
+        }
+        latest.current.onContentChange(view.state.doc.toString());
+        persistHistory();
+      } catch (error) {
+        new Notice(error instanceof Error ? error.message : String(error));
+      } finally {
+        saving = false;
+        if (!destroyed) setIsSaving(false);
+      }
+    };
+    return () => {
+      destroyed = true;
+      clearTimeout(cacheTimer);
+      persistHistory();
+      view.destroy();
+      editor.current = undefined;
+    };
+  }, []);
 
   useImperativeHandle(
     ref,
     () => ({
-      element: editorRef.current as HTMLTextAreaElement,
+      get element() {
+        return editor.current?.contentDOM ?? (host.current as HTMLElement);
+      },
       focus: () => {
-        if (FocusOnEditor) {
-          editorRef.current?.focus();
+        if (FocusOnEditor) editor.current?.focus();
+      },
+      getContent: () => editor.current?.state.doc.toString() ?? '',
+      getSelection: () => {
+        const range = editor.current?.state.selection.main;
+        return { from: range?.from ?? 0, to: range?.to ?? 0 };
+      },
+      setSelection: (from, to = from) => {
+        const view = editor.current;
+        if (view) {
+          const limit = view.state.doc.length;
+          view.dispatch({
+            selection: { anchor: Math.max(0, Math.min(from, limit)), head: Math.max(0, Math.min(to, limit)) },
+            scrollIntoView: true,
+          });
         }
       },
-      insertText: (rawText: string) => {
-        if (!editorRef.current) {
-          return;
-        }
-
-        const prevValue = editorRef.current.value;
-        editorRef.current.value =
-          prevValue.slice(0, editorRef.current.selectionStart) +
-          rawText +
-          prevValue.slice(editorRef.current.selectionStart);
-        handleContentChangeCallback(editorRef.current.value);
-        refresh();
+      setContent: (text) => {
+        const view = editor.current;
+        if (view && view.state.doc.toString() !== text)
+          view.dispatch({
+            changes: { from: 0, to: view.state.doc.length, insert: text },
+            selection: { anchor: text.length },
+          });
       },
-      setContent: (text: string) => {
-        if (editorRef.current) {
-          editorRef.current.value = text;
-          handleContentChangeCallback(editorRef.current.value);
-          refresh();
+      insertText: (text) => {
+        const view = editor.current;
+        if (view) {
+          const { from, to } = view.state.selection.main;
+          view.dispatch({
+            changes: { from, to, insert: text },
+            selection: { anchor: from + text.length },
+            scrollIntoView: true,
+          });
         }
       },
-      getContent: (): string => {
-        return editorRef.current?.value ?? '';
+      getCursorPosition: () => {
+        const view = editor.current;
+        const coords = view?.coordsAtPos(view.state.selection.main.head);
+        const parent = host.current?.offsetParent as HTMLElement | null;
+        const bounds = parent?.getBoundingClientRect();
+        return { x: (coords?.left ?? 0) - (bounds?.left ?? 0), y: (coords?.top ?? 0) - (bounds?.top ?? 0) };
       },
     }),
     [],
   );
 
-  const handleInsertTrigger = (event: { currentTrigger: string; item: any }) => {
-    if (!editorRef.current) {
-      return;
-    }
-
-    const { fileManager } = appStore.getState().dailyNotesState.app;
-
-    if (event.currentTrigger === '#') {
-      const prevValue = editorRef.current.value;
-      let removeCharNum;
-      if (actualToken !== null && actualToken !== undefined) {
-        removeCharNum = actualToken.length;
-      } else {
-        removeCharNum = 0;
-      }
-      let behindCharNum = editorRef.current.selectionStart;
-      for (let i = 0; i < prevValue.length; i++) {
-        if (!/\s/g.test(prevValue[behindCharNum])) {
-          behindCharNum++;
-        }
-      }
-
-      editorRef.current.value =
-        //eslint-disable-next-line
-        prevValue.slice(0, editorRef.current.selectionStart - removeCharNum) +
-        event.item.char +
-        prevValue.slice(behindCharNum);
-      handleContentChangeCallback(editorRef.current.value);
-      refresh();
-    } else if (event.currentTrigger === '[[') {
-      const filePath = fileManager.generateMarkdownLink(event.item.file, event.item.file.path, '', '');
-
-      const prevValue = editorRef.current.value;
-      let removeCharNum;
-      if (actualToken !== null && actualToken !== undefined) {
-        if (filePath.contains('[[')) {
-          removeCharNum = actualToken.length + 1;
-        } else if (event.item.file.extension !== 'md') {
-          removeCharNum = actualToken.length + 1;
-        } else {
-          removeCharNum = actualToken.length + 2;
-        }
-      } else {
-        removeCharNum = 2;
-      }
-      let behindCharNum = editorRef.current.selectionStart;
-      for (let i = 0; i < prevValue.length; i++) {
-        if (!/\s/g.test(prevValue[behindCharNum])) {
-          behindCharNum++;
-        }
-      }
-
-      editorRef.current.value =
-        //eslint-disable-next-line
-        prevValue.slice(0, editorRef.current.selectionStart - removeCharNum) +
-        filePath +
-        prevValue.slice(behindCharNum);
-      handleContentChangeCallback(editorRef.current.value);
-      refresh();
-    }
-  };
-
-  const handleEditorInput = useCallback(() => {
-    handleContentChangeCallback(editorRef.current?.value ?? '');
-    refresh();
-  }, []);
-
-  const handleEditorKeyDown = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    event.stopPropagation();
-
-    if (event.code === 'Enter') {
-      if (event.metaKey || event.ctrlKey) {
-        handleCommonConfirmBtnClick();
-      }
-    }
-    refresh();
-  }, []);
-
-  const handleCommonConfirmBtnClick = useCallback(() => {
-    if (!editorRef.current) {
-      return;
-    }
-
-    if (inputerType === 'memo') {
-      editorRef.current.value = getEditorContentCache();
-    }
-
-    handleConfirmBtnClickCallback(editorRef.current.value);
-    editorRef.current.value = '';
-
-    refresh();
-    // After confirm btn clicked, tiny-undo should reset state(clear actions and index)
-    tinyUndoRef.current?.resetState();
-  }, []);
-
-  const handleCommonCancelBtnClick = useCallback(() => {
-    handleCancelBtnClickCallback();
-  }, []);
-
-  const getEditorContentCache = (): string => {
-    return storage.get(['editorContentCache']).editorContentCache ?? '';
-  };
-
-  const getEditorContent = (): string => {
-    if (!editorRef.current) {
-      return;
-    }
-
-    editorRef.current.value = getEditorContentCache();
-    // if( FocusOnEditor ){
-    //   editorRef.current?.focus();
-    // }
-
-    return editorRef.current.value;
-  };
-
   return (
-    <div className={'common-editor-wrapper ' + className}>
-      {inputerType === 'memo' ? (
-        <ReactTextareaAutocomplete
-          className="common-editor-inputer scroll"
-          loadingComponent={Loading}
-          placeholder={placeholder}
-          movePopupAsYouType={true}
-          value={getEditorContent()}
-          innerRef={(textarea) => {
-            editorRef.current = textarea;
-          }}
-          onInput={handleEditorInput}
-          onKeyDown={handleEditorKeyDown}
-          style={{
-            minHeight: 48,
-            maxHeight: `${currentHeightRef.current > 400 ? currentHeightRef.current - 400 : 100}px`,
-          }}
-          dropdownStyle={{
-            minWidth: 180,
-            maxHeight: 250,
-            overflowY: 'auto',
-          }}
-          minChar={0}
-          onItemSelected={handleInsertTrigger}
-          scrollToItem={true}
-          trigger={{
-            '#': {
-              dataProvider: (token) => {
-                actualToken = token;
-                return usedTags(token).map(({ name, char }) => ({ name, char }));
-              },
-              //eslint-disable-next-line
-              component: TItem,
-              afterWhitespace: true,
-              output: (item) => item.char,
-            },
-            '[[': {
-              dataProvider: (token) => {
-                actualToken = token;
-                return getSuggestions(token)
-                  .slice(0, 10)
-                  .map(({ name, char, file }) => ({ name, char, file }));
-              },
-              //eslint-disable-next-line
-              component: TItem,
-              afterWhitespace: true,
-              output: (item: string) => item.char,
-            },
-          }}
-        />
-      ) : (
-        <textarea
-          style={{
-            minHeight: 48,
-          }}
-          className="common-editor-inputer scroll"
-          rows={1}
-          placeholder={placeholder}
-          ref={editorRef}
-          onInput={handleEditorInput}
-          onKeyDown={handleEditorKeyDown}
-        ></textarea>
-      )}
-
+    <div className={'common-editor-wrapper ' + props.className}>
+      <div ref={host} className="common-editor-inputer lumo-live-editor" />
       <div className="common-tools-wrapper">
-        <div className="common-tools-container">
-          <Only when={props.tools !== undefined}>{props.tools}</Only>
-        </div>
+        <div className="common-tools-container">{props.tools}</div>
         <div className="btns-container">
-          <Only when={showCancelBtn}>
-            <button className="action-btn cancel-btn" onClick={handleCommonCancelBtnClick}>
+          {props.showCancelBtn && (
+            <button className="action-btn cancel-btn" onClick={() => latest.current.onCancelBtnClick()}>
               {t('CANCEL EDIT')}
             </button>
-          </Only>
-          <Only when={showConfirmBtn}>
+          )}
+          {props.showConfirmBtn && (
             <button
               className="action-btn confirm-btn"
-              disabled={!editorRef.current?.value}
-              onClick={handleCommonConfirmBtnClick}
+              disabled={!hasContent || isSaving}
+              onClick={() => confirm.current()}
             >
               <Feather className="confirm-icon" />
               <span className="confirm-label">{t('Record this moment')}</span>
             </button>
-          </Only>
+          )}
         </div>
       </div>
     </div>

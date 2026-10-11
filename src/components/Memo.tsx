@@ -42,6 +42,8 @@ const Memo: React.FC<Props> = (props: Props) => {
   const { memo: propsMemo } = props;
   const [showConfirmDeleteBtn, toggleConfirmDeleteBtn] = useToggle(false);
   const memoCommentRef = useRef<EditorRefActions>(null);
+  const commentDraft = useRef('');
+  const pendingComment = useRef<string | null>(null);
   const [isCommentShown, toggleComment] = useToggle(false);
   const [isCommentListShown, toggleCommentList] = useToggle(ShowCommentOnMemos);
   const [commentMemos, setCommentMemos, commentMemosRef] = useState<Model.Memo[]>([]);
@@ -49,9 +51,6 @@ const Memo: React.FC<Props> = (props: Props) => {
   // const imageUrls = Array.from(memo.content.match(IMAGE_URL_REG) ?? []);
 
   useEffect(() => {
-    if (!memoCommentRef.current) {
-      return;
-    }
     if (!CommentOnMemos) {
       return;
     }
@@ -75,7 +74,11 @@ const Memo: React.FC<Props> = (props: Props) => {
       return;
     }
 
-    // new TagsSuggest(app, memoCommentRef.current.element);
+    if (pendingComment.current !== null) {
+      memoCommentRef.current.setContent(pendingComment.current);
+      pendingComment.current = null;
+    }
+    memoCommentRef.current.focus();
 
     const handlePasteEvent = async (event: ClipboardEvent) => {
       if (event.clipboardData && event.clipboardData.files.length > 0) {
@@ -100,25 +103,28 @@ const Memo: React.FC<Props> = (props: Props) => {
     };
 
     const handleClickEvent = () => {
-      handleContentChange(memoCommentRef.current?.element.value ?? '');
+      handleContentChange(memoCommentRef.current?.getContent() ?? '');
     };
 
     const handleKeyDownEvent = () => {
       setTimeout(() => {
-        handleContentChange(memoCommentRef.current?.element.value ?? '');
+        handleContentChange(memoCommentRef.current?.getContent() ?? '');
       });
     };
 
-    memoCommentRef.current.element.addEventListener('paste', handlePasteEvent);
-    memoCommentRef.current.element.addEventListener('drop', handleDropEvent);
-    memoCommentRef.current.element.addEventListener('click', handleClickEvent);
-    memoCommentRef.current.element.addEventListener('keydown', handleKeyDownEvent);
+    const element = memoCommentRef.current.element;
+    element.addEventListener('paste', handlePasteEvent);
+    element.addEventListener('drop', handleDropEvent);
+    element.addEventListener('click', handleClickEvent);
+    element.addEventListener('keydown', handleKeyDownEvent);
 
     return () => {
-      memoCommentRef.current?.element.removeEventListener('paste', handlePasteEvent);
-      memoCommentRef.current?.element.removeEventListener('drop', handleDropEvent);
+      element.removeEventListener('paste', handlePasteEvent);
+      element.removeEventListener('drop', handleDropEvent);
+      element.removeEventListener('click', handleClickEvent);
+      element.removeEventListener('keydown', handleKeyDownEvent);
     };
-  }, []);
+  }, [isCommentShown]);
 
   const handleCancelBtnClick = useCallback(() => {
     globalStateService.setCommentMemoId('');
@@ -128,22 +134,13 @@ const Memo: React.FC<Props> = (props: Props) => {
   }, []);
 
   const handleContentChange = useCallback((content: string) => {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = content;
-    if (tempDiv.innerText.trim() === '') {
-      content = '';
-    }
-    // setEditorContentCache(content);
-
-    setTimeout(() => {
-      memoCommentRef.current?.focus();
-    });
+    commentDraft.current = content;
   }, []);
 
   const handleSaveBtnClick = useCallback(async (content: string) => {
     if (content === '') {
       new Notice(t('Content cannot be empty'));
-      return;
+      return false;
     }
 
     const { commentMemoId } = globalStateService.getState();
@@ -151,7 +148,6 @@ const Memo: React.FC<Props> = (props: Props) => {
     globalStateService.setChangedByMemos(true);
     try {
       if (commentMemoId) {
-        memoCommentRef.current?.setContent('');
         let prevMemo: Model.Memo;
         if (CommentOnMemos && CommentsInOriginalNotes) {
           prevMemo = memoService.getCommentMemoById(commentMemoId);
@@ -216,7 +212,6 @@ const Memo: React.FC<Props> = (props: Props) => {
         }
 
         // setEditorContentCache('');
-        memoCommentRef.current?.setContent('');
 
         let newMemo: Model.Memo;
         if (CommentsInOriginalNotes) {
@@ -253,8 +248,11 @@ const Memo: React.FC<Props> = (props: Props) => {
       }
     } catch (error: any) {
       new Notice(error.message);
+      return false;
     }
 
+    commentDraft.current = '';
+    return true;
     // globalStateService.setChangedByMemos(false);
     // setEditorContentCache('');
   }, []);
@@ -432,8 +430,13 @@ const Memo: React.FC<Props> = (props: Props) => {
     if (!isCommentShown) {
       toggleComment(true);
     }
-    memoCommentRef.current?.focus();
-    memoCommentRef.current?.setContent(memo.content.replace(/ comment: (.*)$/g, '').replace(/^\d{14} /g, ''));
+    const content = memo.content.replace(/ comment: (.*)$/g, '').replace(/^\d{14} /g, '');
+    if (memoCommentRef.current) {
+      memoCommentRef.current.setContent(content);
+      memoCommentRef.current.focus();
+    } else {
+      pendingComment.current = content;
+    }
   }, []);
 
   const showEditStatus = Boolean(globalState.commentMemoId);
@@ -622,7 +625,7 @@ const Memo: React.FC<Props> = (props: Props) => {
             </div>
           ) : null}
           <div className={`memo-comment-inputer ${isCommentShown ? '' : 'hidden'}`}>
-            <Editor ref={memoCommentRef} {...editorConfig} />
+            {isCommentShown && <Editor ref={memoCommentRef} {...editorConfig} initialContent={commentDraft.current} />}
           </div>
         </div>
       ) : (

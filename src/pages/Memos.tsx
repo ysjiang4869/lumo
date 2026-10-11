@@ -35,8 +35,8 @@ function Memos() {
     setSheetOpen(true);
     setTimeout(() => {
       const editor = document.querySelector(
-        "div[data-type='lumo_view'] .lumo-sheet-panel .common-editor-inputer",
-      ) as HTMLTextAreaElement;
+        "div[data-type='lumo_view'] .lumo-sheet-panel .lumo-live-editor .cm-content",
+      ) as HTMLElement;
       // preventScroll：弹层本身已固定在视口底部，浏览器为聚焦元素滚动祖先容器
       // 反而会把整个视图顶出可视区
       editor?.focus({ preventScroll: true });

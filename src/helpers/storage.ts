@@ -20,6 +20,8 @@ interface StorageData {
   tinyUndoActionsCache: InputAction[];
   // tiny undo index cache
   tinyUndoIndexCache: number;
+  // 实时 Markdown 编辑器的草稿撤销历史。
+  liveEditorHistoryCache: Record<string, unknown>;
 }
 
 type StorageKey = keyof StorageData;
