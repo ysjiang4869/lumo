@@ -1808,8 +1808,33 @@ div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .co
   padding-top: 8px;
 }
 div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .common-tools-container {
-  flex: 1;
+  flex: 1 1 190px;
   min-width: 0;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .lumo-tools {
+  flex-wrap: wrap;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .lumo-emoji-popup {
+  box-sizing: border-box;
+  max-width: calc(100cqw - 40px);
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .lumo-emoji-popup .lumo-emoji-item {
+  min-width: 0;
+  padding: 3px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .editor-date-picker {
+  box-sizing: border-box;
+  width: min(282px, calc(100cqw - 12px));
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .editor-date-picker > .date-picker-day-container {
+  width: 100%;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .editor-date-picker > .date-picker-day-container > .day-item {
+  width: calc(100% / 7 - 4px);
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .editor-date-picker > .date-picker-day-container > .date-picker-day-header > .day-item {
+  width: calc(100% / 7);
 }
 div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .common-tools-wrapper > .btns-container {
   margin-left: auto;

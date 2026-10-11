@@ -94,7 +94,23 @@ div[data-type='lumo_view'] #page-wrapper .lumo-timeline {
     border-radius: 14px;
     box-shadow: 0 1px 3px var(--lumo-line);
     .common-tools-wrapper { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; padding-top: 8px; }
-    .common-tools-container { flex: 1; min-width: 0; }
+    .common-tools-container { flex: 1 1 190px; min-width: 0; }
+    .lumo-tools { flex-wrap: wrap; }
+    .lumo-emoji-popup {
+      box-sizing: border-box;
+      max-width: calc(100cqw - 40px);
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      .lumo-emoji-item { min-width: 0; padding: 3px; }
+    }
+    .editor-date-picker {
+      box-sizing: border-box;
+      width: min(282px, calc(100cqw - 12px));
+      > .date-picker-day-container {
+        width: 100%;
+        > .day-item { width: calc(100% / 7 - 4px); }
+        > .date-picker-day-header > .day-item { width: calc(100% / 7); }
+      }
+    }
     .common-tools-wrapper > .btns-container { margin-left: auto; }
     .common-editor-inputer, .lumo-live-editor .cm-content { min-height: 48px !important; }
   }
