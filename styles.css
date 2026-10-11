@@ -1681,12 +1681,17 @@ div[data-type='lumo_view'] .memo-comment-text.memo-md a.external-link:hover {
   list-style-type: none;
 }
 /* Time flow: one reading column, one vertical scroll surface, and a dedicated two-row tag strip. */
-div[data-type='lumo_view'] .view-content section#page-wrapper > .content-wrapper {
+div[data-type='lumo_view'] .view-content section#page-wrapper > .content-wrapper,
+div[data-type='lumo_view'].mobile-view .view-content section#page-wrapper > .content-wrapper {
   max-width: 840px;
   min-width: 0;
   min-height: 0;
   padding: 20px 24px 0;
   box-sizing: border-box;
+}
+.is-mobile div[data-type='lumo_view'] .view-content section#page-wrapper > .content-wrapper {
+  max-width: 100%;
+  padding: 6px 16px 0;
 }
 div[data-type='lumo_view'] #page-wrapper .lumo-timeline {
   container-type: inline-size;
