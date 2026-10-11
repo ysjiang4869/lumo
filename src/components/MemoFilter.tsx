@@ -38,7 +38,7 @@ const MemoFilter: React.FC<FilterProps> = () => {
   return (
     <div className={`filter-query-container ${showFilter ? '' : 'hidden'}`}>
       <div className="filter-query">
-        <span className="tip-text">FILTER: </span>
+        <span className="tip-text">{t('Filters')}: </span>
         <div
           className={'filter-item-container ' + (queryFilter ? '' : 'hidden')}
           onClick={() => {
@@ -71,7 +71,7 @@ const MemoFilter: React.FC<FilterProps> = () => {
             }}
           >
             <span className="icon-text">🗓️</span> {moment(duration.from, 'x').format('YYYY/MM/DD')} {t('to')}{' '}
-            {moment(duration.to, 'x').add(1, 'days').format('YYYY/MM/DD')}
+            {moment(duration.to, 'x').format('YYYY/MM/DD')}
           </div>
         ) : null}
         <div
@@ -83,6 +83,9 @@ const MemoFilter: React.FC<FilterProps> = () => {
           <span className="icon-text">🔍</span> {textQuery}
         </div>
       </div>
+      <button type="button" className="lumo-clear-filters" onClick={() => locationService.clearQuery()}>
+        {t('Clear filters')}
+      </button>
       <div className="copy-memo" onClick={handleCopyClick}>
         {/*<img className="icon-img" src={copy} onClick={handleCopyClick} />*/}
         <Copy className="icon-img" />

@@ -41,6 +41,8 @@ const Memo: React.FC<Props> = (props: Props) => {
   const { globalState } = useContext(appContext);
   const { memo: propsMemo } = props;
   const [showConfirmDeleteBtn, toggleConfirmDeleteBtn] = useToggle(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const memoCommentRef = useRef<EditorRefActions>(null);
   const commentDraft = useRef('');
   const pendingComment = useRef<string | null>(null);
@@ -48,6 +50,21 @@ const Memo: React.FC<Props> = (props: Props) => {
   const [isCommentListShown, toggleCommentList] = useToggle(ShowCommentOnMemos);
   const [commentMemos, setCommentMemos, commentMemosRef] = useState<Model.Memo[]>([]);
   const [, setAddRandomIDflag, RandomIDRef] = useState(false);
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const closeOutside = (event: PointerEvent) => {
+      if (!menuRef.current?.contains(event.target as Node)) setMenuOpen(false);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('pointerdown', closeOutside);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOutside);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [isMenuOpen]);
   // const imageUrls = Array.from(memo.content.match(IMAGE_URL_REG) ?? []);
 
   useEffect(() => {
@@ -486,7 +503,8 @@ const Memo: React.FC<Props> = (props: Props) => {
     >
       <div className="memo-top-wrapper">
         <div className="memo-top-left-wrapper">
-          <div
+          <button
+            type="button"
             className="memo-card-time"
             onClick={handleShowMemoStoryDialog}
             draggable="true"
@@ -496,16 +514,18 @@ const Memo: React.FC<Props> = (props: Props) => {
           >
             <span className="memo-card-date">{cardDateStr}</span>
             <span className="memo-card-period">{cardPeriod}</span>
-          </div>
-          <div
-            className={`memo-type-img ${
-              (propsMemo.memoType === 'TASK-TODO' || propsMemo.memoType === 'TASK-DONE') && ShowTaskLabel
-                ? ''
-                : 'hidden'
-            }`}
-          >
+          </button>
+          <div className={`memo-type-img ${ShowTaskLabel ? '' : 'hidden'}`}>
             {handleMemoTypeShow() ?? ''}
+            <span>
+              {propsMemo.memoType === 'TASK-TODO'
+                ? t('To-do')
+                : propsMemo.memoType === 'TASK-DONE'
+                ? t('Completed')
+                : t('Record')}
+            </span>
           </div>
+          {propsMemo.pinned && <span className="lumo-pinned-label">{t('Pinned')}</span>}
         </div>
         <div className="memo-top-right-wrapper">
           {CommentOnMemos ? (
@@ -517,44 +537,63 @@ const Memo: React.FC<Props> = (props: Props) => {
           ) : (
             ''
           )}
-          <span
+          <button
+            type="button"
             className={`btn pin-btn ${propsMemo.pinned ? 'pinned' : ''}`}
             onClick={handleTogglePinClick}
             aria-label={propsMemo.pinned ? t('UNPIN') : t('PIN')}
+            aria-pressed={Boolean(propsMemo.pinned)}
           >
             <Pin className="icon-img" />
-          </span>
-          <div className="btns-container">
-            <span className="btn more-action-btn">
+          </button>
+          <div
+            className={`btns-container ${isMenuOpen ? 'is-menu-open' : ''}`}
+            ref={menuRef}
+            onMouseEnter={() => setMenuOpen(true)}
+            onMouseLeave={(event) => {
+              if (!event.currentTarget.contains(document.activeElement)) setMenuOpen(false);
+            }}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node)) setMenuOpen(false);
+            }}
+          >
+            <button
+              type="button"
+              className="btn more-action-btn"
+              aria-label={t('Menu')}
+              aria-expanded={isMenuOpen}
+              onClick={() => setMenuOpen(true)}
+            >
               {/*<img className="icon-img" src={more} />*/}
               <More className="icon-img" />
-            </span>
+            </button>
             <div className="more-action-btns-wrapper">
               <div className="more-action-btns-container">
-                <span className="btn" onClick={handleShowMemoStoryDialog}>
+                <button type="button" className="btn" onClick={handleShowMemoStoryDialog}>
                   {t('READ')}
-                </span>
-                <span className="btn" onClick={handleMarkMemoClick}>
+                </button>
+                <button type="button" className="btn" onClick={handleMarkMemoClick}>
                   {t('MARK')}
-                </span>
-                <span className="btn" onClick={handleGenMemoImageBtnClick}>
+                </button>
+                <button type="button" className="btn" onClick={handleGenMemoImageBtnClick}>
                   {t('SHARE')}
-                </span>
-                <span className="btn" onClick={handleEditMemoClick}>
+                </button>
+                <button type="button" className="btn" onClick={handleEditMemoClick}>
                   {t('EDIT')}
-                </span>
-                <span className="btn" onClick={() => handleSourceMemoClick(propsMemo)}>
+                </button>
+                <button type="button" className="btn" onClick={() => handleSourceMemoClick(propsMemo)}>
                   {t('SOURCE')}
-                </span>
-                <span className="btn" onClick={handleArchiveMemoClick}>
+                </button>
+                <button type="button" className="btn" onClick={handleArchiveMemoClick}>
                   {t('ARCHIVE')}
-                </span>
-                <span
+                </button>
+                <button
+                  type="button"
                   className={`btn delete-btn ${showConfirmDeleteBtn ? 'final-confirm' : ''}`}
                   onClick={handleDeleteMemoClick}
                 >
                   {showConfirmDeleteBtn ? t('CONFIRM！') : t('DELETE')}
-                </span>
+                </button>
               </div>
             </div>
           </div>

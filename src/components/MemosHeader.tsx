@@ -1,10 +1,11 @@
 import React, { useContext, useMemo, useState } from 'react';
 import appContext from '../stores/appContext';
-import { memoService } from '../services';
+import { locationService, memoService } from '../services';
 import MenuBtnsPopup from './MenuBtnsPopup';
 import utils from '../helpers/utils';
 import '../less/memos-header.less';
 import More from '../icons/more.svg?component';
+import Feather from '../icons/feather.svg?component';
 import { moment } from 'obsidian';
 import { UserName } from '../memos';
 import { t } from '../translations/helper';
@@ -51,11 +52,15 @@ const MemosHeader: React.FC<Props> = () => {
   return (
     <div className="section-header-container memos-header-container lumo-greeting">
       <div className="lumo-greeting-row">
-        <span className="lumo-greeting-hello" onClick={handleGreetingClick}>
+        <button type="button" className="lumo-greeting-hello" onClick={handleGreetingClick}>
           {getGreeting()}，{username}
-        </span>
+        </button>
         <span className="lumo-greeting-date">{dateStr}</span>
         <span className="lumo-greeting-spacer" />
+        <button type="button" className="lumo-insight-link" onClick={() => locationService.pushHistory('/insights')}>
+          <Feather aria-hidden="true" />
+          {t('Insights')}
+        </button>
         <div className="lumo-menu-wrapper">
           <button className="lumo-menu-btn" aria-label={t('Menu')} onClick={() => setShouldShowMenu(true)}>
             <More className="icon-img" />

@@ -1,6 +1,7 @@
 import { t } from '../translations/helper';
-import { IMAGE_URL_REG, LINK_REG, MEMO_LINK_REG, NOP_FIRST_TAG_REG, TAG_REG } from './consts';
+import { NOP_FIRST_TAG_REG, TAG_REG } from './consts';
 import { moment, Notice } from 'obsidian';
+import { matchesMemoType } from './memoType';
 
 export const relationConsts = [
   { text: 'AND', value: 'AND' },
@@ -36,6 +37,9 @@ export const filterConsts = {
       },
     ],
     values: [
+      { value: 'MOOD', text: t('Mood') },
+      { value: 'TASK-TODO', text: t('To-do') },
+      { value: 'TASK-DONE', text: t('Completed') },
       {
         value: 'CONNECTED',
         text: t('LINKED'),
@@ -165,16 +169,7 @@ export const checkShouldShowMemo = (memo: Model.Memo, filter: Filter) => {
     }
     shouldShow = contained;
   } else if (type === 'TYPE') {
-    let matched = false;
-    if (value === 'NOT_TAGGED' && memo.content.match(TAG_REG) === null) {
-      matched = true;
-    } else if (value === 'LINKED' && memo.content.match(LINK_REG) !== null) {
-      matched = true;
-    } else if (value === 'IMAGED' && memo.content.match(IMAGE_URL_REG) !== null) {
-      matched = true;
-    } else if (value === 'CONNECTED' && memo.content.match(MEMO_LINK_REG) !== null) {
-      matched = true;
-    }
+    let matched = matchesMemoType(memo, value as MemoSpecType);
     if (operator === 'IS_NOT') {
       matched = !matched;
     }

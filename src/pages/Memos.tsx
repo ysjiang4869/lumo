@@ -3,6 +3,7 @@ import MemosHeader from '../components/MemosHeader';
 import MemoFilter from '../components/MemoFilter';
 import MemoList from '../components/MemoList';
 import JournalNav from '../components/JournalNav';
+import MemoSearch from '../components/MemoSearch';
 import React, { useContext, useEffect, useRef } from 'react';
 import { Platform } from 'obsidian';
 import appContext from '../stores/appContext';
@@ -46,10 +47,13 @@ function Memos() {
   if (Platform.isMobile) {
     return (
       <>
-        <MemosHeader />
-        <JournalNav />
-        <MemoFilter />
-        <MemoList />
+        <div className="lumo-timeline">
+          <MemosHeader />
+          <MemoSearch />
+          <JournalNav />
+          <MemoFilter />
+          <MemoList />
+        </div>
         {!sheetOpen && (
           <button className="lumo-fab" onClick={handleFabClick}>
             <Feather />
@@ -68,13 +72,14 @@ function Memos() {
   }
 
   return (
-    <>
+    <div className="lumo-timeline">
       <MemosHeader />
+      <MemoSearch />
       <MemoEditor />
       <JournalNav />
       <MemoFilter />
       <MemoList />
-    </>
+    </div>
   );
 }
 

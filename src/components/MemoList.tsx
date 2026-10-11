@@ -1,7 +1,8 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import appContext from '../stores/appContext';
 import { locationService, memoService, queryService } from '../services';
-import { FIRST_TAG_REG, IMAGE_URL_REG, LINK_REG, MEMO_LINK_REG, NOP_FIRST_TAG_REG, TAG_REG } from '../helpers/consts';
+import { FIRST_TAG_REG, NOP_FIRST_TAG_REG, TAG_REG } from '../helpers/consts';
+import { matchesMemoType } from '../helpers/memoType';
 import utils from '../helpers/utils';
 import { checkShouldShowMemoWithFilters } from '../helpers/filter';
 import Memo from './Memo';
@@ -9,7 +10,7 @@ import Memo from './Memo';
 import '../less/memolist.less';
 import dailyNotesService from '../services/dailyNotesService';
 import appStore from '../stores/appStore';
-import { Notice, Platform } from 'obsidian';
+import { moment, Notice, Platform } from 'obsidian';
 import { HideDoneTasks } from '../memos';
 // import {moment} from 'obsidian';
 import { t } from '../translations/helper';
@@ -107,20 +108,7 @@ const MemoList: React.FC<Props> = () => {
           ) {
             shouldShow = false;
           }
-          if (memoContentType) {
-            if (
-              memoContentType === 'NOT_TAGGED' &&
-              (memo.content.match(TAG_REG) !== null || memo.content.match(NOP_FIRST_TAG_REG) !== null)
-            ) {
-              shouldShow = false;
-            } else if (memoContentType === 'LINKED' && memo.content.match(LINK_REG) === null) {
-              shouldShow = false;
-            } else if (memoContentType === 'IMAGED' && memo.content.match(IMAGE_URL_REG) === null) {
-              shouldShow = false;
-            } else if (memoContentType === 'CONNECTED' && memo.content.match(MEMO_LINK_REG) === null) {
-              shouldShow = false;
-            }
-          }
+          if (memoContentType && !matchesMemoType(memo, memoContentType)) shouldShow = false;
           if (textQuery && !memo.content.includes(textQuery)) {
             shouldShow = false;
           }
@@ -162,6 +150,8 @@ const MemoList: React.FC<Props> = () => {
 
   useEffect(() => {
     wrapperElement.current?.scrollTo({ top: 0 });
+    // The timeline has one scroll surface; keep its search and composer in view on filter changes.
+    wrapperElement.current?.closest('.lumo-timeline')?.scrollTo({ top: 0 });
   }, [query]);
 
   const handleMemoListClick = useCallback((event: React.MouseEvent) => {
@@ -192,6 +182,37 @@ const MemoList: React.FC<Props> = () => {
       onClick={handleMemoListClick}
       ref={wrapperElement}
     >
+      <div className="lumo-list-heading">
+        <span aria-live="polite">
+          {showMemoFilter ? `${t('Search results')} · ${shownMemos.length}` : t('Recent notes')}
+        </span>
+        <select
+          aria-label={t('Date range')}
+          value={duration && duration.from < duration.to ? 'custom' : 'all'}
+          onChange={(event) => {
+            const days = Number(event.currentTarget.value);
+            if (!days) locationService.setFromAndToQuery(0, 0);
+            else
+              locationService.setFromAndToQuery(
+                moment()
+                  .subtract(days - 1, 'days')
+                  .startOf('day')
+                  .valueOf(),
+                moment().endOf('day').valueOf(),
+              );
+          }}
+        >
+          <option value="all">{t('All time')}</option>
+          <option value="1">{t('Today')}</option>
+          <option value="7">{t('Last 7 days')}</option>
+          <option value="30">{t('Last 30 days')}</option>
+          {duration && duration.from < duration.to && (
+            <option value="custom">
+              {moment(duration.from).format('MM/DD')} – {moment(duration.to).format('MM/DD')}
+            </option>
+          )}
+        </select>
+      </div>
       {sortedMemos.map((memo) => (
         <Memo key={`${memo.id}-${memo.updatedAt}`} memo={memo} />
       ))}

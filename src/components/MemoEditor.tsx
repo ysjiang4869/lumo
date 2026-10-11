@@ -749,11 +749,16 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
             </span>
             <Tag className="action-btn add-tag" onClick={handleTagTextBtnClick} />
             <ImageSvg className="action-btn file-upload" onClick={handleUploadFileBtnClick} />
-            {!isListShown ? (
-              <JournalSvg className="action-btn list-or-task" onClick={handleChangeStatus} />
-            ) : (
-              <TaskSvg className="action-btn list-or-task" onClick={handleChangeStatus} />
-            )}
+            <button
+              type="button"
+              className="lumo-editor-mode"
+              aria-label={t('Record type')}
+              aria-pressed={isListShown}
+              onClick={handleChangeStatus}
+            >
+              {!isListShown ? <JournalSvg /> : <TaskSvg />}
+              <span>{isListShown ? t('To-do') : t('Record')}</span>
+            </button>
           </div>
         }
       />

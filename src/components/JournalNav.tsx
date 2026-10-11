@@ -1,124 +1,108 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import appContext from '../stores/appContext';
 import { locationService, memoService } from '../services';
+import { memoSpecialTypes } from '../helpers/filter';
 import { t } from '../translations/helper';
-import Search from '../icons/search.svg?component';
-import Feather from '../icons/feather.svg?component';
 
-interface Props {}
-
-// 心情 / 标签 暂为 UI 占位（不做真实过滤）；全部 / 图片 接入 memoType 过滤。
-const TABS: { key: string; label: string; type?: MemoSpecType }[] = [
-  { key: 'all', label: t('All') },
-  { key: 'mood', label: t('Mood') },
+const TABS: { key: string; label: string; type: MemoSpecType | '' }[] = [
+  { key: 'all', label: t('All'), type: '' },
+  { key: 'mood', label: t('Mood'), type: 'MOOD' },
   { key: 'image', label: t('Images'), type: 'IMAGED' },
-  { key: 'tag', label: t('Tags') },
+  { key: 'task', label: t('To-do'), type: 'TASK-TODO' },
 ];
 
-const JournalNav: React.FC<Props> = () => {
+const JournalNav = () => {
   const {
     locationState: {
       query: { tag: tagQuery, type: memoType },
     },
     memoState: { tagsNum, memos },
   } = useContext(appContext);
+  const tagList = useRef<HTMLDivElement>(null);
+  const totalCount = memos.filter(
+    (memo) => !memo.archived && !memo.deletedAt && !memo.content.includes('comment:'),
+  ).length;
+  const tags = useMemo(() => Object.entries(tagsNum as Record<string, number>).sort((a, b) => b[1] - a[1]), [tagsNum]);
 
-  const totalCount = memos.length;
-
-  // 侧栏移除后 TagList 不再渲染，需在此处触发 tagsNum 更新
   useEffect(() => {
     memoService.updateTagsState();
   }, [memos]);
 
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('all');
+  useEffect(() => {
+    const list = tagList.current;
+    const selected = list?.querySelector<HTMLElement>('[aria-pressed="true"]');
+    if (!list || !selected) return;
+    const left = selected.offsetLeft;
+    if (left < list.scrollLeft) list.scrollLeft = left;
+    else if (left + selected.offsetWidth > list.scrollLeft + list.clientWidth)
+      list.scrollLeft = left + selected.offsetWidth - list.clientWidth;
+  }, [tagQuery, tags]);
 
-  // 真实过滤态（图片）优先反映到高亮
-  const effectiveTab = memoType === 'IMAGED' ? 'image' : memoType ? 'all' : activeTab;
-
-  const topTags = useMemo(() => {
-    return Object.entries(tagsNum as { [k: string]: number })
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 16);
-  }, [tagsNum]);
-
-  const handleTabClick = (tab: { key: string; type?: MemoSpecType }) => {
-    setActiveTab(tab.key);
-    locationService.setMemoTypeQuery(tab.type ?? '');
-  };
-
-  const handleSearchInput = (e: React.FormEvent<HTMLInputElement>) => {
-    locationService.setTextQuery(e.currentTarget.value);
-  };
-
-  const toggleSearch = () => {
-    if (searchOpen) {
-      locationService.setTextQuery('');
-    }
-    setSearchOpen(!searchOpen);
-  };
-
-  const handleTagClick = (name: string) => {
-    locationService.setTagQuery(tagQuery === name ? '' : name);
-  };
-
-  const handleInsightClick = () => {
-    locationService.pushHistory('/insights');
-  };
+  const isPrimaryType = TABS.some((tab) => tab.type === memoType);
 
   return (
-    <>
+    <div className="lumo-browse-controls">
       <div className="lumo-jnav">
-        <div className="lumo-jnav-pills">
+        <div className="lumo-jnav-pills" aria-label={t('Filter notes')}>
           {TABS.map((tab) => (
             <button
+              type="button"
               key={tab.key}
-              className={`lumo-jnav-pill ${effectiveTab === tab.key ? 'is-active' : ''}`}
-              onClick={() => handleTabClick(tab)}
+              className={`lumo-jnav-pill ${memoType === tab.type ? 'is-active' : ''}`}
+              aria-pressed={memoType === tab.type}
+              onClick={() => locationService.setMemoTypeQuery(tab.type)}
             >
               {tab.label}
             </button>
           ))}
+          <button
+            type="button"
+            className="lumo-jnav-pill"
+            onClick={() => tagList.current?.querySelector<HTMLButtonElement>('button')?.focus()}
+          >
+            {t('Tags')}
+          </button>
         </div>
-        <span className="lumo-jnav-spacer" />
-        {searchOpen && (
-          <input
-            className="lumo-jnav-search"
-            type="text"
-            autoFocus
-            placeholder={t('Search')}
-            onChange={handleSearchInput}
-          />
-        )}
-        <button className="lumo-jnav-icon" aria-label={t('Search')} onClick={toggleSearch}>
-          <Search />
-        </button>
-        <button className="lumo-jnav-insight" onClick={handleInsightClick}>
-          <Feather />
-          {t('Insights')}
-        </button>
+        <select
+          className="lumo-more-filters"
+          aria-label={t('More filters')}
+          value={isPrimaryType ? '' : memoType}
+          onChange={(event) => locationService.setMemoTypeQuery(event.currentTarget.value as MemoSpecType | '')}
+        >
+          <option value="">{t('More filters')}</option>
+          {memoSpecialTypes
+            .filter((type) => !TABS.some((tab) => tab.type === type.value))
+            .map((type) => (
+              <option key={type.value} value={type.value}>
+                {type.text}
+              </option>
+            ))}
+        </select>
       </div>
-
-      <div className="lumo-tagfilter">
-        <span
+      <div className="lumo-tagfilter" ref={tagList} role="group" aria-label={t('Tags')}>
+        <button
+          type="button"
           className={`lumo-tagfilter-chip ${!tagQuery ? 'is-active' : ''}`}
+          aria-pressed={!tagQuery}
           onClick={() => locationService.setTagQuery('')}
         >
           # {t('All')}
           <span className="n">{totalCount}</span>
-        </span>
-        {topTags.map(([name, count]) => (
-          <span
+        </button>
+        {tags.map(([name, count]) => (
+          <button
+            type="button"
             key={name}
             className={`lumo-tagfilter-chip ${tagQuery === name ? 'is-active' : ''}`}
-            onClick={() => handleTagClick(name)}
+            aria-pressed={tagQuery === name}
+            onClick={() => locationService.setTagQuery(tagQuery === name ? '' : name)}
           >
             # {name}
             <span className="n">{count}</span>
-          </span>
+          </button>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

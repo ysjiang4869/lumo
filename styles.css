@@ -1680,6 +1680,404 @@ div[data-type='lumo_view'] .memo-comment-text.memo-md a.external-link:hover {
 .theme-dark div[data-type='lumo_view'] .memo-comment-text.memo-md ul.contains-task-list > li:not(.rta__item) {
   list-style-type: none;
 }
+/* Time flow: one reading column, one vertical scroll surface, and a dedicated two-row tag strip. */
+div[data-type='lumo_view'] .view-content section#page-wrapper > .content-wrapper {
+  max-width: 840px;
+  min-width: 0;
+  min-height: 0;
+  padding: 20px 24px 0;
+  box-sizing: border-box;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline {
+  container-type: inline-size;
+  container-name: lumo-timeline;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 4px 28px;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline > * {
+  flex-shrink: 0;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-greeting {
+  gap: 6px;
+  padding: 4px 0 0;
+  margin-top: 0;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-greeting .lumo-greeting-row {
+  gap: 8px 12px;
+  align-items: center;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-greeting .lumo-greeting-hello {
+  background: none;
+  border: none;
+  box-shadow: none;
+  height: auto;
+  padding: 0;
+  text-align: left;
+  font-size: 24px;
+  cursor: pointer;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-greeting .lumo-greeting-date {
+  color: var(--lumo-muted);
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-greeting .lumo-greeting-stats {
+  font-size: 12.5px;
+  color: var(--lumo-muted);
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-greeting .lumo-greeting-stats b {
+  color: var(--lumo-ink-2);
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-greeting .lumo-greeting-stats b.accent {
+  color: var(--lumo-accent);
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-search {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  background: var(--lumo-card);
+  border: 1px solid var(--lumo-line-2);
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-search:focus-within {
+  border-color: var(--lumo-accent);
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-search > svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  fill: currentColor;
+  color: var(--lumo-muted);
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-search input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 44px;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  color: var(--lumo-ink);
+  font-size: 15px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-search input::placeholder {
+  color: var(--lumo-muted);
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-search button {
+  flex: none;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 4px;
+  color: var(--lumo-muted);
+  font-size: 20px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px 10px;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px var(--lumo-line);
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .common-tools-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .common-tools-container {
+  flex: 1;
+  min-width: 0;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .common-tools-wrapper > .btns-container {
+  margin-left: auto;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .common-editor-inputer,
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-editor-wrapper .lumo-live-editor .cm-content {
+  min-height: 48px !important;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-browse-controls {
+  width: 100%;
+  min-width: 0;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-jnav {
+  flex-wrap: wrap;
+  margin: 0 0 12px;
+  gap: 8px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-jnav .lumo-jnav-pills {
+  flex-wrap: wrap;
+  gap: 3px;
+  background: transparent;
+  padding: 0;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-jnav .lumo-jnav-pill {
+  padding: 6px 10px;
+  min-height: 34px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-jnav .lumo-jnav-pill.is-active {
+  background: var(--lumo-accent-tint);
+  color: var(--lumo-accent);
+  box-shadow: none;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-more-filters {
+  margin-left: auto;
+  max-width: 150px;
+  padding: 4px 24px 4px 8px;
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+  color: var(--lumo-muted);
+  font-size: 12px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-tagfilter {
+  position: relative;
+  display: grid;
+  grid-template-rows: repeat(2, 32px);
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  align-items: stretch;
+  gap: 7px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  padding: 10px 0;
+  border-block: 1px solid var(--lumo-line);
+  scrollbar-width: thin;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-tagfilter .lumo-tagfilter-chip {
+  box-sizing: border-box;
+  height: 32px;
+  padding: 4px 11px;
+  border: none;
+  box-shadow: none;
+  white-space: nowrap;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-tagfilter .lumo-tagfilter-chip .n {
+  flex: none;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .filter-query-container {
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .filter-query {
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-clear-filters {
+  border: none;
+  background: none;
+  color: var(--lumo-accent);
+  padding: 4px;
+  font-size: 12px;
+  box-shadow: none;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memolist-wrapper {
+  flex: none;
+  overflow: visible;
+  gap: 14px;
+  padding: 0 0 40px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  color: var(--lumo-muted);
+  font-size: 12px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-list-heading select {
+  max-width: 190px;
+  color: var(--lumo-muted);
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+  font-size: 12px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper {
+  box-sizing: border-box;
+  border-radius: 14px;
+  padding: 18px 20px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper {
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-left-wrapper {
+  min-width: 0;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 5px 8px;
+  align-items: center;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-left-wrapper .memo-card-time {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 8px;
+  padding: 0;
+  height: auto;
+  border: none;
+  border-radius: 3px;
+  background: transparent;
+  box-shadow: none;
+  text-align: left;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-left-wrapper .memo-card-time .memo-card-date {
+  font-size: 15px;
+  font-weight: 600;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-left-wrapper .memo-card-time .memo-card-period {
+  font-size: 12px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-left-wrapper .memo-type-img {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: auto;
+  height: auto;
+  margin: 0;
+  filter: none;
+  color: var(--lumo-muted);
+  font-size: 12px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-left-wrapper .memo-type-img svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper .lumo-pinned-label {
+  font-size: 11px;
+  color: var(--lumo-accent);
+  white-space: nowrap;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper {
+  flex: none;
+  margin-left: auto;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper .comment-button-wrapper {
+  width: auto;
+  gap: 3px;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn {
+  opacity: 0.75;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper > .pin-btn.pinned {
+  opacity: 1;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper .btns-container {
+  z-index: 6;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper .btns-container > .more-action-btns-wrapper,
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper .more-action-btn:hover + .more-action-btns-wrapper {
+  display: none;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper .btns-container.is-menu-open > .more-action-btns-wrapper {
+  display: flex;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper .more-action-btns-wrapper {
+  top: 100%;
+  right: -8px;
+  padding: 6px;
+  z-index: 10;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper > .memo-top-wrapper > .memo-top-right-wrapper .more-action-btns-container .btn {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  text-align: left;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper .memo-content-text {
+  max-width: 72ch;
+  font-size: 15px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+/* The mobile sheet is a sibling of the scroll container, so its existing fixed positioning is preserved. */
+div[data-type='lumo_view'] #page-wrapper .lumo-editor-mode {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 4px;
+  border: none;
+  border-radius: 7px;
+  padding: 5px 7px;
+  height: 32px;
+  box-shadow: none;
+  color: var(--lumo-muted);
+  background: var(--lumo-accent-soft);
+  font-size: 12px;
+  cursor: pointer;
+}
+div[data-type='lumo_view'] #page-wrapper .lumo-editor-mode svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+@container lumo-timeline (max-width: 560px) {
+  .lumo-greeting-row {
+    gap: 8px !important;
+  }
+  .lumo-greeting-hello {
+    font-size: 21px !important;
+  }
+  .lumo-greeting-date {
+    font-size: 12px !important;
+  }
+  .lumo-greeting-spacer {
+    display: none;
+  }
+  .lumo-insight-link {
+    margin-left: auto;
+  }
+  .lumo-greeting-stats {
+    font-size: 12px !important;
+  }
+  .memo-top-left-wrapper {
+    flex-basis: 100% !important;
+  }
+  .lumo-timeline .memo-wrapper {
+    padding: 15px !important;
+  }
+  .lumo-timeline .lumo-search input {
+    font-size: 16px;
+  }
+}
+@media (pointer: coarse) {
+  div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-tagfilter {
+    grid-template-rows: repeat(2, 44px);
+  }
+  div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-tagfilter-chip,
+  div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-jnav-pill {
+    min-height: 44px;
+  }
+}
 .mono-font-family {
   font-family: 'ubuntu-mono', SFMono-Regular, Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace;
 }
