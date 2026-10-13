@@ -10,6 +10,7 @@ export default {
   Completed: '已完成',
   Record: '記錄',
   'Record type': '記錄類型',
+  'Collapse editor': '收起',
   'Recent notes': '最近記錄',
   'Search results': '篩選結果',
   'Date range': '日期範圍',

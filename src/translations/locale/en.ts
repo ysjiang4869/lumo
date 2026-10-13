@@ -250,6 +250,7 @@ export default {
   Search: 'Search',
   Menu: 'Menu',
   'Write it down': 'Write it down',
+  'Collapse editor': 'Done',
 
   // Timeline layout
   'Search notes or tags': 'Search notes or tags',

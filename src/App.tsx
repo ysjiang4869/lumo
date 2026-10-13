@@ -8,6 +8,7 @@ import './helpers/polyfill';
 import './less/global.less';
 import './less/redesign.less';
 import './less/timeline.less';
+import './less/mobile.less';
 import { appHasDailyNotesPluginLoaded } from 'obsidian-daily-notes-interface';
 import { Notice } from 'obsidian';
 import { appRouterSwitch } from './routers';

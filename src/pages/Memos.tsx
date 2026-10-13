@@ -4,49 +4,61 @@ import MemoFilter from '../components/MemoFilter';
 import MemoList from '../components/MemoList';
 import JournalNav from '../components/JournalNav';
 import MemoSearch from '../components/MemoSearch';
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useRef } from 'react';
 import { Platform } from 'obsidian';
 import appContext from '../stores/appContext';
-import Feather from '../icons/feather.svg?component';
 import { t } from '../translations/helper';
 import useState from 'react-usestateref';
 
 function Memos() {
   const { globalState } = useContext(appContext);
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const prevEditId = useRef(globalState.editMemoId);
-  const prevMarkId = useRef(globalState.markMemoId);
+  const [composerOpen, setComposerOpen] = useState(false);
+  const layoutRef = useRef<HTMLDivElement>(null);
+  const composerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!Platform.isMobile) return;
-    const editChanged = globalState.editMemoId && globalState.editMemoId !== prevEditId.current;
-    const markChanged = globalState.markMemoId && globalState.markMemoId !== prevMarkId.current;
-    if (editChanged || markChanged) {
-      setSheetOpen(true);
-    }
-    prevEditId.current = globalState.editMemoId;
-    prevMarkId.current = globalState.markMemoId;
+    if (globalState.editMemoId || globalState.markMemoId) setComposerOpen(true);
   }, [globalState.editMemoId, globalState.markMemoId]);
 
-  const handleSheetClose = () => {
-    setSheetOpen(false);
-  };
+  useLayoutEffect(() => {
+    const layout = layoutRef.current;
+    const parent = layout?.parentElement;
+    if (!Platform.isMobile || !layout || !parent) return;
+    const viewport = window.visualViewport;
+    const updateHeight = () => {
+      // WebViews may resize the workspace, the visual viewport, or both when the keyboard opens.
+      // Intersect them so the composer never extends underneath the keyboard or host navigation.
+      const bounds = parent.getBoundingClientRect();
+      const visibleBottom = viewport ? viewport.offsetTop + viewport.height : window.innerHeight;
+      const height = Math.max(0, Math.min(parent.clientHeight, visibleBottom - bounds.top));
+      layout.style.height = `${height}px`;
+      layout.style.setProperty('--lumo-available-height', `${height}px`);
+      layout.classList.toggle('is-short', height < 300);
+    };
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(parent);
+    viewport?.addEventListener('resize', updateHeight);
+    viewport?.addEventListener('scroll', updateHeight);
+    window.addEventListener('resize', updateHeight);
+    updateHeight();
+    return () => {
+      observer.disconnect();
+      viewport?.removeEventListener('resize', updateHeight);
+      viewport?.removeEventListener('scroll', updateHeight);
+      window.removeEventListener('resize', updateHeight);
+    };
+  }, []);
 
-  const handleFabClick = () => {
-    setSheetOpen(true);
-    setTimeout(() => {
-      const editor = document.querySelector(
-        "div[data-type='lumo_view'] .lumo-sheet-panel .lumo-live-editor .cm-content",
-      ) as HTMLElement;
-      // preventScroll：弹层本身已固定在视口底部，浏览器为聚焦元素滚动祖先容器
-      // 反而会把整个视图顶出可视区
-      editor?.focus({ preventScroll: true });
-    }, 120);
+  const handleComposerClose = () => {
+    const active = document.activeElement as HTMLElement | null;
+    if (active && composerRef.current?.contains(active)) active.blur();
+    setComposerOpen(false);
   };
 
   if (Platform.isMobile) {
     return (
-      <>
+      <div className="lumo-mobile-layout" ref={layoutRef}>
         <div className="lumo-timeline">
           <MemosHeader />
           <MemoSearch />
@@ -54,20 +66,22 @@ function Memos() {
           <MemoFilter />
           <MemoList />
         </div>
-        {!sheetOpen && (
-          <button className="lumo-fab" onClick={handleFabClick}>
-            <Feather />
-            {t('Write it down')}
-          </button>
-        )}
-        <div className={`lumo-sheet-overlay ${sheetOpen ? 'is-open' : ''}`}>
-          <div className="lumo-sheet-backdrop" onClick={handleSheetClose} />
-          <div className="lumo-sheet-panel">
-            <div className="lumo-sheet-handle" />
-            <MemoEditor isBottomSheet onAfterSave={handleSheetClose} />
-          </div>
+        <div
+          className={`lumo-mobile-composer ${composerOpen ? 'is-expanded' : ''}`}
+          ref={composerRef}
+          onFocusCapture={() => setComposerOpen(true)}
+        >
+          {composerOpen && (
+            <div className="lumo-composer-heading">
+              <span>{globalState.editMemoId ? t('EDIT') : t('Write it down')}</span>
+              <button type="button" onClick={handleComposerClose}>
+                {t('Collapse editor')}
+              </button>
+            </div>
+          )}
+          <MemoEditor isMobileComposer expanded={composerOpen} onAfterSave={handleComposerClose} />
         </div>
-      </>
+      </div>
     );
   }
 

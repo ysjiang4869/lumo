@@ -17,7 +17,6 @@ import appContext from '../../stores/appContext';
 import { storage } from '../../helpers/storage';
 import { usedTags } from '../../obComponents/obTagSuggester';
 import { getSuggestions } from '../../obComponents/obFileSuggester';
-import { FocusOnEditor } from '../../memos';
 import appStore from '../../stores/appStore';
 import { t } from '../../translations/helper';
 import Feather from '../../icons/feather.svg?component';
@@ -192,9 +191,7 @@ const Editor = forwardRef<EditorRefActions, EditorProps>(function Editor(props, 
       get element() {
         return editor.current?.contentDOM ?? (host.current as HTMLElement);
       },
-      focus: () => {
-        if (FocusOnEditor) editor.current?.focus();
-      },
+      focus: () => editor.current?.focus(),
       getContent: () => editor.current?.state.doc.toString() ?? '',
       getSelection: () => {
         const range = editor.current?.state.selection.main;
@@ -254,6 +251,7 @@ const Editor = forwardRef<EditorRefActions, EditorProps>(function Editor(props, 
           {props.showConfirmBtn && (
             <button
               className="action-btn confirm-btn"
+              aria-label={t('Record this moment')}
               disabled={!hasContent || isSaving}
               onClick={() => confirm.current()}
             >

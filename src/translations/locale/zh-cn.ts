@@ -228,6 +228,7 @@ export default {
   Search: '搜索',
   Menu: '菜单',
   'Write it down': '记一笔',
+  'Collapse editor': '收起',
 
   // Timeline layout
   'Search notes or tags': '搜索记录内容或标签',

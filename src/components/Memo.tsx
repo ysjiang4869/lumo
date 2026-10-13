@@ -295,6 +295,16 @@ const Memo: React.FC<Props> = (props: Props) => {
     showMemoCardDialog(propsMemo);
   };
 
+  const focusMobileComposer = () => {
+    if (!Platform.isMobile) return;
+    // Focus within the tap gesture so iOS can open the keyboard, including when
+    // reopening the same memo after collapsing its draft.
+    menuRef.current
+      ?.closest("div[data-type='lumo_view']")
+      ?.querySelector<HTMLElement>('.lumo-mobile-composer .cm-content')
+      ?.focus({ preventScroll: true });
+  };
+
   const handleMarkMemoClick = () => {
     if (UseButtonToShowEditor && DefaultEditorLocation === 'Bottom') {
       const elem = document.querySelector(
@@ -306,6 +316,7 @@ const Memo: React.FC<Props> = (props: Props) => {
     }
 
     globalStateService.setMarkMemoId(propsMemo.id);
+    focusMobileComposer();
   };
 
   const handleEditMemoClick = () => {
@@ -313,12 +324,13 @@ const Memo: React.FC<Props> = (props: Props) => {
       const elem = document.querySelector(
         "div[data-type='lumo_view'] .view-content .memo-show-editor-button",
       ) as HTMLElement;
-      if (typeof elem.onclick == 'function') {
+      if (typeof elem?.onclick == 'function') {
         elem.onclick.apply(elem);
       }
     }
 
     globalStateService.setEditMemoId(propsMemo.id);
+    focusMobileComposer();
   };
 
   const handleSourceMemoClick = (m: Model.Memo) => {

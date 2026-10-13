@@ -50,7 +50,8 @@ import { LUMO_VIEW_TYPE } from '../constants';
 import { t } from '../translations/helper';
 
 interface Props {
-  isBottomSheet?: boolean;
+  isMobileComposer?: boolean;
+  expanded?: boolean;
   onAfterSave?: () => void;
 }
 
@@ -58,7 +59,7 @@ let isList: boolean;
 let isEditor = false as boolean;
 let isEditorGo = false as boolean;
 
-const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
+const MemoEditor: React.FC<Props> = ({ isMobileComposer, expanded: mobileExpanded, onAfterSave }) => {
   const { globalState } = useContext(appContext);
   const { app } = dailyNotesService.getState();
 
@@ -104,7 +105,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
   }, []);
 
   useEffect(() => {
-    if (!editorRef.current || isBottomSheet) {
+    if (!editorRef.current || isMobileComposer) {
       return;
     }
 
@@ -133,7 +134,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
   }, []);
 
   useEffect(() => {
-    if (!editorRef.current || isBottomSheet) {
+    if (!editorRef.current || isMobileComposer) {
       return;
     }
 
@@ -269,7 +270,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
   const selectorWidth = 280;
   const spaceToRight = window.innerWidth - positionX;
   if (Platform.isMobile) {
-    if (DefaultEditorLocation === 'Bottom') {
+    if (isMobileComposer || DefaultEditorLocation === 'Bottom') {
       placement =
         spaceToRight > selectorWidth * 1.2
           ? 'top-end'
@@ -292,9 +293,9 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
     modifiers: [
       {
         name: 'flip',
-        options: { fallbackPlacements: [fallbackPlacement, 'bottom-start', 'top-start'], rootBoundary: 'document' },
+        options: { fallbackPlacements: [fallbackPlacement, 'bottom-start', 'top-start'], rootBoundary: 'viewport' },
       },
-      { name: 'preventOverflow', options: { rootBoundary: 'document', altAxis: true, padding: 4 } },
+      { name: 'preventOverflow', options: { rootBoundary: 'viewport', altAxis: true, padding: 4 } },
     ],
   });
 
@@ -304,10 +305,18 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
   };
 
   useEffect(() => {
+    if (isMobileComposer && !mobileExpanded) {
+      setShowEmojiPicker(false);
+      setIsDatePickerOpen(false);
+    }
+  }, [isMobileComposer, mobileExpanded]);
+
+  useEffect(() => {
     if (globalState.markMemoId) {
       const editorCurrentValue = editorRef.current?.getContent();
       const memoLinkText = `${editorCurrentValue ? '\n' : ''}${t('MARK')}: [@MEMO](${globalState.markMemoId})`;
       editorRef.current?.insertText(memoLinkText);
+      if (isMobileComposer) editorRef.current?.focus();
       globalStateService.setMarkMemoId('');
     }
 
@@ -674,7 +683,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
     [showEditStatus],
   );
 
-  const expanded = isBottomSheet || isFocused || hasContent || showEditStatus;
+  const expanded = isMobileComposer ? mobileExpanded : isFocused || hasContent || showEditStatus;
 
   const handleEditorFocus = () => setIsFocused(true);
 
@@ -711,7 +720,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
   return (
     <div
       className={`memo-editor-wrapper ${expanded ? 'expanded' : ''} ${showEditStatus ? 'edit-ing' : ''} ${
-        isEditorShown && !isBottomSheet ? 'hidden' : ''
+        isEditorShown && !isMobileComposer ? 'hidden' : ''
       }`}
       onFocus={handleEditorFocus}
       onBlur={handleEditorBlur}
@@ -721,7 +730,7 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
         ref={editorRef}
         {...editorConfig}
         tools={
-          <div className="lumo-tools" onMouseDown={keepEditorFocus}>
+          <div className="lumo-tools" onPointerDown={keepEditorFocus}>
             <span className="lumo-emoji-wrapper">
               <button
                 type="button"
@@ -750,12 +759,21 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
                 </div>
               )}
             </span>
-            <Tag className="action-btn add-tag" onClick={handleTagTextBtnClick} />
-            <ImageSvg className="action-btn file-upload" onClick={handleUploadFileBtnClick} />
+            <button type="button" className="action-btn add-tag" aria-label={t('Tags')} onClick={handleTagTextBtnClick}>
+              <Tag />
+            </button>
+            <button
+              type="button"
+              className="action-btn file-upload"
+              aria-label={t('Images')}
+              onClick={handleUploadFileBtnClick}
+            >
+              <ImageSvg />
+            </button>
             <button
               type="button"
               className="lumo-editor-mode"
-              aria-label={t('Record type')}
+              aria-label={`${t('Record type')}: ${isListShown ? t('To-do') : t('Record')}`}
               aria-pressed={isListShown}
               onClick={handleChangeStatus}
             >

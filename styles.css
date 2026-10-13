@@ -517,6 +517,11 @@ div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .common-tools-cont
   /* 覆盖 journal.svg 内联的蓝色 fill */
   transition: background 0.15s, color 0.15s;
 }
+div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .common-tools-container .action-btn > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 div[data-type='lumo_view'] #page-wrapper .memo-editor-wrapper .common-tools-container .action-btn:hover {
   background: var(--lumo-accent-soft);
   color: var(--lumo-accent);
@@ -1315,141 +1320,6 @@ div[data-type='lumo_view'] #page-wrapper .lumo-emoji-popup .lumo-emoji-item:hove
   gap: 10px;
   padding-bottom: 100px;
 }
-/* ---- 移动端 memo-editor 在底部弹层内的样式覆盖 ----------------------------- */
-.is-mobile div[data-type='lumo_view'] .lumo-sheet-panel .memo-editor-wrapper {
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  background: transparent !important;
-}
-div[data-type='lumo_view'] .lumo-sheet-panel .memo-editor-wrapper .confirm-btn {
-  background-color: var(--lumo-accent, #2f9e78) !important;
-  color: #fff !important;
-}
-/* 移动端弹层内：确认按钮只留鹅毛笔图标（文字放不下工具行） */
-.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-sheet-panel .confirm-btn {
-  padding: 11px;
-  border-radius: 50%;
-}
-.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-sheet-panel .confirm-btn .confirm-label {
-  display: none;
-}
-.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-sheet-panel .confirm-btn .confirm-icon {
-  width: 18px;
-  height: 18px;
-  margin-right: 0;
-}
-/* =========================================================================
-   悬浮记录按钮 (FAB) · "记一笔"
-   ========================================================================= */
-/* 带 #page-wrapper 提权：global.less 的 button 重置（.theme-* … button:not(.rdp)）
-   会把背景清成 transparent，真机上表现为白色不可见 */
-div[data-type='lumo_view'] #page-wrapper button.lumo-fab {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  /* 需悬浮在 Obsidian 移动端底部导航栏之上（导航栏 ≈ 56px + 安全区） */
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 84px);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 24px;
-  border: none;
-  border-radius: 99px;
-  appearance: none;
-  -webkit-appearance: none;
-  background-color: var(--lumo-accent, #2f9e78);
-  color: #fff;
-  font-family: var(--lumo-font);
-  font-size: 14.5px;
-  font-weight: 700;
-  box-shadow: 0 18px 34px -12px rgba(47, 158, 120, 0.95);
-  cursor: pointer;
-  z-index: 20;
-  -webkit-tap-highlight-color: transparent;
-}
-div[data-type='lumo_view'] #page-wrapper button.lumo-fab svg {
-  width: 19px;
-  height: 19px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.75;
-}
-div[data-type='lumo_view'] #page-wrapper button.lumo-fab:active {
-  transform: translateX(-50%) scale(0.96);
-}
-/* =========================================================================
-   底部弹层 (Bottom Sheet) · 输入展开态
-   ========================================================================= */
-div[data-type='lumo_view'] .lumo-sheet-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  pointer-events: none;
-}
-div[data-type='lumo_view'] .lumo-sheet-overlay.is-open {
-  pointer-events: auto;
-}
-div[data-type='lumo_view'] .lumo-sheet-overlay.is-open .lumo-sheet-backdrop {
-  opacity: 1;
-}
-div[data-type='lumo_view'] .lumo-sheet-overlay.is-open .lumo-sheet-panel {
-  transform: translateY(0);
-}
-div[data-type='lumo_view'] .lumo-sheet-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(30, 28, 22, 0.42);
-  opacity: 0;
-  transition: opacity 0.28s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-.theme-dark div[data-type='lumo_view'] .lumo-sheet-backdrop {
-  background: rgba(0, 0, 0, 0.55);
-}
-div[data-type='lumo_view'] .lumo-sheet-panel {
-  position: relative;
-  background: var(--lumo-paper);
-  border-radius: 26px 26px 0 0;
-  padding: 9px 18px calc(env(safe-area-inset-bottom, 8px) + 12px);
-  box-shadow: 0 -14px 44px -18px rgba(0, 0, 0, 0.45);
-  transform: translateY(100%);
-  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
-  max-height: 75vh;
-  overflow-y: auto;
-  scrollbar-width: none;
-}
-div[data-type='lumo_view'] .lumo-sheet-panel::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  cursor: pointer;
-}
-div[data-type='lumo_view'] .lumo-sheet-panel::-webkit-scrollbar-thumb {
-  width: 0;
-  height: 0;
-  border-radius: 8px;
-  background-color: #d5d5d5;
-}
-div[data-type='lumo_view'] .lumo-sheet-panel::-webkit-scrollbar-thumb:hover {
-  background-color: #ccc;
-}
-div[data-type='lumo_view'] .lumo-sheet-panel::-webkit-scrollbar {
-  display: none;
-}
-div[data-type='lumo_view'] .lumo-sheet-handle {
-  width: 38px;
-  height: 4px;
-  border-radius: 99px;
-  background: var(--lumo-faint);
-  margin: 0 auto 14px;
-  opacity: 0.45;
-}
 /* =========================================================================
    memo 正文 Markdown 元素（Obsidian MarkdownRenderer 输出）
    仅新增元素样式，不改动 .tag-span / .memo-link-text 既有样式
@@ -2049,7 +1919,7 @@ div[data-type='lumo_view'] #page-wrapper .lumo-timeline .memo-wrapper .memo-cont
   line-height: 1.85;
   overflow-wrap: anywhere;
 }
-/* The mobile sheet is a sibling of the scroll container, so its existing fixed positioning is preserved. */
+/* Record type control, shared by the timeline and mobile composer. */
 div[data-type='lumo_view'] #page-wrapper .lumo-editor-mode {
   display: inline-flex;
   align-items: center;
@@ -2106,6 +1976,208 @@ div[data-type='lumo_view'] #page-wrapper .lumo-editor-mode svg {
   div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-tagfilter-chip,
   div[data-type='lumo_view'] #page-wrapper .lumo-timeline .lumo-jnav-pill {
     min-height: 44px;
+  }
+}
+/* Keep the composer in the workspace flow. The host owns navigation and safe areas. */
+.is-mobile div[data-type='lumo_view'] #page-wrapper {
+  margin: 0;
+  transform: none;
+  /* Landscape phones can leave very little room above the keyboard. */
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper > .content-wrapper {
+  margin: 0;
+  padding: 0 12px;
+  overflow: hidden;
+  transition: none;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  container-type: inline-size;
+  container-name: lumo-mobile;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-layout > .lumo-timeline {
+  flex: 1;
+  height: auto;
+  gap: 12px;
+  padding: 8px 2px 12px;
+  overscroll-behavior-y: contain;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-layout > .lumo-timeline .memolist-wrapper {
+  padding-bottom: 12px;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-layout > .lumo-timeline .lumo-greeting-stats {
+  margin: 0;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer {
+  flex: none;
+  position: relative;
+  z-index: 6;
+  width: 100%;
+  margin-bottom: 6px;
+  background: var(--lumo-card);
+  border: 1px solid var(--lumo-line-2);
+  border-radius: 14px;
+  box-sizing: border-box;
+  box-shadow: 0 -4px 16px -12px rgba(40, 30, 20, 0.3);
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .lumo-composer-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 8px 0 14px;
+  font-size: 12px;
+  color: var(--lumo-muted);
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .lumo-composer-heading button {
+  min-width: 44px;
+  height: 40px;
+  padding: 0 8px;
+  color: var(--lumo-accent);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper {
+  width: 100%;
+  margin: 0;
+  padding: 10px 12px;
+  border: none;
+  border-radius: inherit;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .tip-text {
+  display: none;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .common-editor-inputer {
+  margin-bottom: 0;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .cm-editor {
+  font-size: 16px;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .cm-content {
+  min-height: 28px;
+  padding: 0;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .cm-scroller {
+  max-height: max(44px, min(200px, calc(var(--lumo-available-height, 400px) - 230px)));
+  overscroll-behavior: contain;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .common-tools-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 6px;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .common-tools-container {
+  flex: 1 1 160px;
+  min-width: 0;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .lumo-tools {
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .common-tools-container .action-btn {
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  margin: 0;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .lumo-editor-mode {
+  min-height: 40px;
+  padding: 6px;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .lumo-mood-chips {
+  max-width: 64px;
+  overflow-x: auto;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .common-tools-wrapper > .btns-container {
+  margin-left: auto;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .confirm-btn {
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .confirm-btn .confirm-label {
+  display: none;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .confirm-btn .confirm-icon {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .cancel-btn {
+  min-height: 44px;
+  padding: 6px;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .lumo-emoji-popup {
+  width: min(296px, calc(100cqw - 32px));
+  box-sizing: border-box;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .lumo-emoji-popup .lumo-emoji-item {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  height: 36px;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .editor-date-picker {
+  width: min(282px, calc(100cqw - 24px));
+  max-height: max(100px, calc(var(--lumo-available-height, 400px) - 80px));
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .editor-date-picker > .date-picker-day-container {
+  width: 100%;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .editor-date-picker > .date-picker-day-container > .day-item {
+  width: calc(100% / 7 - 4px);
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer .memo-editor-wrapper .editor-date-picker > .date-picker-day-container > .date-picker-day-header > .day-item {
+  width: calc(100% / 7);
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer:not(.is-expanded) .memo-editor-wrapper .common-tools-wrapper {
+  display: none;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer:not(.is-expanded) .memo-editor-wrapper .cm-scroller {
+  max-height: 40px;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-composer:not(.is-expanded) .memo-editor-wrapper .cm-content {
+  min-height: 28px !important;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-layout.is-short .lumo-mobile-composer .lumo-composer-heading button {
+  height: 32px;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-layout.is-short .lumo-mobile-composer .memo-editor-wrapper {
+  padding: 6px 10px;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-layout.is-short .lumo-mobile-composer .memo-editor-wrapper .common-editor-inputer {
+  min-height: 28px !important;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-layout.is-short .lumo-mobile-composer .memo-editor-wrapper .cm-content {
+  min-height: 28px !important;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-layout.is-short .lumo-mobile-composer .memo-editor-wrapper .cm-scroller {
+  max-height: 44px;
+}
+.is-mobile div[data-type='lumo_view'] #page-wrapper .lumo-mobile-layout.is-short .lumo-mobile-composer .memo-editor-wrapper .common-tools-wrapper {
+  margin-top: 4px;
+  padding-top: 4px;
+}
+@container lumo-mobile (max-width: 360px) {
+  .lumo-mobile-composer .memo-editor-wrapper .lumo-editor-mode {
+    width: 40px;
+    justify-content: center;
+  }
+  .lumo-mobile-composer .memo-editor-wrapper .lumo-editor-mode span {
+    display: none;
   }
 }
 .mono-font-family {

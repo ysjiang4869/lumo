@@ -201,7 +201,7 @@ export default class MemosPlugin extends Plugin {
 
     const leaf = leaves[0];
     workspace.setActiveLeaf(leaf);
-    (leaf.view.containerEl.querySelector('.search-bar-inputer .text-input') as HTMLElement).focus();
+    (leaf.view.containerEl.querySelector('.lumo-search input') as HTMLElement)?.focus();
   }
 
   focusOnEditor() {
@@ -243,7 +243,7 @@ export default class MemosPlugin extends Plugin {
 
     const leaf = leaves[0];
     workspace.setActiveLeaf(leaf);
-    leaf.view.containerEl.querySelector('.list-or-task').click();
+    (leaf.view.containerEl.querySelector('.lumo-editor-mode') as HTMLElement)?.click();
   }
 
   async showInPopover() {

@@ -1,0 +1,146 @@
+/* Keep the composer in the workspace flow. The host owns navigation and safe areas. */
+.is-mobile div[data-type='lumo_view'] #page-wrapper {
+  margin: 0;
+  transform: none;
+
+  > .content-wrapper {
+    margin: 0;
+    padding: 0 12px;
+    overflow: hidden;
+    transition: none;
+  }
+
+  .lumo-mobile-layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    container-type: inline-size;
+    container-name: lumo-mobile;
+
+    > .lumo-timeline {
+      flex: 1;
+      height: auto;
+      gap: 12px;
+      padding: 8px 2px 12px;
+      overscroll-behavior-y: contain;
+      .memolist-wrapper { padding-bottom: 12px; }
+      .lumo-greeting-stats { margin: 0; }
+    }
+  }
+
+  .lumo-mobile-composer {
+    flex: none;
+    position: relative;
+    z-index: 6;
+    width: 100%;
+    margin-bottom: 6px;
+    background: var(--lumo-card);
+    border: 1px solid var(--lumo-line-2);
+    border-radius: 14px;
+    box-sizing: border-box;
+    box-shadow: 0 -4px 16px -12px rgba(40, 30, 20, 0.3);
+
+    .lumo-composer-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2px 8px 0 14px;
+      font-size: 12px;
+      color: var(--lumo-muted);
+      button {
+        min-width: 44px;
+        height: 40px;
+        padding: 0 8px;
+        color: var(--lumo-accent);
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+    }
+
+    .memo-editor-wrapper {
+      width: 100%;
+      margin: 0;
+      padding: 10px 12px;
+      border: none;
+      border-radius: inherit;
+      box-shadow: none;
+      box-sizing: border-box;
+      .tip-text { display: none; }
+      .common-editor-inputer { margin-bottom: 0; }
+      .cm-editor { font-size: 16px; }
+      .cm-content { min-height: 28px; padding: 0; }
+      .cm-scroller {
+        max-height: max(44px, min(200px, calc(var(--lumo-available-height, 400px) - 230px)));
+        overscroll-behavior: contain;
+      }
+      .common-tools-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+        padding-top: 6px;
+      }
+      .common-tools-container { flex: 1 1 160px; min-width: 0; }
+      .lumo-tools { flex-wrap: wrap; gap: 2px; }
+      .common-tools-container .action-btn { width: 40px; height: 40px; padding: 10px; margin: 0; }
+      .lumo-editor-mode { min-height: 40px; padding: 6px; }
+      .lumo-mood-chips { max-width: 64px; overflow-x: auto; }
+      .common-tools-wrapper > .btns-container { margin-left: auto; }
+      .confirm-btn {
+        width: 44px;
+        height: 44px;
+        padding: 10px;
+        .confirm-label { display: none; }
+        .confirm-icon { width: 20px; height: 20px; margin: 0; }
+      }
+      .cancel-btn { min-height: 44px; padding: 6px; }
+      .lumo-emoji-popup {
+        width: min(296px, calc(100cqw - 32px));
+        box-sizing: border-box;
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        .lumo-emoji-item { width: 100%; min-width: 0; padding: 0; height: 36px; }
+      }
+      .editor-date-picker {
+        width: min(282px, calc(100cqw - 24px));
+        max-height: max(100px, calc(var(--lumo-available-height, 400px) - 80px));
+        overflow-y: auto;
+        box-sizing: border-box;
+        > .date-picker-day-container {
+          width: 100%;
+          > .day-item { width: calc(100% / 7 - 4px); }
+          > .date-picker-day-header > .day-item { width: calc(100% / 7); }
+        }
+      }
+    }
+
+    &:not(.is-expanded) .memo-editor-wrapper {
+      .common-tools-wrapper { display: none; }
+      .cm-scroller { max-height: 40px; }
+      .cm-content { min-height: 28px !important; }
+    }
+  }
+
+  /* Landscape phones can leave very little room above the keyboard. */
+  .lumo-mobile-layout.is-short .lumo-mobile-composer {
+    .lumo-composer-heading button { height: 32px; }
+    .memo-editor-wrapper {
+      padding: 6px 10px;
+      .common-editor-inputer { min-height: 28px !important; }
+      .cm-content { min-height: 28px !important; }
+      .cm-scroller { max-height: 44px; }
+      .common-tools-wrapper { margin-top: 4px; padding-top: 4px; }
+    }
+  }
+}
+
+@container lumo-mobile (max-width: 360px) {
+  .lumo-mobile-composer .memo-editor-wrapper .lumo-editor-mode {
+    width: 40px;
+    justify-content: center;
+    span { display: none; }
+  }
+}
