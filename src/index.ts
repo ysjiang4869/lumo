@@ -144,7 +144,7 @@ export default class MemosPlugin extends Plugin {
     if (!(leaves.length > 0)) {
       return;
     }
-    if (this.settings.FocusOnEditor) {
+    if (this.settings.FocusOnEditor && !Platform.isMobile) {
       const leaf = leaves[0];
       (leaf.view.containerEl.querySelector('.lumo-live-editor .cm-content') as HTMLElement)?.focus();
       return;
@@ -181,7 +181,7 @@ export default class MemosPlugin extends Plugin {
     await leaf.setViewState({ type: LUMO_VIEW_TYPE });
     workspace.revealLeaf(leaf);
 
-    if (!FocusOnEditor) {
+    if (!FocusOnEditor || Platform.isMobile) {
       return;
     }
 
