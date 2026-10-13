@@ -11,18 +11,25 @@ import { commentMemo } from '../obComponents/obCommentMemo';
 
 class MemoService {
   public initialized = false;
+  private refreshVersion = 0;
 
   public getState() {
     return appStore.getState().memoState;
   }
 
   public async fetchAllMemos() {
+    const refreshVersion = ++this.refreshVersion;
     // if (!userService.getState().user) {
     //   return false;
     // }
 
     // const { data } = await api.getMyMemos();
     const data = await api.getMyMemos();
+    // A save/edit or a newer refresh makes this disk snapshot obsolete. Keeping the
+    // current store avoids removing freshly inserted cards until the next file refresh.
+    if (refreshVersion !== this.refreshVersion) {
+      return this.getState().memos;
+    }
     const memos = [] as any[];
     const commentMemos = [] as any[];
     for (const m of data.memos) {
@@ -99,6 +106,7 @@ class MemoService {
   // }
 
   public pushMemo(memo: Model.Memo) {
+    this.refreshVersion++;
     appStore.dispatch({
       type: 'INSERT_MEMO',
       payload: {
@@ -110,6 +118,7 @@ class MemoService {
   }
 
   public pushCommentMemo(memo: Model.Memo) {
+    this.refreshVersion++;
     appStore.dispatch({
       type: 'INSERT_COMMENT_MEMO',
       payload: {
@@ -142,6 +151,7 @@ class MemoService {
 
   public async hideMemoById(id: string) {
     await api.hideMemo(id);
+    this.refreshVersion++;
     appStore.dispatch({
       type: 'DELETE_MEMO_BY_ID',
       payload: {
@@ -178,6 +188,7 @@ class MemoService {
   }
 
   public editMemo(memo: Model.Memo) {
+    this.refreshVersion++;
     appStore.dispatch({
       type: 'EDIT_MEMO',
       payload: memo,
@@ -185,6 +196,7 @@ class MemoService {
   }
 
   public editCommentMemo(memo: Model.Memo) {
+    this.refreshVersion++;
     appStore.dispatch({
       type: 'EDIT_COMMENT_MEMO',
       payload: memo,
@@ -230,6 +242,7 @@ class MemoService {
   }
 
   public clearMemos() {
+    this.refreshVersion++;
     appStore.dispatch({
       type: 'SET_MEMOS',
       payload: {

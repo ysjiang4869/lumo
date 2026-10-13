@@ -214,7 +214,7 @@ const MemoList: React.FC<Props> = () => {
         </select>
       </div>
       {sortedMemos.map((memo) => (
-        <Memo key={`${memo.id}-${memo.updatedAt}`} memo={memo} />
+        <Memo key={memo.id} memo={memo} />
       ))}
       <div className="status-text-container">
         <p className="status-text">

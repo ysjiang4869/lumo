@@ -84,7 +84,7 @@ const Memo: React.FC<Props> = (props: Props) => {
     };
 
     fetchCommentMemos();
-  }, [propsMemo.content, propsMemo.id]);
+  }, [propsMemo.content, propsMemo.id, propsMemo.hasId]);
 
   useEffect(() => {
     if (!memoCommentRef.current) {
@@ -272,7 +272,7 @@ const Memo: React.FC<Props> = (props: Props) => {
     return true;
     // globalStateService.setChangedByMemos(false);
     // setEditorContentCache('');
-  }, []);
+  }, [propsMemo]);
 
   const handleUploadFile = useCallback(async (file: File) => {
     const { type } = file;
@@ -487,7 +487,7 @@ const Memo: React.FC<Props> = (props: Props) => {
       onCancelBtnClick: handleCancelBtnClick,
       onContentChange: handleContentChange,
     }),
-    [globalState.commentMemoId],
+    [globalState.commentMemoId, handleSaveBtnClick],
   );
 
   const imageProps = {
