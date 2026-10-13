@@ -290,8 +290,11 @@ const MemoEditor: React.FC<Props> = ({ isBottomSheet, onAfterSave }) => {
   const popper = usePopper(popperRef.current, popperElement, {
     placement,
     modifiers: [
-      { name: 'flip', options: { allowedAutoPlacements: [fallbackPlacement], rootBoundary: 'document' } },
-      { name: 'preventOverflow', options: { rootBoundary: 'document' } },
+      {
+        name: 'flip',
+        options: { fallbackPlacements: [fallbackPlacement, 'bottom-start', 'top-start'], rootBoundary: 'document' },
+      },
+      { name: 'preventOverflow', options: { rootBoundary: 'document', altAxis: true, padding: 4 } },
     ],
   });
 
