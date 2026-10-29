@@ -1,6 +1,8 @@
 // English
 
 export default {
+  'Expand content': 'Show more',
+  'Collapse content': 'Show less',
   // setting.ts
   welcome: 'Welcome to the Lumos',
   ribbonIconTitle: 'Lumo',

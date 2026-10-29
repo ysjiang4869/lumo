@@ -621,6 +621,7 @@ const Memo: React.FC<Props> = (props: Props) => {
         </div>
       )}
       <MemoContent
+        collapsible
         className="memo-content-text"
         content={propsMemo.content}
         memoId={propsMemo.id}

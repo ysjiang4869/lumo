@@ -1,4 +1,6 @@
 export default {
+  'Expand content': '展开全文',
+  'Collapse content': '收起',
   // setting.ts
   welcome: '欢迎使用 Lumos ',
   ribbonIconTitle: 'Lumo',

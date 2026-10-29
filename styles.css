@@ -4466,6 +4466,25 @@ div[data-type='lumo_view'].mobile-view .memos-header-container > .title-text > .
   -webkit-user-select: text;
   user-select: text;
 }
+div[data-type='lumo_view'] .memolist-wrapper .memo-wrapper > .lumo-memo-content.is-collapsed {
+  max-height: 280px;
+  overflow: hidden;
+}
+div[data-type='lumo_view'] .memolist-wrapper .memo-wrapper > .lumo-memo-expand {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 2px 0;
+  height: auto;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  color: var(--text-accent);
+  font-size: 13px;
+  cursor: pointer;
+}
+div[data-type='lumo_view'] .memolist-wrapper .memo-wrapper > .lumo-memo-expand:hover {
+  text-decoration: underline;
+}
 .mono-font-family {
   font-family: 'ubuntu-mono', SFMono-Regular, Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace;
 }

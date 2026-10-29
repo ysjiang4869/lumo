@@ -1,6 +1,8 @@
 // 繁體中文
 
 export default {
+  'Expand content': '展開全文',
+  'Collapse content': '收起',
   // Timeline layout
   'Search notes or tags': '搜尋記錄內容或標籤',
   'Clear search': '清除搜尋',

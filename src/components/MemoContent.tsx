@@ -1,12 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Component, MarkdownRenderer } from 'obsidian';
 import { globalStateService } from '../services';
 import { IMAGE_URL_REG, MARKDOWN_URL_REG, MEMO_LINK_REG, WIKI_IMAGE_URL_REG } from '../helpers/consts';
 import { formatMemoContent } from '../helpers/formatMemoContent';
 import '../less/memo-selection.less';
+import { t } from '../translations/helper';
 
 interface Props {
   content: string;
+  collapsible?: boolean;
   memoId?: string;
   // 用于解析相对链接/wiki 链接的来源文件路径
   sourcePath?: string;
@@ -63,6 +65,7 @@ function postprocess(el: HTMLElement): void {
 
 const MemoContent: React.FC<Props> = ({
   content,
+  collapsible = false,
   memoId,
   sourcePath = '',
   className,
@@ -70,6 +73,31 @@ const MemoContent: React.FC<Props> = ({
   onDoubleClick,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [overflows, setOverflows] = useState(false);
+
+  useEffect(() => {
+    setExpanded(false);
+  }, [content, memoId]);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!collapsible || !el) return;
+    const measure = () => {
+      // Hidden Obsidian tabs have no layout; measure again when they become visible.
+      if (el.getClientRects().length) setOverflows(el.scrollHeight > 280);
+    };
+    const resizeObserver = new ResizeObserver(measure);
+    const mutationObserver = new MutationObserver(measure);
+    resizeObserver.observe(el);
+    mutationObserver.observe(el, { childList: true, subtree: true, characterData: true });
+    measure();
+    return () => {
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+    };
+  }, [collapsible]);
+
   const { shouldUseMarkdownParser } = globalStateService.getState();
 
   useEffect(() => {
@@ -127,12 +155,24 @@ const MemoContent: React.FC<Props> = ({
   };
 
   return (
-    <div
-      ref={ref}
-      className={`lumo-memo-content ${className ?? ''}`}
-      onClick={(e) => handleClick(e, onClick)}
-      onDoubleClick={(e) => handleClick(e, onDoubleClick)}
-    />
+    <>
+      <div
+        ref={ref}
+        className={`lumo-memo-content ${className ?? ''} ${collapsible && !expanded ? 'is-collapsed' : ''}`}
+        onClick={(e) => handleClick(e, onClick)}
+        onDoubleClick={(e) => handleClick(e, onDoubleClick)}
+      />
+      {collapsible && overflows && (
+        <button
+          type="button"
+          className="lumo-memo-expand"
+          aria-expanded={expanded}
+          onClick={() => setExpanded((value) => !value)}
+        >
+          {expanded ? t('Collapse content') : t('Expand content')}
+        </button>
+      )}
+    </>
   );
 };
 

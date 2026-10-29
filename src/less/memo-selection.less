@@ -3,3 +3,28 @@
   -webkit-user-select: text;
   user-select: text;
 }
+
+// Keep the list compact without changing the full reading dialog.
+div[data-type='lumo_view'] .memolist-wrapper .memo-wrapper {
+  > .lumo-memo-content.is-collapsed {
+    max-height: 280px;
+    overflow: hidden;
+  }
+
+  > .lumo-memo-expand {
+    align-self: flex-start;
+    margin-top: 8px;
+    padding: 2px 0;
+    height: auto;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    color: var(--text-accent);
+    font-size: 13px;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

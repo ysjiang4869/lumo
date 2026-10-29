@@ -1,6 +1,7 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import appContext from '../stores/appContext';
 import { locationService, memoService } from '../services';
+import dailyNotesService from '../services/dailyNotesService';
 import MenuBtnsPopup from './MenuBtnsPopup';
 import utils from '../helpers/utils';
 import '../less/memos-header.less';
@@ -12,8 +13,8 @@ import { t } from '../translations/helper';
 
 interface Props {}
 
-const getGreeting = (): string => {
-  const h = moment().hour();
+const getGreeting = (now: number): string => {
+  const h = moment(now).hour();
   if (h < 6) return t('Good night');
   if (h < 11) return t('Good morning');
   if (h < 13) return t('Good noon');
@@ -27,6 +28,30 @@ const MemosHeader: React.FC<Props> = () => {
     userState: { user },
   } = useContext(appContext);
 
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [now, setNow] = useState(Date.now);
+
+  useEffect(() => {
+    const doc = headerRef.current?.ownerDocument;
+    const win = doc?.defaultView;
+    if (!doc || !win) return;
+    const refresh = () => setNow(Date.now());
+    const onVisible = () => {
+      if (!doc.hidden) refresh();
+    };
+    const { workspace } = dailyNotesService.getState().app;
+    const activeLeafEvent = workspace.on('active-leaf-change', refresh);
+    win.addEventListener('focus', refresh);
+    doc.addEventListener('visibilitychange', onVisible);
+    const timer = win.setInterval(onVisible, 60_000);
+    return () => {
+      workspace.offref(activeLeafEvent);
+      win.removeEventListener('focus', refresh);
+      doc.removeEventListener('visibilitychange', onVisible);
+      win.clearInterval(timer);
+    };
+  }, []);
+
   const username = user ? user.username : UserName;
   const [shouldShowMenu, setShouldShowMenu] = useState(false);
 
@@ -36,12 +61,12 @@ const MemosHeader: React.FC<Props> = () => {
     let days = 0;
     if (listable.length) {
       const first = listable[listable.length - 1];
-      days = Math.ceil((Date.now() - utils.getTimeStampByDate(first.createdAt)) / 1000 / 3600 / 24) + 1;
+      days = Math.ceil((now - utils.getTimeStampByDate(first.createdAt)) / 1000 / 3600 / 24) + 1;
     }
     return { createdDays: days, total: totalCount };
-  }, [memos]);
+  }, [memos, now]);
 
-  const dateStr = useMemo(() => `${moment().format('M 月 D 日')} · ${moment().format('dddd')}`, []);
+  const dateStr = `${moment(now).format('M 月 D 日')} · ${moment(now).format('dddd')}`;
 
   const handleGreetingClick = () => {
     memoService.fetchAllMemos().catch(() => {
@@ -50,10 +75,10 @@ const MemosHeader: React.FC<Props> = () => {
   };
 
   return (
-    <div className="section-header-container memos-header-container lumo-greeting">
+    <div ref={headerRef} className="section-header-container memos-header-container lumo-greeting">
       <div className="lumo-greeting-row">
         <button type="button" className="lumo-greeting-hello" onClick={handleGreetingClick}>
-          {getGreeting()}，{username}
+          {getGreeting(now)}，{username}
         </button>
         <span className="lumo-greeting-date">{dateStr}</span>
         <span className="lumo-greeting-spacer" />
