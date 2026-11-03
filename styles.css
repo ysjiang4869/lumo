@@ -4466,6 +4466,9 @@ div[data-type='lumo_view'].mobile-view .memos-header-container > .title-text > .
   -webkit-user-select: text;
   user-select: text;
 }
+div[data-type='lumo_view'] .memolist-wrapper .memo-wrapper > .lumo-memo-content.memo-content-text {
+  display: block;
+}
 div[data-type='lumo_view'] .memolist-wrapper .memo-wrapper > .lumo-memo-content.is-collapsed {
   max-height: 280px;
   overflow: hidden;

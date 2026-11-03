@@ -20,6 +20,7 @@ import { t } from '../translations/helper';
 interface Props {}
 
 export let copyShownMemos: Model.Memo[];
+const MEMO_BATCH_SIZE = 30;
 
 const MemoList: React.FC<Props> = () => {
   const {
@@ -32,6 +33,9 @@ const MemoList: React.FC<Props> = () => {
   // }
   const [isFetching, setFetchStatus] = useState(true);
   const wrapperElement = useRef<HTMLDivElement>(null);
+  const loadMoreElement = useRef<HTMLDivElement>(null);
+  const [pagination, setPagination] = useState({ query, count: MEMO_BATCH_SIZE });
+  const visibleCount = pagination.query === query ? pagination.count : MEMO_BATCH_SIZE;
   const { tag: tagQuery, duration, type: memoContentType, text: textQuery, filter: queryId } = query;
   // const showMemoFilter = Boolean(tagQuery || (duration && duration.from < duration.to) || memoType || textQuery || queryId);
   const queryFilter = queryService.getQueryById(queryId);
@@ -126,27 +130,40 @@ const MemoList: React.FC<Props> = () => {
   copyShownMemos = sortedMemos;
 
   useEffect(() => {
-    setTimeout(() => {
-      memoService
-        .fetchAllMemos()
-        .then(() => {
-          setFetchStatus(false);
-        })
-        .catch(() => {
-          new Notice(t('Fetch Error'));
-        });
-    }, 400);
-    dailyNotesService
-      .getMyAllDailyNotes()
+    let cancelled = false;
+    dailyNotesService.getMyAllDailyNotes().catch(() => {
+      if (!cancelled) new Notice('😭 Fetch DailyNotes Error');
+    });
+    memoService
+      .fetchAllMemos()
       .then(() => {
-        setFetchStatus(false);
+        if (!cancelled) setFetchStatus(false);
       })
       .catch(() => {
-        new Notice('😭 Fetch DailyNotes Error');
+        if (!cancelled) {
+          setFetchStatus(false);
+          new Notice(t('Fetch Error'));
+        }
       });
-    dailyNotesService.getState();
-    memoService.getState();
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
+  useEffect(() => {
+    const sentinel = loadMoreElement.current;
+    if (!sentinel || visibleCount >= sortedMemos.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        setPagination({ query, count: visibleCount + MEMO_BATCH_SIZE });
+      },
+      { root: wrapperElement.current?.closest('.lumo-timeline') ?? null, rootMargin: '600px' },
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [query, visibleCount, sortedMemos.length]);
 
   useEffect(() => {
     wrapperElement.current?.scrollTo({ top: 0 });
@@ -213,16 +230,17 @@ const MemoList: React.FC<Props> = () => {
           )}
         </select>
       </div>
-      {sortedMemos.map((memo) => (
+      {sortedMemos.slice(0, visibleCount).map((memo) => (
         <Memo key={memo.id} memo={memo} />
       ))}
+      {visibleCount < sortedMemos.length && <div ref={loadMoreElement} aria-hidden="true" style={{ minHeight: 1 }} />}
       <div className="status-text-container">
         <p className="status-text">
           {isFetching
             ? t('Fetching data...')
             : shownMemos.length === 0
             ? t('Noooop!')
-            : showMemoFilter
+            : showMemoFilter || visibleCount < sortedMemos.length
             ? ''
             : t('All Data is Loaded 🎉')}
         </p>

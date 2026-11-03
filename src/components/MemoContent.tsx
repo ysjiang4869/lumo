@@ -108,13 +108,10 @@ const MemoContent: React.FC<Props> = ({
 
     // 未开启 Markdown 解析：沿用旧的同步字符串管线，行为保持不变。
     if (!shouldUseMarkdownParser) {
-      el.classList.remove('memo-md');
       el.innerHTML = formatMemoContent(content, memoId);
       return;
     }
 
-    // memo-md 标记：让 CSS 关掉 pre-wrap，避免块级元素间的换行文本被当成空行显示
-    el.classList.add('memo-md');
     const component = new Component();
     component.load();
     el.empty();
@@ -158,7 +155,7 @@ const MemoContent: React.FC<Props> = ({
     <>
       <div
         ref={ref}
-        className={`lumo-memo-content ${className ?? ''} ${collapsible && !expanded ? 'is-collapsed' : ''}`}
+        className={`lumo-memo-content ${shouldUseMarkdownParser ? 'memo-md' : ''} ${className ?? ''} ${collapsible && !expanded ? 'is-collapsed' : ''}`}
         onClick={(e) => handleClick(e, onClick)}
         onDoubleClick={(e) => handleClick(e, onDoubleClick)}
       />

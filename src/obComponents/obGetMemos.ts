@@ -38,12 +38,12 @@ const getTaskType = (memoTaskType: string): string => {
   }
 };
 
-export async function getRemainingMemos(note: TFile): Promise<number> {
+export async function getRemainingMemos(note: TFile, contents?: string): Promise<number> {
   if (!note) {
     return 0;
   }
   const { vault } = appStore.getState().dailyNotesState.app;
-  let fileContents = await vault.read(note);
+  let fileContents = contents ?? (await vault.read(note));
   let regexMatch;
   if (
     DefaultMemoComposition != '' &&
@@ -87,7 +87,9 @@ export async function getMemosFromDailyNote(
     return [];
   }
   const { vault } = appStore.getState().dailyNotesState.app;
-  const Memos = await getRemainingMemos(dailyNote);
+  // 列表只读取内容，使用 Obsidian 的文件缓存，并复用同一份内容检查和解析。
+  let fileContents = await vault.cachedRead(dailyNote);
+  const Memos = await getRemainingMemos(dailyNote, fileContents);
   let underComments;
 
   if (Memos === 0) return;
@@ -119,7 +121,6 @@ export async function getMemosFromDailyNote(
     }
   }
 
-  let fileContents = await vault.read(dailyNote);
   let fileLines = getAllLinesFromFile(fileContents);
   const startDate = getDateFromFile(dailyNote, 'day');
   const endDate = getDateFromFile(dailyNote, 'day');

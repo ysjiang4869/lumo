@@ -170,7 +170,9 @@ export class Memos extends ItemView {
   }
 
   async onClose() {
-    // Nothing to clean up.
+    // 释放卡片的 Markdown 组件和布局观察器，避免反复打开视图后累积。
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ReactDOM.unmountComponentAtNode((this as any).contentEl);
   }
 }
 

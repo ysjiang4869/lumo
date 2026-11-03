@@ -6,6 +6,12 @@
 
 // Keep the list compact without changing the full reading dialog.
 div[data-type='lumo_view'] .memolist-wrapper .memo-wrapper {
+  > .lumo-memo-content.memo-content-text {
+    // 正文按自然高度排版；纵向 flex 会在限高时压缩段落，导致文字重叠，
+    // 同时低估 scrollHeight，让长卡片无法显示展开按钮。
+    display: block;
+  }
+
   > .lumo-memo-content.is-collapsed {
     max-height: 280px;
     overflow: hidden;
