@@ -1122,9 +1122,50 @@ div[data-type='lumo_view'] .memo-comment-text.memo-md {
   li.task-list-item {
     list-style: none;
   }
-  li.task-list-item > input.task-list-item-checkbox {
+  li.task-list-item input[type='checkbox'] {
     margin: 0 0.5em 0 0;
     vertical-align: middle;
+    appearance: none;
+    width: 1em;
+    height: 1em;
+    border: 2px solid var(--text-muted);
+    border-radius: 3px;
+    background: var(--background-primary);
+    opacity: 1;
+    flex-shrink: 0;
+
+    &::before {
+      content: none;
+      display: none;
+    }
+
+    &::after {
+      mask: none;
+      -webkit-mask: none;
+      background: none;
+      content: none;
+    }
+
+    &:checked {
+      border-color: var(--interactive-accent);
+      background: var(--interactive-accent);
+      background-image: none;
+
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 30%;
+        height: 55%;
+        top: 10%;
+        left: 30%;
+        border: solid var(--text-on-accent);
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+
+    position: relative;
   }
 
   blockquote {

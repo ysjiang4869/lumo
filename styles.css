@@ -1446,10 +1446,50 @@ div[data-type='lumo_view'] .memo-content-text.memo-md li.task-list-item,
 div[data-type='lumo_view'] .memo-comment-text.memo-md li.task-list-item {
   list-style: none;
 }
-div[data-type='lumo_view'] .memo-content-text.memo-md li.task-list-item > input.task-list-item-checkbox,
-div[data-type='lumo_view'] .memo-comment-text.memo-md li.task-list-item > input.task-list-item-checkbox {
+div[data-type='lumo_view'] .memo-content-text.memo-md li.task-list-item input[type='checkbox'],
+div[data-type='lumo_view'] .memo-comment-text.memo-md li.task-list-item input[type='checkbox'] {
   margin: 0 0.5em 0 0;
   vertical-align: middle;
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  border: 2px solid var(--text-muted);
+  border-radius: 3px;
+  background: var(--background-primary);
+  opacity: 1;
+  flex-shrink: 0;
+  position: relative;
+}
+div[data-type='lumo_view'] .memo-content-text.memo-md li.task-list-item input[type='checkbox']::before,
+div[data-type='lumo_view'] .memo-comment-text.memo-md li.task-list-item input[type='checkbox']::before {
+  content: none;
+  display: none;
+}
+div[data-type='lumo_view'] .memo-content-text.memo-md li.task-list-item input[type='checkbox']::after,
+div[data-type='lumo_view'] .memo-comment-text.memo-md li.task-list-item input[type='checkbox']::after {
+  mask: none;
+  -webkit-mask: none;
+  background: none;
+  content: none;
+}
+div[data-type='lumo_view'] .memo-content-text.memo-md li.task-list-item input[type='checkbox']:checked,
+div[data-type='lumo_view'] .memo-comment-text.memo-md li.task-list-item input[type='checkbox']:checked {
+  border-color: var(--interactive-accent);
+  background: var(--interactive-accent);
+  background-image: none;
+}
+div[data-type='lumo_view'] .memo-content-text.memo-md li.task-list-item input[type='checkbox']:checked::after,
+div[data-type='lumo_view'] .memo-comment-text.memo-md li.task-list-item input[type='checkbox']:checked::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 30%;
+  height: 55%;
+  top: 10%;
+  left: 30%;
+  border: solid var(--text-on-accent);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 div[data-type='lumo_view'] .memo-content-text.memo-md blockquote,
 div[data-type='lumo_view'] .memo-comment-text.memo-md blockquote {
